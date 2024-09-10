@@ -1,3 +1,5 @@
+using controle_vendas_comissoes.Biblioteca.Utils;
+using controle_vendas_comissoes.Biblioteca.Utils.Modais.Loader;
 using controle_vendas_comissoes.Configuracoes.Db.Entidades;
 using controle_vendas_comissoes.Configuracoes.Db.Helpers;
 using FontAwesome.Sharp;
@@ -9,6 +11,8 @@ namespace controle_vendas_comissoes
 {
     public partial class CvcMain : MaterialForm
     {
+        private static List<Menu>? menus = null;
+
         #region Construtores
 
         public CvcMain()
@@ -60,7 +64,7 @@ namespace controle_vendas_comissoes
         private static IconChar GetIconChar(string nome)
         {
             IconChar icon = IconChar.ArrowRight;
-                        
+
             if (nome.Equals("MapLocationDot"))
                 icon = IconChar.MapLocationDot;
             else if (nome.Equals("PeopleGroup"))
@@ -71,36 +75,36 @@ namespace controle_vendas_comissoes
                 icon = IconChar.HandHoldingUsd;
             else if (nome.Equals("MoneyBillTrendUp"))
                 icon = IconChar.MoneyBillTrendUp;
-          
+
             return icon;
         }
 
         private void SetBotaoPai(Menu menu, int totalBotoes)
-        { 
+        {
             IconButton botao = new();
-            int heightBotao  = 0;
+            int heightBotao = 0;
 
             botao.BackColor = System.Drawing.Color.Transparent;
             botao.Height = 55;
             botao.Width = 190;
-            botao.Text  = menu.Nome;
+            botao.Text = menu.Nome;
             CardMenuLateral.Controls.Add(botao);
 
             if (totalBotoes > 0)
                 heightBotao = botao.Height * totalBotoes;
 
-            //botao_lat_esquerda.Tag = ordemBotao;
-            botao.Location = new Point(5, heightBotao);
+            botao.Tag       = menu;
+            botao.Location  = new Point(5, heightBotao);
             botao.FlatStyle = FlatStyle.Flat;
             botao.FlatAppearance.BorderSize = 0;
-            botao.IconChar = GetIconChar(menu.Icone ?? "");
+            botao.IconChar  = GetIconChar(menu.Icone ?? "");
             botao.IconColor = System.Drawing.Color.FromArgb(0, 120, 111);
             botao.ForeColor = System.Drawing.Color.FromArgb(0, 120, 111);
             botao.TextImageRelation = TextImageRelation.ImageBeforeText;
-            botao.IconSize = 28;
-            botao.TextAlign = ContentAlignment.MiddleLeft;
-            botao.ImageAlign = ContentAlignment.MiddleLeft;
-            botao.Padding = new Padding(10, 0, 0, 0);
+            botao.IconSize      = 28;
+            botao.TextAlign     = ContentAlignment.MiddleLeft;
+            botao.ImageAlign    = ContentAlignment.MiddleLeft;
+            botao.Padding       = new Padding(10, 0, 0, 0);
 
             botao.Click += MenusPais_Click;
 
@@ -109,34 +113,49 @@ namespace controle_vendas_comissoes
 
         private void MenusPais_Click(object? sender, EventArgs e)
         {
+            List<Menu> menusFilho = [];
 
+            if (sender is not null)            
+                menusFilho = [.. menus?.FindAll(x => x.Pai == (((IconButton)sender).Tag as Menu)?.Codigo)];
+
+            string teste = "";
+
+            foreach (Menu menu in menusFilho)            
+                teste += menu.Nome + "\n";
+            
+            MessageBox.Show(teste);
         }
 
         #endregion
 
         #region Requisições
 
-        private async void ListarMenus()
+        private void ListarMenus()
         {
-            HelperMenu helperMenu = new();
+            Utils.ExibeCarregando(this);
 
-            List<Menu> menus = await Task.Run(async Task<List<Menu>>? () =>
+            HelperMenu.ObtemMenus().Then(listaMenus =>
             {
-                HelperMenu helperMenu = new();
+                Utils.RunOnUiThread(this, () =>
+                {
+                    CvcMain.menus = listaMenus;
 
-                return await helperMenu.ListaMenus();
+                    List<Menu> menusPai = [.. menus.FindAll(x => string.IsNullOrEmpty(x.Pai)).OrderBy(x => x.Ordem)];
+
+                    for (int i = 0; i < menusPai.Count; i++)
+                        SetBotaoPai(menusPai[i], i);
+
+                    Utils.EscondeCarregando();
+                });
+            }).Catch(erro =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    MessageBox.Show(erro.Message);
+                });
             });
-
-            List<Menu> menusPai = [.. menus.FindAll(x => string.IsNullOrEmpty(x.Pai)).OrderBy(x => x.Ordem)];
-
-            for (int i = 0; i < menusPai.Count; i++)
-            {
-                SetBotaoPai(menusPai[i], i);
-            }
         }
 
         #endregion
-
-       
     }
 }
