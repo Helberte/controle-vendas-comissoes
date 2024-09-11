@@ -28,70 +28,79 @@
         /// </summary>
         private void InitializeComponent()
         {
-            metroProgressSpinner1 = new MetroFramework.Controls.MetroProgressSpinner();
-            metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModalCarregando));
+            pictureBox1 = new PictureBox();
+            label1 = new Label();
+            label2 = new Label();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
-            // metroProgressSpinner1
+            // pictureBox1
             // 
-            metroProgressSpinner1.BackColor = Color.Aqua;
-            metroProgressSpinner1.CustomBackground = false;
-            metroProgressSpinner1.Location = new Point(25, 72);
-            metroProgressSpinner1.Maximum = 100;
-            metroProgressSpinner1.Name = "metroProgressSpinner1";
-            metroProgressSpinner1.Size = new Size(112, 108);
-            metroProgressSpinner1.Style = MetroFramework.MetroColorStyle.Blue;
-            metroProgressSpinner1.StyleManager = null;
-            metroProgressSpinner1.TabIndex = 0;
-            metroProgressSpinner1.Text = "metroProgressSpinner1";
-            metroProgressSpinner1.Theme = MetroFramework.MetroThemeStyle.Light;
-            metroProgressSpinner1.UseWaitCursor = true;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(27, 95);
+            pictureBox1.Margin = new Padding(4);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(150, 150);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 2;
+            pictureBox1.TabStop = false;
+            pictureBox1.UseWaitCursor = true;
             // 
-            // metroLabel1
+            // label1
             // 
-            metroLabel1.CustomBackground = false;
-            metroLabel1.FlatStyle = FlatStyle.System;
-            metroLabel1.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            metroLabel1.FontSize = MetroFramework.MetroLabelSize.Medium;
-            metroLabel1.FontWeight = MetroFramework.MetroLabelWeight.Light;
-            metroLabel1.LabelMode = MetroFramework.Controls.MetroLabelMode.Default;
-            metroLabel1.Location = new Point(143, 110);
-            metroLabel1.Name = "metroLabel1";
-            metroLabel1.Size = new Size(129, 26);
-            metroLabel1.Style = MetroFramework.MetroColorStyle.Blue;
-            metroLabel1.StyleManager = null;
-            metroLabel1.TabIndex = 1;
-            metroLabel1.Text = "Carregando...";
-            metroLabel1.TextAlign = ContentAlignment.MiddleCenter;
-            metroLabel1.Theme = MetroFramework.MetroThemeStyle.Light;
-            metroLabel1.UseStyleColors = false;
-            metroLabel1.UseWaitCursor = true;
+            label1.AutoSize = true;
+            label1.Font = new Font("Montserrat Medium", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = SystemColors.WindowFrame;
+            label1.Location = new Point(27, 43);
+            label1.Name = "label1";
+            label1.Size = new Size(164, 37);
+            label1.TabIndex = 3;
+            label1.Text = "Aguarde...";
+            label1.UseWaitCursor = true;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.ForeColor = SystemColors.WindowFrame;
+            label2.Location = new Point(205, 156);
+            label2.Name = "label2";
+            label2.Size = new Size(205, 22);
+            label2.TabIndex = 4;
+            label2.Text = "Carregando a aplicação...";
+            label2.UseWaitCursor = true;
             // 
             // ModalCarregando
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 22F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(376, 250);
+            ClientSize = new Size(523, 293);
             ControlBox = false;
-            Controls.Add(metroLabel1);
-            Controls.Add(metroProgressSpinner1);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(pictureBox1);
+            Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FormBorderStyle = FormBorderStyle.None;
             HelpButton = true;
+            Margin = new Padding(4);
             MaximizeBox = false;
-            MaximumSize = new Size(392, 266);
+            MaximumSize = new Size(523, 293);
             MinimizeBox = false;
-            MinimumSize = new Size(392, 266);
+            MinimumSize = new Size(523, 293);
             Name = "ModalCarregando";
             ShowIcon = false;
-            ShowInTaskbar = false;
             StartPosition = FormStartPosition.Manual;
+            Text = "Carregando...";
             UseWaitCursor = true;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-
-        private MetroFramework.Controls.MetroProgressSpinner metroProgressSpinner1;
-        private MetroFramework.Controls.MetroLabel metroLabel1;
+        private PictureBox pictureBox1;
+        private Label label1;
+        private Label label2;
     }
 }

@@ -1,7 +1,6 @@
 ﻿using controle_vendas_comissoes.Configuracoes.Db.Entidades;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace controle_vendas_comissoes.Configuracoes.Db
 {
     public class AppDbContext : DbContext

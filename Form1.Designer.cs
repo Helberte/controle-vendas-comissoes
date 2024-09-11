@@ -59,7 +59,7 @@
             CardMenuLateral.MouseState = MaterialSkin.MouseState.HOVER;
             CardMenuLateral.Name = "CardMenuLateral";
             CardMenuLateral.Padding = new Padding(14);
-            CardMenuLateral.Size = new Size(195, 493);
+            CardMenuLateral.Size = new Size(195, 488);
             CardMenuLateral.TabIndex = 1;
             // 
             // CvcMain
@@ -67,7 +67,7 @@
             AutoScaleDimensions = new SizeF(10F, 22F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1089, 645);
+            ClientSize = new Size(1089, 640);
             Controls.Add(CardMenuLateral);
             Controls.Add(CardCabecalho);
             Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);

@@ -13,11 +13,11 @@
     <PackageReference Include="FontAwesome.Sharp" Version="6.6.0" />
     <PackageReference Include="MaterialSkin.2" Version="2.3.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
-    <PackageReference Include="ModernUI" Version="2.0.0" />
     <PackageReference Include="RSG.Promise" Version="3.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Biblioteca\Extensions\" />
     <Folder Include="Cvc\GestaoVendas\Comissoes\" />
     <Folder Include="Cvc\Localidades\Cidades\" />
     <Folder Include="Cvc\Localidades\Estados\" />
@@ -26,6 +26,21 @@
     <Folder Include="Cvc\Produtos\Produtos\" />
     <Folder Include="Cvc\Produtos\UnidadesDeProdutos\" />
     <Folder Include="Cvc\Vendas\PedidoDeVendas\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
