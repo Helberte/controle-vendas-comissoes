@@ -30,6 +30,8 @@
         {
             CardCabecalho = new MaterialSkin.Controls.MaterialCard();
             CardMenuLateral = new MaterialSkin.Controls.MaterialCard();
+            label1 = new Label();
+            CardMenuLateral.SuspendLayout();
             SuspendLayout();
             // 
             // CardCabecalho
@@ -50,6 +52,7 @@
             // 
             CardMenuLateral.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             CardMenuLateral.BackColor = Color.FromArgb(255, 255, 255);
+            CardMenuLateral.Controls.Add(label1);
             CardMenuLateral.Depth = 0;
             CardMenuLateral.ForeColor = Color.FromArgb(222, 0, 0, 0);
             CardMenuLateral.Location = new Point(6, 130);
@@ -61,6 +64,15 @@
             CardMenuLateral.Padding = new Padding(14);
             CardMenuLateral.Size = new Size(195, 488);
             CardMenuLateral.TabIndex = 1;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(52, 41);
+            label1.Name = "label1";
+            label1.Size = new Size(54, 22);
+            label1.TabIndex = 0;
+            label1.Text = "label1";
             // 
             // CvcMain
             // 
@@ -80,6 +92,8 @@
             Text = "Controle de vendas e comissões";
             WindowState = FormWindowState.Maximized;
             Load += CvcMain_Load;
+            CardMenuLateral.ResumeLayout(false);
+            CardMenuLateral.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -87,5 +101,6 @@
 
         private MaterialSkin.Controls.MaterialCard CardCabecalho;
         private MaterialSkin.Controls.MaterialCard CardMenuLateral;
+        private Label label1;
     }
 }

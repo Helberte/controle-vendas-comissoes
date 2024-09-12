@@ -38,10 +38,10 @@
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(27, 95);
+            pictureBox1.Location = new Point(36, 103);
             pictureBox1.Margin = new Padding(4);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(150, 150);
+            pictureBox1.Size = new Size(80, 80);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 2;
             pictureBox1.TabStop = false;
@@ -50,11 +50,11 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Montserrat Medium", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Montserrat SemiBold", 17.9999981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.WindowFrame;
-            label1.Location = new Point(27, 43);
+            label1.Location = new Point(28, 43);
             label1.Name = "label1";
-            label1.Size = new Size(164, 37);
+            label1.Size = new Size(140, 33);
             label1.TabIndex = 3;
             label1.Text = "Aguarde...";
             label1.UseWaitCursor = true;
@@ -63,7 +63,7 @@
             // 
             label2.AutoSize = true;
             label2.ForeColor = SystemColors.WindowFrame;
-            label2.Location = new Point(205, 156);
+            label2.Location = new Point(157, 136);
             label2.Name = "label2";
             label2.Size = new Size(205, 22);
             label2.TabIndex = 4;
@@ -75,7 +75,7 @@
             AutoScaleDimensions = new SizeF(10F, 22F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(523, 293);
+            ClientSize = new Size(441, 241);
             ControlBox = false;
             Controls.Add(label2);
             Controls.Add(label1);
@@ -85,9 +85,9 @@
             HelpButton = true;
             Margin = new Padding(4);
             MaximizeBox = false;
-            MaximumSize = new Size(523, 293);
+            MaximumSize = new Size(441, 241);
             MinimizeBox = false;
-            MinimumSize = new Size(523, 293);
+            MinimumSize = new Size(441, 241);
             Name = "ModalCarregando";
             ShowIcon = false;
             StartPosition = FormStartPosition.Manual;
