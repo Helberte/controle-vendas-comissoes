@@ -79,6 +79,18 @@ namespace controle_vendas_comissoes
             }
         }
 
+        private static void LabelSubsMenus_MouseMove(object? sender, MouseEventArgs e)
+        {           
+            if (sender is Label rotulo)            
+                rotulo.Font = new Font(rotulo.Font, FontStyle.Underline);                       
+        }
+
+        private static void LabelSubsMenus_MouseLeave(object? sender, EventArgs e)
+        {
+            if (sender is Label rotulo)
+                rotulo.Font = new Font(rotulo.Font, FontStyle.Regular);
+        }
+
         #endregion
 
         #region Metodos
@@ -222,17 +234,20 @@ namespace controle_vendas_comissoes
             Label label = new()
             {
                 AutoSize    = true,
-                MaximumSize = new Size(largura, 80),
-                BorderStyle = BorderStyle.FixedSingle,
+                MaximumSize = new Size(largura, 60),
+                Width       = largura,
+                BorderStyle = BorderStyle.None,
                 Tag         = menu,
                 Text        = menu.Nome,
                 ForeColor   = Color.FromArgb(0, 120, 111),
                 BackColor   = Color.Transparent,
                 Font        = new Font("montserrat", 10),
                 TextAlign   = ContentAlignment.MiddleLeft,
-                Padding     = new Padding(45, 0, 0, 0)
+                Padding     = new Padding(45, 5, 0, 5)
             };
 
+            label.MouseMove += LabelSubsMenus_MouseMove;
+            label.MouseLeave += LabelSubsMenus_MouseLeave;
             return label;
         }
 

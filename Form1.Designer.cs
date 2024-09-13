@@ -30,8 +30,6 @@
         {
             CardCabecalho = new MaterialSkin.Controls.MaterialCard();
             CardMenuLateral = new MaterialSkin.Controls.MaterialCard();
-            label1 = new Label();
-            CardMenuLateral.SuspendLayout();
             SuspendLayout();
             // 
             // CardCabecalho
@@ -40,39 +38,29 @@
             CardCabecalho.BackColor = Color.FromArgb(255, 255, 255);
             CardCabecalho.Depth = 0;
             CardCabecalho.ForeColor = Color.FromArgb(222, 0, 0, 0);
-            CardCabecalho.Location = new Point(6, 70);
+            CardCabecalho.Location = new Point(5, 78);
             CardCabecalho.Margin = new Padding(6);
             CardCabecalho.MouseState = MaterialSkin.MouseState.HOVER;
             CardCabecalho.Name = "CardCabecalho";
             CardCabecalho.Padding = new Padding(14);
-            CardCabecalho.Size = new Size(1077, 53);
+            CardCabecalho.Size = new Size(1078, 53);
             CardCabecalho.TabIndex = 0;
             // 
             // CardMenuLateral
             // 
             CardMenuLateral.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             CardMenuLateral.BackColor = Color.FromArgb(255, 255, 255);
-            CardMenuLateral.Controls.Add(label1);
             CardMenuLateral.Depth = 0;
             CardMenuLateral.ForeColor = Color.FromArgb(222, 0, 0, 0);
-            CardMenuLateral.Location = new Point(6, 130);
+            CardMenuLateral.Location = new Point(5, 138);
             CardMenuLateral.Margin = new Padding(14);
             CardMenuLateral.MaximumSize = new Size(195, 743);
             CardMenuLateral.MinimumSize = new Size(195, 406);
             CardMenuLateral.MouseState = MaterialSkin.MouseState.HOVER;
             CardMenuLateral.Name = "CardMenuLateral";
             CardMenuLateral.Padding = new Padding(14);
-            CardMenuLateral.Size = new Size(195, 488);
+            CardMenuLateral.Size = new Size(195, 480);
             CardMenuLateral.TabIndex = 1;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(52, 41);
-            label1.Name = "label1";
-            label1.Size = new Size(54, 22);
-            label1.TabIndex = 0;
-            label1.Text = "label1";
             // 
             // CvcMain
             // 
@@ -83,17 +71,16 @@
             Controls.Add(CardMenuLateral);
             Controls.Add(CardCabecalho);
             Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FormStyle = FormStyles.ActionBar_48;
             KeyPreview = true;
             Margin = new Padding(4);
             MinimumSize = new Size(916, 579);
             Name = "CvcMain";
-            Padding = new Padding(4, 94, 4, 4);
+            Padding = new Padding(3, 72, 4, 4);
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Controle de vendas e comissões";
             WindowState = FormWindowState.Maximized;
             Load += CvcMain_Load;
-            CardMenuLateral.ResumeLayout(false);
-            CardMenuLateral.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -101,6 +88,5 @@
 
         private MaterialSkin.Controls.MaterialCard CardCabecalho;
         private MaterialSkin.Controls.MaterialCard CardMenuLateral;
-        private Label label1;
     }
 }
