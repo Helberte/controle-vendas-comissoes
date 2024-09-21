@@ -18,6 +18,8 @@ namespace controle_vendas_comissoes.Configuracoes.Db.Entidades
         public string Codigo { get; set; } = string.Empty;
 
         public string? Icone { get; set; } = string.Empty;
+
+        public string? Path { get; set; } = string.Empty;
     }
 }
- 
+  

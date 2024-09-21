@@ -5,6 +5,7 @@ using FontAwesome.Sharp;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using System.Drawing.Drawing2D;
+using System.Reflection;
 
 namespace controle_vendas_comissoes
 {
@@ -28,7 +29,7 @@ namespace controle_vendas_comissoes
             var materialSkinManager = MaterialSkinManager.Instance;
             materialSkinManager.AddFormToManage(this);
             materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
-            materialSkinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.Red200, TextShade.WHITE);
         }
 
         #endregion
@@ -89,6 +90,22 @@ namespace controle_vendas_comissoes
         {
             if (sender is Label rotulo)
                 rotulo.Font = new Font(rotulo.Font, FontStyle.Regular);
+        }
+
+        private static void LabelSubsMenus_Click(object? sender, EventArgs e)
+        {
+            if (sender is Label subMenu)
+            {
+                if (subMenu.Tag is Menu menu)
+                {
+                    if (!string.IsNullOrEmpty(menu.Path))
+                    {
+                        MethodInfo? method = typeof(RedirectMenu).GetMethod(menu.Path);
+
+                        method?.Invoke(null, null);
+                    }
+                }
+            }                
         }
 
         #endregion
@@ -246,8 +263,10 @@ namespace controle_vendas_comissoes
                 Padding     = new Padding(45, 5, 0, 5)
             };
 
-            label.MouseMove += LabelSubsMenus_MouseMove;
+            label.MouseMove  += LabelSubsMenus_MouseMove;
             label.MouseLeave += LabelSubsMenus_MouseLeave;
+            label.Click      += LabelSubsMenus_Click;
+
             return label;
         }
 

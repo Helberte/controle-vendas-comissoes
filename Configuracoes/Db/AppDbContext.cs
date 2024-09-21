@@ -5,7 +5,9 @@ namespace controle_vendas_comissoes.Configuracoes.Db
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<Menu>? Menus { get; set; } = null;
+        public DbSet<Menu>? Menus     { get; set; } = null;
+
+        public DbSet<Estado>? Estados { get; set; } = null;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
