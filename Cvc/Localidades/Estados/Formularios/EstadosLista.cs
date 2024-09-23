@@ -1,4 +1,5 @@
-﻿using controle_vendas_comissoes.Biblioteca.Utils;
+﻿using controle_vendas_comissoes.Biblioteca.Extensions;
+using controle_vendas_comissoes.Biblioteca.Utils;
 using controle_vendas_comissoes.Configuracoes.Db.Helpers;
 using MaterialSkin.Controls;
 
@@ -11,6 +12,8 @@ namespace controle_vendas_comissoes.Cvc.Localidades.Estados.Formularios
         public EstadosLista()
         {
             InitializeComponent();
+            dataGridEstados.SetStyleDataGridView();
+
             DelegaEventos();
             
             ListarEstados();            
@@ -25,18 +28,25 @@ namespace controle_vendas_comissoes.Cvc.Localidades.Estados.Formularios
             btInserirNovo.Click += BtInserirNovo_Click;
         }
 
+        private void ExibeModalInserirEstado()
+        {
+            EstadosDetalhes estadosDetalhes = new()
+            {
+                Text = "Criar Novo Estado"
+            };
+
+            estadosDetalhes.ShowDialog();
+
+            ListarEstados();
+        }
+
         #endregion
 
         #region Eventos e Cliques
 
         private void BtInserirNovo_Click(object? sender, EventArgs e)
         {
-            EstadosDetalhes estadosDetalhes = new ()
-            {
-                Text = "Criar Novo Estado"
-            };
-
-            estadosDetalhes.ShowDialog();
+            ExibeModalInserirEstado();
         }
 
         #endregion

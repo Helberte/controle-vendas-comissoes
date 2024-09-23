@@ -50,7 +50,7 @@
             btSalvarMais.Name = "btSalvarMais";
             btSalvarMais.NoAccentTextColor = Color.Empty;
             btSalvarMais.Size = new Size(103, 48);
-            btSalvarMais.TabIndex = 8;
+            btSalvarMais.TabIndex = 3;
             btSalvarMais.Text = "SALVAR +";
             btSalvarMais.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             btSalvarMais.UseAccentColor = false;
@@ -91,7 +91,7 @@
             maskUF.ShortcutsEnabled = true;
             maskUF.Size = new Size(152, 48);
             maskUF.SkipLiterals = true;
-            maskUF.TabIndex = 7;
+            maskUF.TabIndex = 2;
             maskUF.TabStop = false;
             maskUF.TextAlign = HorizontalAlignment.Left;
             maskUF.TextMaskFormat = MaskFormat.IncludeLiterals;
@@ -104,7 +104,7 @@
             boxNomeEstado.AnimateReadOnly = false;
             boxNomeEstado.BorderStyle = BorderStyle.None;
             boxNomeEstado.Depth = 0;
-            boxNomeEstado.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxNomeEstado.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
             boxNomeEstado.Hint = "Nome do Estado";
             boxNomeEstado.LeadingIcon = null;
             boxNomeEstado.Location = new Point(6, 76);
@@ -113,7 +113,7 @@
             boxNomeEstado.Multiline = false;
             boxNomeEstado.Name = "boxNomeEstado";
             boxNomeEstado.Size = new Size(387, 50);
-            boxNomeEstado.TabIndex = 6;
+            boxNomeEstado.TabIndex = 1;
             boxNomeEstado.Text = "";
             boxNomeEstado.TrailingIcon = null;
             // 
@@ -132,7 +132,7 @@
             btSalvar.Name = "btSalvar";
             btSalvar.NoAccentTextColor = Color.Empty;
             btSalvar.Size = new Size(103, 48);
-            btSalvar.TabIndex = 9;
+            btSalvar.TabIndex = 4;
             btSalvar.Text = "SALVAR";
             btSalvar.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             btSalvar.UseAccentColor = false;
@@ -153,7 +153,7 @@
             btCancelar.Name = "btCancelar";
             btCancelar.NoAccentTextColor = Color.Empty;
             btCancelar.Size = new Size(103, 48);
-            btCancelar.TabIndex = 10;
+            btCancelar.TabIndex = 5;
             btCancelar.Text = "CANCELAR";
             btCancelar.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             btCancelar.UseAccentColor = false;

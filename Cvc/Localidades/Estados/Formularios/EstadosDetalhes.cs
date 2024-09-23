@@ -2,15 +2,6 @@
 using controle_vendas_comissoes.Configuracoes.Db.Entidades;
 using controle_vendas_comissoes.Configuracoes.Db.Helpers;
 using MaterialSkin.Controls;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace controle_vendas_comissoes.Cvc.Localidades.Estados.Formularios
 {
@@ -18,7 +9,8 @@ namespace controle_vendas_comissoes.Cvc.Localidades.Estados.Formularios
     {
         #region Variaveis
 
-        Estado? novoEstado = null;
+        private Estado? novoEstado    = null;
+        private static Action? action = null;
 
         #endregion
 
@@ -52,7 +44,6 @@ namespace controle_vendas_comissoes.Cvc.Localidades.Estados.Formularios
                 };
 
                 AdicionaEstado();
-
             }
             catch (Exception ex)
             {
@@ -62,7 +53,17 @@ namespace controle_vendas_comissoes.Cvc.Localidades.Estados.Formularios
 
         private void DelegaEventos()
         {
-            btSalvarMais.Click += BtSalvarMais_Click;
+            btSalvarMais.Click  += BtSalvarMais_Click;
+            btSalvar.Click      += BtSalvar_Click;
+            btCancelar.Click    += BtCancelar_Click;
+        }
+
+        private void LimpaCampos()
+        {
+            boxNomeEstado.Text = string.Empty;
+            maskUF.Text        = string.Empty;
+
+            boxNomeEstado.Focus();
         }
 
         #endregion
@@ -72,6 +73,29 @@ namespace controle_vendas_comissoes.Cvc.Localidades.Estados.Formularios
         private void BtSalvarMais_Click(object? sender, EventArgs e)
         {
             ValidaCampos();
+
+            action = LimpaCampos;
+        }
+
+        private void BtSalvar_Click(object? sender, EventArgs e)
+        {
+            ValidaCampos();
+
+            action = () =>
+            {
+                this.Dispose();
+            };
+        }
+
+        private void BtCancelar_Click(object? sender, EventArgs e)
+        {
+            if (MessageBox.Show("Deseja cancelar a edição atual?", "Cancelar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+                == DialogResult.Yes)
+            {
+                this.Close();
+            }
+            else
+                boxNomeEstado.Focus();
         }
 
         #endregion
@@ -85,18 +109,13 @@ namespace controle_vendas_comissoes.Cvc.Localidades.Estados.Formularios
                 if (novoEstado is null)
                     throw new Exception("O objeto de inserção é inválido");
 
-                Utils.ExibeCarregando(this);
-
                 HelperEstado.AdicionaEstado(novoEstado).Then(estado =>
                 {
                     Utils.RunOnUiThread(this, () =>
                     {
-                        Utils.EscondeCarregando(() =>
-                        {
-                            this.Enabled = true;
-                        });
+                        MessageBox.Show("Estado inserido com sucesso!");
 
-                        //MessageBox.Show("Estado inserido com sucesso!");
+                        action?.Invoke();
                     });
                 }).Catch(erro =>
                 {
@@ -105,7 +124,6 @@ namespace controle_vendas_comissoes.Cvc.Localidades.Estados.Formularios
                         MessageBox.Show(erro.Message);
                     });
                 });
-
             }
             catch (Exception ex)
             {

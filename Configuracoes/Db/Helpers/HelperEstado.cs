@@ -1,4 +1,5 @@
 ﻿using controle_vendas_comissoes.Configuracoes.Db.Entidades;
+using Microsoft.EntityFrameworkCore;
 using RSG;
 
 namespace controle_vendas_comissoes.Configuracoes.Db.Helpers
@@ -15,7 +16,7 @@ namespace controle_vendas_comissoes.Configuracoes.Db.Helpers
                 {
                     using AppDbContext context = new();
                   
-                    if (context.Estados is not null)
+                    if (context.Estados is not null)                                         
                         promise.Resolve([..
                             context.Estados
                             .OrderBy(x => x.CreatedBy)
@@ -24,7 +25,7 @@ namespace controle_vendas_comissoes.Configuracoes.Db.Helpers
                                 Id   = estado.Id,
                                 Nome = estado.Nome,
                                 UF   = estado.UF
-                            })]);
+                            })]);                    
                     else
                         promise.Reject(new Exception("Ocorreu um erro ao buscar os Estados"));
                 }
@@ -49,6 +50,18 @@ namespace controle_vendas_comissoes.Configuracoes.Db.Helpers
 
                     if (context.Estados is not null)
                     {
+                        // verifica se já existe um estado com este nome
+                        List<Estado> estadoExiste = [.. context.Estados.Where(e => EF.Functions.Like(e.Nome, "%" + estado.Nome + "%"))];                                     
+                         
+                        if (estadoExiste.Count > 0)
+                            throw new Exception("Já existe um estado com este nome.\n\nNome: " + estado.Nome);
+
+                        // verifica se já existe um estado com este UF
+                        List<Estado> UFExiste = [.. context.Estados.Where(e => EF.Functions.Like(e.UF, "%" + estado.UF + "%"))];
+                                                
+                        if (UFExiste.Count > 0)
+                            throw new Exception("Já existe um estado com esta UF.\n\nUF: " + estado.UF);
+
                         Estado novoEstado = context.Estados.Add(estado).Entity;
                         context.SaveChanges();
 

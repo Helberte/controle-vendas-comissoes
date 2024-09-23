@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Biblioteca\Extensions\" />
     <Folder Include="Cvc\GestaoVendas\Comissoes\" />
     <Folder Include="Cvc\Localidades\Cidades\" />
     <Folder Include="Cvc\Pessoal\Classificacoes\" />

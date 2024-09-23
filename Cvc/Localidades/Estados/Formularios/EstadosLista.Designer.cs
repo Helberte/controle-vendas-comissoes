@@ -1,6 +1,4 @@
-﻿using controle_vendas_comissoes.Biblioteca.Utils;
-
-namespace controle_vendas_comissoes.Cvc.Localidades.Estados.Formularios
+﻿namespace controle_vendas_comissoes.Cvc.Localidades.Estados.Formularios
 {
     partial class EstadosLista
     {
@@ -30,14 +28,11 @@ namespace controle_vendas_comissoes.Cvc.Localidades.Estados.Formularios
         /// </summary>
         private void InitializeComponent()
         {
-            boxNomeEstado   = new MaterialSkin.Controls.MaterialTextBox();
+            boxNomeEstado = new MaterialSkin.Controls.MaterialTextBox();
             dataGridEstados = new DataGridView();
-            maskUF          = new MaterialSkin.Controls.MaterialMaskedTextBox();
-            btInserirNovo   = new MaterialSkin.Controls.MaterialButton();
+            maskUF = new MaterialSkin.Controls.MaterialMaskedTextBox();
+            btInserirNovo = new MaterialSkin.Controls.MaterialButton();
             ((System.ComponentModel.ISupportInitialize)dataGridEstados).BeginInit();
-
-            Utils.SetEstiloDataGridView(dataGridEstados);
-
             SuspendLayout();
             // 
             // boxNomeEstado
@@ -54,7 +49,7 @@ namespace controle_vendas_comissoes.Cvc.Localidades.Estados.Formularios
             boxNomeEstado.Multiline = false;
             boxNomeEstado.Name = "boxNomeEstado";
             boxNomeEstado.Size = new Size(387, 50);
-            boxNomeEstado.TabIndex = 2;
+            boxNomeEstado.TabIndex = 1;
             boxNomeEstado.Text = "";
             boxNomeEstado.TrailingIcon = null;
             // 
@@ -102,7 +97,7 @@ namespace controle_vendas_comissoes.Cvc.Localidades.Estados.Formularios
             maskUF.ShortcutsEnabled = true;
             maskUF.Size = new Size(177, 48);
             maskUF.SkipLiterals = true;
-            maskUF.TabIndex = 4;
+            maskUF.TabIndex = 2;
             maskUF.TabStop = false;
             maskUF.TextAlign = HorizontalAlignment.Left;
             maskUF.TextMaskFormat = MaskFormat.IncludeLiterals;
@@ -126,7 +121,7 @@ namespace controle_vendas_comissoes.Cvc.Localidades.Estados.Formularios
             btInserirNovo.Name = "btInserirNovo";
             btInserirNovo.NoAccentTextColor = Color.Empty;
             btInserirNovo.Size = new Size(212, 48);
-            btInserirNovo.TabIndex = 5;
+            btInserirNovo.TabIndex = 3;
             btInserirNovo.Text = "Inserir novo";
             btInserirNovo.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             btInserirNovo.UseAccentColor = false;
