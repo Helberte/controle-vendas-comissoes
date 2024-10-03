@@ -24,6 +24,17 @@
     <Folder Include="Cvc\Produtos\Produtos\" />
     <Folder Include="Cvc\Produtos\UnidadesDeProdutos\" />
     <Folder Include="Cvc\Vendas\PedidoDeVendas\" />
+    <Folder Include="Model\Db\Helpers\GestaoVendas\" />
+    <Folder Include="Model\Db\Helpers\Pessoal\" />
+    <Folder Include="Model\Db\Helpers\Produtos\" />
+    <Folder Include="Model\Db\Helpers\Vendas\" />
+    <Folder Include="View\Forms\GestaoVendas\Comissoes\" />
+    <Folder Include="View\Forms\Localidades\Cidades\" />
+    <Folder Include="View\Forms\Pessoal\Classificacoes\" />
+    <Folder Include="View\Forms\Pessoal\Pessoas\" />
+    <Folder Include="View\Forms\Produtos\UnidadesDeProdutos\" />
+    <Folder Include="View\Forms\Produtos\Produtos\" />
+    <Folder Include="View\Forms\Vendas\PedidoDeVendas\" />
   </ItemGroup>
 
   <ItemGroup>
