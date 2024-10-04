@@ -2,16 +2,18 @@ using controle_vendas_comissoes.Biblioteca.Utils;
 using controle_vendas_comissoes.Configuracoes.Db.Entidades;
 using controle_vendas_comissoes.Configuracoes.Db.Helpers;
 using FontAwesome.Sharp;
-using MaterialSkin;
-using MaterialSkin.Controls;
 using System.Drawing.Drawing2D;
 using System.Reflection;
 
 namespace controle_vendas_comissoes
 {
-    public partial class CvcMain : MaterialForm
+    public partial class CvcMain : Form
     {
+        #region Variáveis
+
         private static List<Menu>? menus = null;
+        
+        #endregion
 
         #region Componentes Visuais
 
@@ -20,16 +22,11 @@ namespace controle_vendas_comissoes
 
         #endregion
 
-        #region Construtores
+        #region Construtores e Overrides
 
         public CvcMain()
         {
             InitializeComponent();
-
-            var materialSkinManager = MaterialSkinManager.Instance;
-            materialSkinManager.AddFormToManage(this);
-            materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
-            materialSkinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.Red200, TextShade.WHITE);
         }
 
         #endregion
@@ -38,7 +35,6 @@ namespace controle_vendas_comissoes
 
         private void CvcMain_Load(object sender, EventArgs e)
         {
-            ArredondaCantos(CardCabecalho);
             ArredondaCantos(CardMenuLateral);
 
             ListarMenus();
@@ -313,7 +309,7 @@ namespace controle_vendas_comissoes
                 }
             }
         }
-
+               
         #endregion
 
         #region Requisições
