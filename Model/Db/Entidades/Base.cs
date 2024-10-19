@@ -14,6 +14,7 @@ namespace controle_vendas_comissoes.Model.Db.Entidades
         public int? DeletedBy { get; set; }
 
         [Column("created_at")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime? CreatedAt { get; set; }
 
         [Column("updated_at")]

@@ -1,9 +1,4 @@
-﻿using controle_vendas_comissoes.Cvc.Localidades.Estados.Formularios;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using controle_vendas_comissoes.View.Forms.Localidades.Estados;
 
 namespace controle_vendas_comissoes
 {

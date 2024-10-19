@@ -1,30 +1,31 @@
-using controle_vendas_comissoes.Biblioteca.Utils;
-using controle_vendas_comissoes.Configuracoes.Db.Entidades;
-using controle_vendas_comissoes.Configuracoes.Db.Helpers;
+Ôªøusing System.Data;
+using controle_vendas_comissoes.Model.Db.Entidades;
+using controle_vendas_comissoes.Controller.Utils;
+using controle_vendas_comissoes.Model.Db.Helpers.Menu;
 using FontAwesome.Sharp;
 using System.Drawing.Drawing2D;
 using System.Reflection;
 
-namespace controle_vendas_comissoes
+namespace controle_vendas_comissoes.View.Forms.Main
 {
-    public partial class CvcMain : Form
+    public partial class FormMain : Form
     {
-        #region Vari·veis
+        #region Vari√°veis
 
         private static List<Menu>? menus = null;
-        
+
         #endregion
 
         #region Componentes Visuais
 
         private static Panel? panelEsquerdaMenu = null;
-        private static Panel? panelMenusFilhos  = null;
+        private static Panel? panelMenusFilhos = null;
 
         #endregion
 
         #region Construtores e Overrides
 
-        public CvcMain()
+        public FormMain()
         {
             InitializeComponent();
         }
@@ -33,7 +34,7 @@ namespace controle_vendas_comissoes
 
         #region Eventos
 
-        private void CvcMain_Load(object sender, EventArgs e)
+        private void FormMain_Load(object sender, EventArgs e)
         {
             ArredondaCantos(CardMenuLateral);
 
@@ -44,12 +45,12 @@ namespace controle_vendas_comissoes
         {
             List<Menu> menusFilho = [];
             IconButton botao;
-      
+
             if (sender is not null)
             {
                 ResetaCorBotoesMenuEsquerdo();
 
-                botao = (IconButton)sender;
+                botao           = (IconButton)sender;
                 botao.ForeColor = Color.FromArgb(0, 88, 255);
                 botao.IconColor = Color.FromArgb(0, 88, 255);
                 botao.BackColor = Color.FromArgb(222, 232, 248);
@@ -58,14 +59,14 @@ namespace controle_vendas_comissoes
 
                 if (menusFilho.Count > 0)
                 {
-                    CvcMain.GetPanelMenusFilhos().Visible = false;
-                    CvcMain.GetPanelMenusFilhos().Controls.Clear();
-                    CvcMain.GetPanelMenusFilhos().Width     = CardMenuLateral.Width;
-                    CvcMain.GetPanelMenusFilhos().BackColor = Color.Transparent;
+                    FormMain.GetPanelMenusFilhos().Visible = false;
+                    FormMain.GetPanelMenusFilhos().Controls.Clear();
+                    FormMain.GetPanelMenusFilhos().Width = CardMenuLateral.Width;
+                    FormMain.GetPanelMenusFilhos().BackColor = Color.Transparent;
 
                     SetBotoesFilho(menusFilho);
 
-                    CardMenuLateral.Controls.Add(CvcMain.GetPanelMenusFilhos());
+                    CardMenuLateral.Controls.Add(FormMain.GetPanelMenusFilhos());
 
                     ReorganizaBotoes(botao);
                 }
@@ -77,9 +78,9 @@ namespace controle_vendas_comissoes
         }
 
         private static void LabelSubsMenus_MouseMove(object? sender, MouseEventArgs e)
-        {           
-            if (sender is Label rotulo)            
-                rotulo.Font = new Font(rotulo.Font, FontStyle.Underline);                       
+        {
+            if (sender is Label rotulo)
+                rotulo.Font = new Font(rotulo.Font, FontStyle.Underline);
         }
 
         private static void LabelSubsMenus_MouseLeave(object? sender, EventArgs e)
@@ -101,7 +102,7 @@ namespace controle_vendas_comissoes
                         method?.Invoke(null, null);
                     }
                 }
-            }                
+            }
         }
 
         #endregion
@@ -112,7 +113,7 @@ namespace controle_vendas_comissoes
         {
             Panel panel;
 
-            panel = CvcMain.GetPanelEsquerdaButtonMenu(iconButton.Height, iconButton.Width);
+            panel = FormMain.GetPanelEsquerdaButtonMenu(iconButton.Height, iconButton.Width);
 
             panel.Location = new Point(0, iconButton.Location.Y);
             CardMenuLateral.Controls.Add(panel);
@@ -140,7 +141,7 @@ namespace controle_vendas_comissoes
 
         private static Panel GetPanelEsquerdaButtonMenu(int altura, int largura)
         {
-            CvcMain.panelEsquerdaMenu ??= new Panel()
+            FormMain.panelEsquerdaMenu ??= new Panel()
             {
                 Width     = largura,
                 Height    = altura,
@@ -171,7 +172,7 @@ namespace controle_vendas_comissoes
         private void SetBotaoPai(Menu menu, int totalBotoes)
         {
             IconButton botao = new();
-            int heightBotao = 0;
+            int heightBotao  = 0;
 
             botao.BackColor = System.Drawing.Color.Transparent;
             botao.Height    = 55;
@@ -182,18 +183,18 @@ namespace controle_vendas_comissoes
             if (totalBotoes > 0)
                 heightBotao = botao.Height * totalBotoes;
 
-            botao.Tag           = menu;
-            botao.Location      = new Point(5, heightBotao);
-            botao.FlatStyle     = FlatStyle.Flat;
+            botao.Tag        = menu;
+            botao.Location   = new Point(5, heightBotao);
+            botao.FlatStyle  = FlatStyle.Flat;
             botao.FlatAppearance.BorderSize = 0;
-            botao.IconChar      = GetIconChar(menu.Icone ?? "");
-            botao.IconColor     = Color.FromArgb(0, 120, 111);
-            botao.ForeColor     = Color.FromArgb(0, 120, 111);
+            botao.IconChar   = GetIconChar(menu.Icone ?? "");
+            botao.IconColor  = Color.FromArgb(0, 120, 111);
+            botao.ForeColor  = Color.FromArgb(0, 120, 111);
             botao.TextImageRelation = TextImageRelation.ImageBeforeText;
-            botao.IconSize      = 28;
-            botao.TextAlign     = ContentAlignment.MiddleLeft;
-            botao.ImageAlign    = ContentAlignment.MiddleLeft;
-            botao.Padding       = new Padding(10, 0, 0, 0);
+            botao.IconSize   = 28;
+            botao.TextAlign  = ContentAlignment.MiddleLeft;
+            botao.ImageAlign = ContentAlignment.MiddleLeft;
+            botao.Padding    = new Padding(10, 0, 0, 0);
 
             botao.Click += MenusPais_Click;
 
@@ -204,19 +205,19 @@ namespace controle_vendas_comissoes
         {
             int heightBotao = 0;
             int heightPanel = 0;
-                       
+
             foreach (Menu item in menus)
             {
-                Label botao    = CvcMain.GetLabelSubMenuLateral(item, CvcMain.GetPanelMenusFilhos().Width);
+                Label botao = FormMain.GetLabelSubMenuLateral(item, FormMain.GetPanelMenusFilhos().Width);
 
                 botao.Location = new Point(0, heightBotao);
                 heightBotao    = botao.Location.Y + botao.PreferredHeight;
                 heightPanel   += botao.PreferredHeight;
 
-                CvcMain.GetPanelMenusFilhos().Controls.Add(botao);                  
+                FormMain.GetPanelMenusFilhos().Controls.Add(botao);
             }
 
-            CvcMain.GetPanelMenusFilhos().Height = heightPanel;
+            FormMain.GetPanelMenusFilhos().Height = heightPanel;
         }
 
         private void ResetaCorBotoesMenuEsquerdo()
@@ -231,15 +232,15 @@ namespace controle_vendas_comissoes
                         button.IconColor = Color.FromArgb(0, 120, 111);
                         button.BackColor = Color.Transparent;
                     }
-                }                
+                }
             }
         }
 
         private static Panel GetPanelMenusFilhos()
         {
-            CvcMain.panelMenusFilhos ??= new Panel();
+            FormMain.panelMenusFilhos ??= new Panel();
 
-            return CvcMain.panelMenusFilhos;
+            return FormMain.panelMenusFilhos;
         }
 
         private static Label GetLabelSubMenuLateral(Menu menu, int largura)
@@ -270,7 +271,7 @@ namespace controle_vendas_comissoes
         {
             int altura = 0;
 
-            if (CvcMain.panelMenusFilhos is not null && button is not null)
+            if (FormMain.panelMenusFilhos is not null && button is not null)
             {
                 for (int i = 0; i < CardMenuLateral.Controls.Count; i++)
                 {
@@ -282,11 +283,11 @@ namespace controle_vendas_comissoes
                             {
                                 botaoMenu.Location = new Point(5, altura);
 
-                                CvcMain.panelMenusFilhos.Location = new Point(5, botaoMenu.Location.Y + botaoMenu.Height);
-                                
-                                int alturaTotal = CvcMain.panelMenusFilhos.Location.Y + CvcMain.panelMenusFilhos.Height;
+                                FormMain.panelMenusFilhos.Location = new Point(5, botaoMenu.Location.Y + botaoMenu.Height);
 
-                                CvcMain.GetPanelMenusFilhos().Visible = true;
+                                int alturaTotal = FormMain.panelMenusFilhos.Location.Y + FormMain.panelMenusFilhos.Height;
+
+                                FormMain.GetPanelMenusFilhos().Visible = true;
 
                                 for (int j = i + 1; j < CardMenuLateral.Controls.Count; j++)
                                 {
@@ -309,24 +310,30 @@ namespace controle_vendas_comissoes
                 }
             }
         }
-               
+
         #endregion
 
-        #region RequisiÁıes
+        #region Requisi√ß√µes
 
         private void ListarMenus()
-        {         
+        {
+            Utils.ExibeCarregando(this);
+
             HelperMenu.ObtemMenus().Then(listaMenus =>
             {
                 Utils.RunOnUiThread(this, () =>
                 {
-                    CvcMain.menus = listaMenus;
+                    FormMain.menus = listaMenus;
 
                     List<Menu> menusPai = [.. menus.FindAll(x => string.IsNullOrEmpty(x.Pai)).OrderBy(x => x.Ordem)];
 
                     for (int i = 0; i < menusPai.Count; i++)
                         SetBotaoPai(menusPai[i], i);
-                 
+
+                    Utils.EscondeCarregando(() =>
+                    {
+                        this.Enabled = true;
+                    });
                 });
             }).Catch(erro =>
             {

@@ -17,13 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Cvc\GestaoVendas\Comissoes\" />
-    <Folder Include="Cvc\Localidades\Cidades\" />
-    <Folder Include="Cvc\Pessoal\Classificacoes\" />
-    <Folder Include="Cvc\Pessoal\Pessoas\" />
-    <Folder Include="Cvc\Produtos\Produtos\" />
-    <Folder Include="Cvc\Produtos\UnidadesDeProdutos\" />
-    <Folder Include="Cvc\Vendas\PedidoDeVendas\" />
     <Folder Include="Model\Db\Helpers\GestaoVendas\" />
     <Folder Include="Model\Db\Helpers\Pessoal\" />
     <Folder Include="Model\Db\Helpers\Produtos\" />
