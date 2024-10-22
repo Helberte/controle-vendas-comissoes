@@ -1,6 +1,6 @@
-﻿namespace controle_vendas_comissoes.View.Forms.Localidades.Estados
+﻿namespace controle_vendas_comissoes.View.Forms.Localidades.Cidades
 {
-    partial class EstadosLista
+    partial class CidadesBuscaEstado
     {
         /// <summary>
         /// Required designer variable.
@@ -28,17 +28,47 @@
         /// </summary>
         private void InitializeComponent()
         {
-            maskUF = new MaterialSkin.Controls.MaterialMaskedTextBox();
+            groupBox1 = new GroupBox();
             boxNomeEstado = new MaterialSkin.Controls.MaterialTextBox();
+            maskUF = new MaterialSkin.Controls.MaterialMaskedTextBox();
             dataGridEstados = new DataGridView();
-            btInserirNovo = new FontAwesome.Sharp.IconButton();
+            groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridEstados).BeginInit();
             SuspendLayout();
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(maskUF);
+            groupBox1.Controls.Add(boxNomeEstado);
+            groupBox1.Location = new Point(8, 1);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(549, 74);
+            groupBox1.TabIndex = 0;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Pesquisa";
+            // 
+            // boxNomeEstado
+            // 
+            boxNomeEstado.AnimateReadOnly = false;
+            boxNomeEstado.BorderStyle = BorderStyle.None;
+            boxNomeEstado.Depth = 0;
+            boxNomeEstado.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxNomeEstado.Hint = "Estado";
+            boxNomeEstado.LeadingIcon = null;
+            boxNomeEstado.Location = new Point(7, 18);
+            boxNomeEstado.Margin = new Padding(2);
+            boxNomeEstado.MaxLength = 50;
+            boxNomeEstado.MouseState = MaterialSkin.MouseState.OUT;
+            boxNomeEstado.Multiline = false;
+            boxNomeEstado.Name = "boxNomeEstado";
+            boxNomeEstado.Size = new Size(350, 50);
+            boxNomeEstado.TabIndex = 10;
+            boxNomeEstado.Text = "";
+            boxNomeEstado.TrailingIcon = null;
             // 
             // maskUF
             // 
             maskUF.AllowPromptAsInput = true;
-            maskUF.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             maskUF.AnimateReadOnly = false;
             maskUF.AsciiOnly = false;
             maskUF.BackgroundImageLayout = ImageLayout.None;
@@ -52,7 +82,7 @@
             maskUF.Hint = "UF";
             maskUF.InsertKeyMode = InsertKeyMode.Default;
             maskUF.LeadingIcon = null;
-            maskUF.Location = new Point(561, 6);
+            maskUF.Location = new Point(363, 19);
             maskUF.Mask = "AAAA";
             maskUF.MaxLength = 32767;
             maskUF.MouseState = MaterialSkin.MouseState.OUT;
@@ -71,7 +101,7 @@
             maskUF.ShortcutsEnabled = true;
             maskUF.Size = new Size(177, 48);
             maskUF.SkipLiterals = true;
-            maskUF.TabIndex = 5;
+            maskUF.TabIndex = 11;
             maskUF.TabStop = false;
             maskUF.TextAlign = HorizontalAlignment.Left;
             maskUF.TextMaskFormat = MaskFormat.IncludeLiterals;
@@ -79,77 +109,40 @@
             maskUF.UseSystemPasswordChar = false;
             maskUF.ValidatingType = null;
             // 
-            // boxNomeEstado
-            // 
-            boxNomeEstado.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            boxNomeEstado.AnimateReadOnly = false;
-            boxNomeEstado.BorderStyle = BorderStyle.None;
-            boxNomeEstado.Depth = 0;
-            boxNomeEstado.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            boxNomeEstado.Hint = "Nome do Estado";
-            boxNomeEstado.LeadingIcon = null;
-            boxNomeEstado.Location = new Point(4, 5);
-            boxNomeEstado.MaxLength = 50;
-            boxNomeEstado.MouseState = MaterialSkin.MouseState.OUT;
-            boxNomeEstado.Multiline = false;
-            boxNomeEstado.Name = "boxNomeEstado";
-            boxNomeEstado.Size = new Size(551, 50);
-            boxNomeEstado.TabIndex = 4;
-            boxNomeEstado.Text = "";
-            boxNomeEstado.TrailingIcon = null;
-            // 
             // dataGridEstados
             // 
             dataGridEstados.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridEstados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridEstados.Location = new Point(0, 60);
+            dataGridEstados.Location = new Point(0, 81);
             dataGridEstados.Name = "dataGridEstados";
-            dataGridEstados.Size = new Size(870, 326);
-            dataGridEstados.TabIndex = 7;
+            dataGridEstados.Size = new Size(563, 303);
+            dataGridEstados.TabIndex = 2;
             // 
-            // btInserirNovo
-            // 
-            btInserirNovo.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btInserirNovo.BackColor = Color.FromArgb(199, 199, 199);
-            btInserirNovo.FlatAppearance.BorderSize = 0;
-            btInserirNovo.FlatStyle = FlatStyle.Flat;
-            btInserirNovo.Font = new Font("Montserrat ExtraBold", 8.249999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btInserirNovo.ForeColor = Color.White;
-            btInserirNovo.IconChar = FontAwesome.Sharp.IconChar.PlusSquare;
-            btInserirNovo.IconColor = Color.White;
-            btInserirNovo.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btInserirNovo.IconSize = 35;
-            btInserirNovo.Location = new Point(743, 5);
-            btInserirNovo.Name = "btInserirNovo";
-            btInserirNovo.Size = new Size(123, 50);
-            btInserirNovo.TabIndex = 12;
-            btInserirNovo.Text = "Adicionar";
-            btInserirNovo.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btInserirNovo.UseVisualStyleBackColor = false;
-            // 
-            // EstadosLista
+            // CidadesBuscaEstado
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(870, 386);
-            Controls.Add(btInserirNovo);
+            ClientSize = new Size(563, 384);
             Controls.Add(dataGridEstados);
-            Controls.Add(maskUF);
-            Controls.Add(boxNomeEstado);
-            KeyPreview = true;
-            MinimumSize = new Size(886, 425);
-            Name = "EstadosLista";
+            Controls.Add(groupBox1);
+            Font = new Font("Montserrat", 8.249999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            MaximizeBox = false;
+            MaximumSize = new Size(579, 423);
+            MinimumSize = new Size(579, 423);
+            Name = "CidadesBuscaEstado";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Estados";
+            Text = "Busca Estado";
+            groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridEstados).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
-        private MaterialSkin.Controls.MaterialMaskedTextBox maskUF;
+
+        private GroupBox groupBox1;
         private MaterialSkin.Controls.MaterialTextBox boxNomeEstado;
+        private MaterialSkin.Controls.MaterialMaskedTextBox maskUF;
         private DataGridView dataGridEstados;
-        private FontAwesome.Sharp.IconButton btInserirNovo;
     }
 }

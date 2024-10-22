@@ -31,7 +31,7 @@
 
             // Coloca a cor de fundo nas linhas
             Sender.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 254);
-            Sender.RowsDefaultCellStyle.Font      = new Font(nomeFonte, 12, FontStyle.Regular);
+            Sender.RowsDefaultCellStyle.Font      = new Font(nomeFonte, 10, FontStyle.Regular);
             Sender.RowsDefaultCellStyle.ForeColor = Color.FromArgb(110, 102, 100);
 
             // configurações para todas as células
@@ -43,7 +43,7 @@
             Sender.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 
             // altura das linhas
-            Sender.RowTemplate.Height = 37;
+            Sender.RowTemplate.Height = 35;
 
             // indica que o usuário não vai poder editar linhas
             Sender.ReadOnly = true;
@@ -52,6 +52,7 @@
             Sender.BorderStyle      = BorderStyle.None;
             Sender.BackgroundColor  = Color.FromArgb(255, 255, 254);
             Sender.CellBorderStyle  = DataGridViewCellBorderStyle.Single;
+            Sender.GridColor        = Color.FromArgb(201,201,201);
 
             // estilo da borda do cabeçalho
             Sender.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
