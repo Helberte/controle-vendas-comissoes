@@ -32,8 +32,10 @@
             btSalvarMais = new MaterialSkin.Controls.MaterialButton();
             btCancelar = new MaterialSkin.Controls.MaterialButton();
             groupBox1 = new GroupBox();
-            boxNomeEstado = new MaterialSkin.Controls.MaterialTextBox();
             maskUF = new MaterialSkin.Controls.MaterialMaskedTextBox();
+            boxNomeEstado = new MaterialSkin.Controls.MaterialTextBox();
+            btInserirNovo = new FontAwesome.Sharp.IconButton();
+            iconButton1 = new FontAwesome.Sharp.IconButton();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -62,6 +64,7 @@
             // 
             btSalvarMais.AutoSize = false;
             btSalvarMais.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            btSalvarMais.BackColor = SystemColors.InactiveBorder;
             btSalvarMais.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             btSalvarMais.Depth = 0;
             btSalvarMais.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -77,7 +80,7 @@
             btSalvarMais.Text = "SALVAR +";
             btSalvarMais.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             btSalvarMais.UseAccentColor = false;
-            btSalvarMais.UseVisualStyleBackColor = true;
+            btSalvarMais.UseVisualStyleBackColor = false;
             // 
             // btCancelar
             // 
@@ -110,25 +113,6 @@
             groupBox1.TabIndex = 11;
             groupBox1.TabStop = false;
             groupBox1.Text = "Informações do Estado";
-            // 
-            // boxNomeEstado
-            // 
-            boxNomeEstado.AnimateReadOnly = false;
-            boxNomeEstado.BorderStyle = BorderStyle.None;
-            boxNomeEstado.Depth = 0;
-            boxNomeEstado.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            boxNomeEstado.Hint = "Nome do Estado";
-            boxNomeEstado.LeadingIcon = null;
-            boxNomeEstado.Location = new Point(6, 22);
-            boxNomeEstado.Margin = new Padding(2);
-            boxNomeEstado.MaxLength = 50;
-            boxNomeEstado.MouseState = MaterialSkin.MouseState.OUT;
-            boxNomeEstado.Multiline = false;
-            boxNomeEstado.Name = "boxNomeEstado";
-            boxNomeEstado.Size = new Size(374, 50);
-            boxNomeEstado.TabIndex = 7;
-            boxNomeEstado.Text = "";
-            boxNomeEstado.TrailingIcon = null;
             // 
             // maskUF
             // 
@@ -174,11 +158,70 @@
             maskUF.UseSystemPasswordChar = false;
             maskUF.ValidatingType = null;
             // 
+            // boxNomeEstado
+            // 
+            boxNomeEstado.AnimateReadOnly = false;
+            boxNomeEstado.BorderStyle = BorderStyle.None;
+            boxNomeEstado.Depth = 0;
+            boxNomeEstado.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxNomeEstado.Hint = "Nome do Estado";
+            boxNomeEstado.LeadingIcon = null;
+            boxNomeEstado.Location = new Point(6, 22);
+            boxNomeEstado.Margin = new Padding(2);
+            boxNomeEstado.MaxLength = 50;
+            boxNomeEstado.MouseState = MaterialSkin.MouseState.OUT;
+            boxNomeEstado.Multiline = false;
+            boxNomeEstado.Name = "boxNomeEstado";
+            boxNomeEstado.Size = new Size(374, 50);
+            boxNomeEstado.TabIndex = 7;
+            boxNomeEstado.Text = "";
+            boxNomeEstado.TrailingIcon = null;
+            // 
+            // btInserirNovo
+            // 
+            btInserirNovo.BackColor = Color.FromArgb(199, 199, 199);
+            btInserirNovo.FlatAppearance.BorderSize = 0;
+            btInserirNovo.FlatStyle = FlatStyle.Flat;
+            btInserirNovo.Font = new Font("Montserrat ExtraBold", 8.249999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btInserirNovo.ForeColor = Color.White;
+            btInserirNovo.IconChar = FontAwesome.Sharp.IconChar.PlusSquare;
+            btInserirNovo.IconColor = Color.White;
+            btInserirNovo.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btInserirNovo.IconSize = 15;
+            btInserirNovo.Location = new Point(12, 118);
+            btInserirNovo.Name = "btInserirNovo";
+            btInserirNovo.Size = new Size(97, 33);
+            btInserirNovo.TabIndex = 14;
+            btInserirNovo.Text = "SALVAR";
+            btInserirNovo.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btInserirNovo.UseVisualStyleBackColor = false;
+            // 
+            // iconButton1
+            // 
+            iconButton1.BackColor = Color.FromArgb(199, 199, 199);
+            iconButton1.FlatAppearance.BorderSize = 0;
+            iconButton1.FlatStyle = FlatStyle.Flat;
+            iconButton1.Font = new Font("Montserrat ExtraBold", 8.249999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            iconButton1.ForeColor = Color.White;
+            iconButton1.IconChar = FontAwesome.Sharp.IconChar.PlusSquare;
+            iconButton1.IconColor = Color.White;
+            iconButton1.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            iconButton1.IconSize = 15;
+            iconButton1.Location = new Point(115, 118);
+            iconButton1.Name = "iconButton1";
+            iconButton1.Size = new Size(97, 33);
+            iconButton1.TabIndex = 15;
+            iconButton1.Text = "SALVAR";
+            iconButton1.TextImageRelation = TextImageRelation.ImageBeforeText;
+            iconButton1.UseVisualStyleBackColor = false;
+            // 
             // EstadosDetalhes
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(565, 163);
+            Controls.Add(iconButton1);
+            Controls.Add(btInserirNovo);
             Controls.Add(groupBox1);
             Controls.Add(btCancelar);
             Controls.Add(btSalvar);
@@ -202,5 +245,7 @@
         private GroupBox groupBox1;
         private MaterialSkin.Controls.MaterialMaskedTextBox maskUF;
         private MaterialSkin.Controls.MaterialTextBox boxNomeEstado;
+        private FontAwesome.Sharp.IconButton btInserirNovo;
+        private FontAwesome.Sharp.IconButton iconButton1;
     }
 }

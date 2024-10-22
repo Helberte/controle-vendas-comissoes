@@ -167,7 +167,7 @@
             btInserirNovo.Name = "btInserirNovo";
             btInserirNovo.Size = new Size(123, 50);
             btInserirNovo.TabIndex = 11;
-            btInserirNovo.Text = "Adicionar";
+            btInserirNovo.Text = "ADICIONAR";
             btInserirNovo.TextImageRelation = TextImageRelation.ImageBeforeText;
             btInserirNovo.UseVisualStyleBackColor = false;
             // 
