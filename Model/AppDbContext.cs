@@ -9,6 +9,8 @@ namespace controle_vendas_comissoes.Model
 
         public DbSet<Estado>? Estados { get; set; } = null;
 
+        public DbSet<Cidade>? Cidades { get; set; } = null;
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);

@@ -30,9 +30,11 @@
         {
             btSalvar = new MaterialSkin.Controls.MaterialButton();
             btSalvarMais = new MaterialSkin.Controls.MaterialButton();
-            maskUF = new MaterialSkin.Controls.MaterialMaskedTextBox();
-            boxNomeEstado = new MaterialSkin.Controls.MaterialTextBox();
             btCancelar = new MaterialSkin.Controls.MaterialButton();
+            groupBox1 = new GroupBox();
+            boxNomeEstado = new MaterialSkin.Controls.MaterialTextBox();
+            maskUF = new MaterialSkin.Controls.MaterialMaskedTextBox();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // btSalvar
@@ -44,12 +46,12 @@
             btSalvar.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btSalvar.HighEmphasis = true;
             btSalvar.Icon = null;
-            btSalvar.Location = new Point(703, 5);
-            btSalvar.Margin = new Padding(4, 6, 4, 6);
+            btSalvar.Location = new Point(360, 120);
+            btSalvar.Margin = new Padding(3, 4, 3, 4);
             btSalvar.MouseState = MaterialSkin.MouseState.HOVER;
             btSalvar.Name = "btSalvar";
             btSalvar.NoAccentTextColor = Color.Empty;
-            btSalvar.Size = new Size(138, 48);
+            btSalvar.Size = new Size(97, 33);
             btSalvar.TabIndex = 9;
             btSalvar.Text = "SALVAR";
             btSalvar.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
@@ -65,17 +67,68 @@
             btSalvarMais.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btSalvarMais.HighEmphasis = true;
             btSalvarMais.Icon = null;
-            btSalvarMais.Location = new Point(557, 5);
-            btSalvarMais.Margin = new Padding(4, 6, 4, 6);
+            btSalvarMais.Location = new Point(257, 120);
+            btSalvarMais.Margin = new Padding(3, 4, 3, 4);
             btSalvarMais.MouseState = MaterialSkin.MouseState.HOVER;
             btSalvarMais.Name = "btSalvarMais";
             btSalvarMais.NoAccentTextColor = Color.Empty;
-            btSalvarMais.Size = new Size(138, 48);
+            btSalvarMais.Size = new Size(97, 33);
             btSalvarMais.TabIndex = 8;
             btSalvarMais.Text = "SALVAR +";
             btSalvarMais.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             btSalvarMais.UseAccentColor = false;
             btSalvarMais.UseVisualStyleBackColor = true;
+            // 
+            // btCancelar
+            // 
+            btCancelar.AutoSize = false;
+            btCancelar.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            btCancelar.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            btCancelar.Depth = 0;
+            btCancelar.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btCancelar.HighEmphasis = true;
+            btCancelar.Icon = null;
+            btCancelar.Location = new Point(463, 120);
+            btCancelar.Margin = new Padding(3, 4, 3, 4);
+            btCancelar.MouseState = MaterialSkin.MouseState.HOVER;
+            btCancelar.Name = "btCancelar";
+            btCancelar.NoAccentTextColor = Color.Empty;
+            btCancelar.Size = new Size(97, 33);
+            btCancelar.TabIndex = 10;
+            btCancelar.Text = "CANCELAR";
+            btCancelar.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            btCancelar.UseAccentColor = false;
+            btCancelar.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(maskUF);
+            groupBox1.Controls.Add(boxNomeEstado);
+            groupBox1.Location = new Point(5, 4);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(555, 91);
+            groupBox1.TabIndex = 11;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Informações do Estado";
+            // 
+            // boxNomeEstado
+            // 
+            boxNomeEstado.AnimateReadOnly = false;
+            boxNomeEstado.BorderStyle = BorderStyle.None;
+            boxNomeEstado.Depth = 0;
+            boxNomeEstado.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxNomeEstado.Hint = "Nome do Estado";
+            boxNomeEstado.LeadingIcon = null;
+            boxNomeEstado.Location = new Point(6, 22);
+            boxNomeEstado.Margin = new Padding(2);
+            boxNomeEstado.MaxLength = 50;
+            boxNomeEstado.MouseState = MaterialSkin.MouseState.OUT;
+            boxNomeEstado.Multiline = false;
+            boxNomeEstado.Name = "boxNomeEstado";
+            boxNomeEstado.Size = new Size(374, 50);
+            boxNomeEstado.TabIndex = 7;
+            boxNomeEstado.Text = "";
+            boxNomeEstado.TrailingIcon = null;
             // 
             // maskUF
             // 
@@ -93,7 +146,8 @@
             maskUF.Hint = "UF";
             maskUF.InsertKeyMode = InsertKeyMode.Default;
             maskUF.LeadingIcon = null;
-            maskUF.Location = new Point(399, 6);
+            maskUF.Location = new Point(390, 23);
+            maskUF.Margin = new Padding(2);
             maskUF.Mask = "AAAA";
             maskUF.MaxLength = 32767;
             maskUF.MouseState = MaterialSkin.MouseState.OUT;
@@ -110,9 +164,9 @@
             maskUF.SelectionLength = 0;
             maskUF.SelectionStart = 0;
             maskUF.ShortcutsEnabled = true;
-            maskUF.Size = new Size(152, 48);
+            maskUF.Size = new Size(156, 48);
             maskUF.SkipLiterals = true;
-            maskUF.TabIndex = 7;
+            maskUF.TabIndex = 8;
             maskUF.TabStop = false;
             maskUF.TextAlign = HorizontalAlignment.Left;
             maskUF.TextMaskFormat = MaskFormat.IncludeLiterals;
@@ -120,72 +174,33 @@
             maskUF.UseSystemPasswordChar = false;
             maskUF.ValidatingType = null;
             // 
-            // boxNomeEstado
-            // 
-            boxNomeEstado.AnimateReadOnly = false;
-            boxNomeEstado.BorderStyle = BorderStyle.None;
-            boxNomeEstado.Depth = 0;
-            boxNomeEstado.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            boxNomeEstado.Hint = "Nome do Estado";
-            boxNomeEstado.LeadingIcon = null;
-            boxNomeEstado.Location = new Point(5, 5);
-            boxNomeEstado.MaxLength = 50;
-            boxNomeEstado.MouseState = MaterialSkin.MouseState.OUT;
-            boxNomeEstado.Multiline = false;
-            boxNomeEstado.Name = "boxNomeEstado";
-            boxNomeEstado.Size = new Size(387, 50);
-            boxNomeEstado.TabIndex = 6;
-            boxNomeEstado.Text = "";
-            boxNomeEstado.TrailingIcon = null;
-            // 
-            // btCancelar
-            // 
-            btCancelar.AutoSize = false;
-            btCancelar.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            btCancelar.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            btCancelar.Depth = 0;
-            btCancelar.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btCancelar.HighEmphasis = true;
-            btCancelar.Icon = null;
-            btCancelar.Location = new Point(703, 62);
-            btCancelar.Margin = new Padding(4, 6, 4, 6);
-            btCancelar.MouseState = MaterialSkin.MouseState.HOVER;
-            btCancelar.Name = "btCancelar";
-            btCancelar.NoAccentTextColor = Color.Empty;
-            btCancelar.Size = new Size(138, 48);
-            btCancelar.TabIndex = 10;
-            btCancelar.Text = "CANCELAR";
-            btCancelar.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            btCancelar.UseAccentColor = false;
-            btCancelar.UseVisualStyleBackColor = true;
-            // 
             // EstadosDetalhes
             // 
-            AutoScaleDimensions = new SizeF(10F, 22F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(846, 148);
+            ClientSize = new Size(565, 163);
+            Controls.Add(groupBox1);
             Controls.Add(btCancelar);
             Controls.Add(btSalvar);
             Controls.Add(btSalvarMais);
-            Controls.Add(maskUF);
-            Controls.Add(boxNomeEstado);
-            Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Margin = new Padding(4);
+            Font = new Font("Montserrat", 8.249999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             MaximizeBox = false;
-            MaximumSize = new Size(862, 187);
-            MinimumSize = new Size(862, 187);
+            MaximumSize = new Size(581, 202);
+            MinimumSize = new Size(581, 202);
             Name = "EstadosDetalhes";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Detalhe do Estado";
+            groupBox1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
         private MaterialSkin.Controls.MaterialButton btSalvar;
         private MaterialSkin.Controls.MaterialButton btSalvarMais;
+        private MaterialSkin.Controls.MaterialButton btCancelar;
+        private GroupBox groupBox1;
         private MaterialSkin.Controls.MaterialMaskedTextBox maskUF;
         private MaterialSkin.Controls.MaterialTextBox boxNomeEstado;
-        private MaterialSkin.Controls.MaterialButton btCancelar;
     }
 }

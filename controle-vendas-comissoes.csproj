@@ -22,7 +22,6 @@
     <Folder Include="Model\Db\Helpers\Produtos\" />
     <Folder Include="Model\Db\Helpers\Vendas\" />
     <Folder Include="View\Forms\GestaoVendas\Comissoes\" />
-    <Folder Include="View\Forms\Localidades\Cidades\" />
     <Folder Include="View\Forms\Pessoal\Classificacoes\" />
     <Folder Include="View\Forms\Pessoal\Pessoas\" />
     <Folder Include="View\Forms\Produtos\UnidadesDeProdutos\" />
