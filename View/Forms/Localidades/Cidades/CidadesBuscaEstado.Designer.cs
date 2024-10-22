@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
-            boxNomeEstado = new MaterialSkin.Controls.MaterialTextBox();
             maskUF = new MaterialSkin.Controls.MaterialMaskedTextBox();
+            boxNomeEstado = new MaterialSkin.Controls.MaterialTextBox();
             dataGridEstados = new DataGridView();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridEstados).BeginInit();
@@ -46,25 +46,6 @@
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Pesquisa";
-            // 
-            // boxNomeEstado
-            // 
-            boxNomeEstado.AnimateReadOnly = false;
-            boxNomeEstado.BorderStyle = BorderStyle.None;
-            boxNomeEstado.Depth = 0;
-            boxNomeEstado.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            boxNomeEstado.Hint = "Estado";
-            boxNomeEstado.LeadingIcon = null;
-            boxNomeEstado.Location = new Point(7, 18);
-            boxNomeEstado.Margin = new Padding(2);
-            boxNomeEstado.MaxLength = 50;
-            boxNomeEstado.MouseState = MaterialSkin.MouseState.OUT;
-            boxNomeEstado.Multiline = false;
-            boxNomeEstado.Name = "boxNomeEstado";
-            boxNomeEstado.Size = new Size(350, 50);
-            boxNomeEstado.TabIndex = 10;
-            boxNomeEstado.Text = "";
-            boxNomeEstado.TrailingIcon = null;
             // 
             // maskUF
             // 
@@ -108,6 +89,25 @@
             maskUF.TrailingIcon = null;
             maskUF.UseSystemPasswordChar = false;
             maskUF.ValidatingType = null;
+            // 
+            // boxNomeEstado
+            // 
+            boxNomeEstado.AnimateReadOnly = false;
+            boxNomeEstado.BorderStyle = BorderStyle.None;
+            boxNomeEstado.Depth = 0;
+            boxNomeEstado.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxNomeEstado.Hint = "Estado";
+            boxNomeEstado.LeadingIcon = null;
+            boxNomeEstado.Location = new Point(7, 18);
+            boxNomeEstado.Margin = new Padding(2);
+            boxNomeEstado.MaxLength = 50;
+            boxNomeEstado.MouseState = MaterialSkin.MouseState.OUT;
+            boxNomeEstado.Multiline = false;
+            boxNomeEstado.Name = "boxNomeEstado";
+            boxNomeEstado.Size = new Size(350, 50);
+            boxNomeEstado.TabIndex = 10;
+            boxNomeEstado.Text = "";
+            boxNomeEstado.TrailingIcon = null;
             // 
             // dataGridEstados
             // 

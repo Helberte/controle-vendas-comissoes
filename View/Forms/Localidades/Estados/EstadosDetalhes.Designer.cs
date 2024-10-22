@@ -28,80 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            btSalvar = new MaterialSkin.Controls.MaterialButton();
-            btSalvarMais = new MaterialSkin.Controls.MaterialButton();
-            btCancelar = new MaterialSkin.Controls.MaterialButton();
             groupBox1 = new GroupBox();
             maskUF = new MaterialSkin.Controls.MaterialMaskedTextBox();
             boxNomeEstado = new MaterialSkin.Controls.MaterialTextBox();
-            btInserirNovo = new FontAwesome.Sharp.IconButton();
-            iconButton1 = new FontAwesome.Sharp.IconButton();
+            btSalvarMais = new FontAwesome.Sharp.IconButton();
+            btSalvar = new FontAwesome.Sharp.IconButton();
+            btCancelar = new FontAwesome.Sharp.IconButton();
             groupBox1.SuspendLayout();
             SuspendLayout();
-            // 
-            // btSalvar
-            // 
-            btSalvar.AutoSize = false;
-            btSalvar.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            btSalvar.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            btSalvar.Depth = 0;
-            btSalvar.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btSalvar.HighEmphasis = true;
-            btSalvar.Icon = null;
-            btSalvar.Location = new Point(360, 120);
-            btSalvar.Margin = new Padding(3, 4, 3, 4);
-            btSalvar.MouseState = MaterialSkin.MouseState.HOVER;
-            btSalvar.Name = "btSalvar";
-            btSalvar.NoAccentTextColor = Color.Empty;
-            btSalvar.Size = new Size(97, 33);
-            btSalvar.TabIndex = 9;
-            btSalvar.Text = "SALVAR";
-            btSalvar.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            btSalvar.UseAccentColor = false;
-            btSalvar.UseVisualStyleBackColor = true;
-            // 
-            // btSalvarMais
-            // 
-            btSalvarMais.AutoSize = false;
-            btSalvarMais.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            btSalvarMais.BackColor = SystemColors.InactiveBorder;
-            btSalvarMais.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            btSalvarMais.Depth = 0;
-            btSalvarMais.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btSalvarMais.HighEmphasis = true;
-            btSalvarMais.Icon = null;
-            btSalvarMais.Location = new Point(257, 120);
-            btSalvarMais.Margin = new Padding(3, 4, 3, 4);
-            btSalvarMais.MouseState = MaterialSkin.MouseState.HOVER;
-            btSalvarMais.Name = "btSalvarMais";
-            btSalvarMais.NoAccentTextColor = Color.Empty;
-            btSalvarMais.Size = new Size(97, 33);
-            btSalvarMais.TabIndex = 8;
-            btSalvarMais.Text = "SALVAR +";
-            btSalvarMais.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            btSalvarMais.UseAccentColor = false;
-            btSalvarMais.UseVisualStyleBackColor = false;
-            // 
-            // btCancelar
-            // 
-            btCancelar.AutoSize = false;
-            btCancelar.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            btCancelar.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            btCancelar.Depth = 0;
-            btCancelar.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btCancelar.HighEmphasis = true;
-            btCancelar.Icon = null;
-            btCancelar.Location = new Point(463, 120);
-            btCancelar.Margin = new Padding(3, 4, 3, 4);
-            btCancelar.MouseState = MaterialSkin.MouseState.HOVER;
-            btCancelar.Name = "btCancelar";
-            btCancelar.NoAccentTextColor = Color.Empty;
-            btCancelar.Size = new Size(97, 33);
-            btCancelar.TabIndex = 10;
-            btCancelar.Text = "CANCELAR";
-            btCancelar.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            btCancelar.UseAccentColor = false;
-            btCancelar.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -177,55 +111,70 @@
             boxNomeEstado.Text = "";
             boxNomeEstado.TrailingIcon = null;
             // 
-            // btInserirNovo
+            // btSalvarMais
             // 
-            btInserirNovo.BackColor = Color.FromArgb(199, 199, 199);
-            btInserirNovo.FlatAppearance.BorderSize = 0;
-            btInserirNovo.FlatStyle = FlatStyle.Flat;
-            btInserirNovo.Font = new Font("Montserrat ExtraBold", 8.249999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btInserirNovo.ForeColor = Color.White;
-            btInserirNovo.IconChar = FontAwesome.Sharp.IconChar.PlusSquare;
-            btInserirNovo.IconColor = Color.White;
-            btInserirNovo.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btInserirNovo.IconSize = 15;
-            btInserirNovo.Location = new Point(12, 118);
-            btInserirNovo.Name = "btInserirNovo";
-            btInserirNovo.Size = new Size(97, 33);
-            btInserirNovo.TabIndex = 14;
-            btInserirNovo.Text = "SALVAR";
-            btInserirNovo.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btInserirNovo.UseVisualStyleBackColor = false;
+            btSalvarMais.BackColor = Color.FromArgb(199, 199, 199);
+            btSalvarMais.FlatAppearance.BorderSize = 0;
+            btSalvarMais.FlatStyle = FlatStyle.Flat;
+            btSalvarMais.Font = new Font("Montserrat ExtraBold", 8.249999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btSalvarMais.ForeColor = Color.White;
+            btSalvarMais.IconChar = FontAwesome.Sharp.IconChar.PlusSquare;
+            btSalvarMais.IconColor = Color.White;
+            btSalvarMais.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btSalvarMais.IconSize = 15;
+            btSalvarMais.Location = new Point(257, 120);
+            btSalvarMais.Name = "btSalvarMais";
+            btSalvarMais.Size = new Size(97, 33);
+            btSalvarMais.TabIndex = 14;
+            btSalvarMais.Text = "SALVAR";
+            btSalvarMais.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btSalvarMais.UseVisualStyleBackColor = false;
             // 
-            // iconButton1
+            // btSalvar
             // 
-            iconButton1.BackColor = Color.FromArgb(199, 199, 199);
-            iconButton1.FlatAppearance.BorderSize = 0;
-            iconButton1.FlatStyle = FlatStyle.Flat;
-            iconButton1.Font = new Font("Montserrat ExtraBold", 8.249999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            iconButton1.ForeColor = Color.White;
-            iconButton1.IconChar = FontAwesome.Sharp.IconChar.PlusSquare;
-            iconButton1.IconColor = Color.White;
-            iconButton1.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconButton1.IconSize = 15;
-            iconButton1.Location = new Point(115, 118);
-            iconButton1.Name = "iconButton1";
-            iconButton1.Size = new Size(97, 33);
-            iconButton1.TabIndex = 15;
-            iconButton1.Text = "SALVAR";
-            iconButton1.TextImageRelation = TextImageRelation.ImageBeforeText;
-            iconButton1.UseVisualStyleBackColor = false;
+            btSalvar.BackColor = Color.FromArgb(199, 199, 199);
+            btSalvar.FlatAppearance.BorderSize = 0;
+            btSalvar.FlatStyle = FlatStyle.Flat;
+            btSalvar.Font = new Font("Montserrat ExtraBold", 8.249999F, FontStyle.Bold);
+            btSalvar.ForeColor = Color.White;
+            btSalvar.IconChar = FontAwesome.Sharp.IconChar.None;
+            btSalvar.IconColor = Color.Black;
+            btSalvar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btSalvar.Location = new Point(360, 120);
+            btSalvar.Name = "btSalvar";
+            btSalvar.Size = new Size(97, 33);
+            btSalvar.TabIndex = 15;
+            btSalvar.Text = "SALVAR";
+            btSalvar.UseVisualStyleBackColor = false;
+            // 
+            // btCancelar
+            // 
+            btCancelar.BackColor = Color.FromArgb(199, 199, 199);
+            btCancelar.FlatAppearance.BorderSize = 0;
+            btCancelar.FlatStyle = FlatStyle.Flat;
+            btCancelar.Font = new Font("Montserrat ExtraBold", 8.249999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btCancelar.ForeColor = Color.White;
+            btCancelar.IconChar = FontAwesome.Sharp.IconChar.XmarkCircle;
+            btCancelar.IconColor = Color.White;
+            btCancelar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btCancelar.IconSize = 17;
+            btCancelar.Location = new Point(463, 120);
+            btCancelar.Name = "btCancelar";
+            btCancelar.Size = new Size(97, 33);
+            btCancelar.TabIndex = 16;
+            btCancelar.Text = "CANCELAR";
+            btCancelar.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btCancelar.UseVisualStyleBackColor = false;
             // 
             // EstadosDetalhes
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(565, 163);
-            Controls.Add(iconButton1);
-            Controls.Add(btInserirNovo);
-            Controls.Add(groupBox1);
             Controls.Add(btCancelar);
             Controls.Add(btSalvar);
             Controls.Add(btSalvarMais);
+            Controls.Add(groupBox1);
             Font = new Font("Montserrat", 8.249999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             MaximizeBox = false;
             MaximumSize = new Size(581, 202);
@@ -239,9 +188,9 @@
         }
 
         #endregion
-        private MaterialSkin.Controls.MaterialButton btSalvar;
-        private MaterialSkin.Controls.MaterialButton btSalvarMais;
-        private MaterialSkin.Controls.MaterialButton btCancelar;
+        private FontAwesome.Sharp.IconButton btSalvar;
+        private FontAwesome.Sharp.IconButton btSalvarMais;
+        private FontAwesome.Sharp.IconButton btCancelar;
         private GroupBox groupBox1;
         private MaterialSkin.Controls.MaterialMaskedTextBox maskUF;
         private MaterialSkin.Controls.MaterialTextBox boxNomeEstado;
