@@ -40,7 +40,7 @@ namespace controle_vendas_comissoes.View.Forms.Main
         {
             ArredondaCantos(CardMenuLateral);
 
-            //ListarMenus();
+            ListarMenus();
 
             ConfiguracaoLayout();
             ConfiguraSombra();

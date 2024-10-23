@@ -32,10 +32,10 @@
             boxNomeClassificacao = new MaterialSkin.Controls.MaterialTextBox();
             groupBox2 = new GroupBox();
             btInserirNovo = new FontAwesome.Sharp.IconButton();
-            dataGridCidades = new DataGridView();
+            dataGridClassificacoes = new DataGridView();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridCidades).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridClassificacoes).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
@@ -55,7 +55,7 @@
             boxNomeClassificacao.AnimateReadOnly = false;
             boxNomeClassificacao.BorderStyle = BorderStyle.None;
             boxNomeClassificacao.Depth = 0;
-            boxNomeClassificacao.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxNomeClassificacao.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
             boxNomeClassificacao.Hint = "Nome da Classificação";
             boxNomeClassificacao.LeadingIcon = null;
             boxNomeClassificacao.Location = new Point(5, 19);
@@ -99,21 +99,21 @@
             btInserirNovo.TextImageRelation = TextImageRelation.ImageBeforeText;
             btInserirNovo.UseVisualStyleBackColor = false;
             // 
-            // dataGridCidades
+            // dataGridClassificacoes
             // 
-            dataGridCidades.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridCidades.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridCidades.Location = new Point(0, 90);
-            dataGridCidades.Name = "dataGridCidades";
-            dataGridCidades.Size = new Size(537, 252);
-            dataGridCidades.TabIndex = 4;
+            dataGridClassificacoes.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridClassificacoes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridClassificacoes.Location = new Point(0, 90);
+            dataGridClassificacoes.Name = "dataGridClassificacoes";
+            dataGridClassificacoes.Size = new Size(537, 252);
+            dataGridClassificacoes.TabIndex = 4;
             // 
             // ClassificacoesLista
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(537, 342);
-            Controls.Add(dataGridCidades);
+            Controls.Add(dataGridClassificacoes);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Font = new Font("Montserrat", 8.249999F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -124,7 +124,7 @@
             Text = "Classificações";
             groupBox1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridCidades).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridClassificacoes).EndInit();
             ResumeLayout(false);
         }
 
@@ -134,6 +134,6 @@
         private MaterialSkin.Controls.MaterialTextBox boxNomeClassificacao;
         private GroupBox groupBox2;
         private FontAwesome.Sharp.IconButton btInserirNovo;
-        private DataGridView dataGridCidades;
+        private DataGridView dataGridClassificacoes;
     }
 }
