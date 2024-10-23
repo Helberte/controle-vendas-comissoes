@@ -13,6 +13,8 @@ namespace controle_vendas_comissoes.View.Forms.Main
         #region Variáveis
 
         private static List<Menu>? menus = null;
+        private readonly List<Control> shadowControls = [];
+        Bitmap? shadowBmp = null;
 
         #endregion
 
@@ -27,9 +29,9 @@ namespace controle_vendas_comissoes.View.Forms.Main
 
         public FormMain()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
-
+        
         #endregion
 
         #region Eventos
@@ -38,7 +40,10 @@ namespace controle_vendas_comissoes.View.Forms.Main
         {
             ArredondaCantos(CardMenuLateral);
 
-            ListarMenus();
+            //ListarMenus();
+
+            ConfiguracaoLayout();
+            ConfiguraSombra();
         }
 
         private void MenusPais_Click(object? sender, EventArgs e)
@@ -50,7 +55,7 @@ namespace controle_vendas_comissoes.View.Forms.Main
             {
                 ResetaCorBotoesMenuEsquerdo();
 
-                botao           = (IconButton)sender;
+                botao = (IconButton)sender;
                 botao.ForeColor = Color.FromArgb(0, 88, 255);
                 botao.IconColor = Color.FromArgb(0, 88, 255);
                 botao.BackColor = Color.FromArgb(222, 232, 248);
@@ -105,6 +110,29 @@ namespace controle_vendas_comissoes.View.Forms.Main
             }
         }
 
+        private void timerDataHora_Tick(object sender, EventArgs e)
+        {
+            lblCidadeData.Text = "JARU - RO  " + string.Format("{0:dd-MM-yyyy}", DateTime.Now) + " - " + string.Format("{0:HH:mm}", DateTime.Now);
+        }
+
+        private void FormMain_Paint(object? sender, PaintEventArgs e)
+        {
+            if (shadowBmp == null || shadowBmp.Size != this.Size)
+            {
+                shadowBmp?.Dispose();
+                shadowBmp = new Bitmap(this.Width, this.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            }
+            foreach (Control control in shadowControls)
+            {
+                using (GraphicsPath gp = new())
+                {
+                    gp.AddRectangle(new Rectangle(control.Location.X, control.Location.Y, control.Size.Width, control.Size.Height));
+                    DrawShadowSmooth(gp, 50, 28, shadowBmp);
+                }
+                e.Graphics.DrawImage(shadowBmp, new Point(0, 0));
+            }
+        }
+
         #endregion
 
         #region Metodos
@@ -143,8 +171,8 @@ namespace controle_vendas_comissoes.View.Forms.Main
         {
             FormMain.panelEsquerdaMenu ??= new Panel()
             {
-                Width     = largura,
-                Height    = altura,
+                Width = largura,
+                Height = altura,
                 BackColor = Color.FromArgb(0, 88, 255)
             };
 
@@ -172,29 +200,29 @@ namespace controle_vendas_comissoes.View.Forms.Main
         private void SetBotaoPai(Menu menu, int totalBotoes)
         {
             IconButton botao = new();
-            int heightBotao  = 0;
+            int heightBotao = 0;
 
             botao.BackColor = System.Drawing.Color.Transparent;
-            botao.Height    = 55;
-            botao.Width     = 190;
-            botao.Text      = menu.Nome;
+            botao.Height = 55;
+            botao.Width = 190;
+            botao.Text = menu.Nome;
             CardMenuLateral.Controls.Add(botao);
 
             if (totalBotoes > 0)
                 heightBotao = botao.Height * totalBotoes;
 
-            botao.Tag        = menu;
-            botao.Location   = new Point(5, heightBotao);
-            botao.FlatStyle  = FlatStyle.Flat;
+            botao.Tag = menu;
+            botao.Location = new Point(5, heightBotao);
+            botao.FlatStyle = FlatStyle.Flat;
             botao.FlatAppearance.BorderSize = 0;
-            botao.IconChar   = GetIconChar(menu.Icone ?? "");
-            botao.IconColor  = Color.FromArgb(0, 120, 111);
-            botao.ForeColor  = Color.FromArgb(0, 120, 111);
+            botao.IconChar = GetIconChar(menu.Icone ?? "");
+            botao.IconColor = Color.FromArgb(0, 120, 111);
+            botao.ForeColor = Color.FromArgb(0, 120, 111);
             botao.TextImageRelation = TextImageRelation.ImageBeforeText;
-            botao.IconSize   = 28;
-            botao.TextAlign  = ContentAlignment.MiddleLeft;
+            botao.IconSize = 28;
+            botao.TextAlign = ContentAlignment.MiddleLeft;
             botao.ImageAlign = ContentAlignment.MiddleLeft;
-            botao.Padding    = new Padding(10, 0, 0, 0);
+            botao.Padding = new Padding(10, 0, 0, 0);
 
             botao.Click += MenusPais_Click;
 
@@ -211,8 +239,8 @@ namespace controle_vendas_comissoes.View.Forms.Main
                 Label botao = FormMain.GetLabelSubMenuLateral(item, FormMain.GetPanelMenusFilhos().Width);
 
                 botao.Location = new Point(0, heightBotao);
-                heightBotao    = botao.Location.Y + botao.PreferredHeight;
-                heightPanel   += botao.PreferredHeight;
+                heightBotao = botao.Location.Y + botao.PreferredHeight;
+                heightPanel += botao.PreferredHeight;
 
                 FormMain.GetPanelMenusFilhos().Controls.Add(botao);
             }
@@ -247,22 +275,22 @@ namespace controle_vendas_comissoes.View.Forms.Main
         {
             Label label = new()
             {
-                AutoSize    = true,
+                AutoSize = true,
                 MaximumSize = new Size(largura, 60),
-                Width       = largura,
+                Width = largura,
                 BorderStyle = BorderStyle.None,
-                Tag         = menu,
-                Text        = menu.Nome,
-                ForeColor   = Color.FromArgb(0, 120, 111),
-                BackColor   = Color.Transparent,
-                Font        = new Font("montserrat", 10),
-                TextAlign   = ContentAlignment.MiddleLeft,
-                Padding     = new Padding(45, 5, 0, 5)
+                Tag = menu,
+                Text = menu.Nome,
+                ForeColor = Color.FromArgb(0, 120, 111),
+                BackColor = Color.Transparent,
+                Font = new Font("montserrat", 10),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Padding = new Padding(45, 5, 0, 5)
             };
 
-            label.MouseMove  += LabelSubsMenus_MouseMove;
+            label.MouseMove += LabelSubsMenus_MouseMove;
             label.MouseLeave += LabelSubsMenus_MouseLeave;
-            label.Click      += LabelSubsMenus_Click;
+            label.Click += LabelSubsMenus_Click;
 
             return label;
         }
@@ -311,6 +339,41 @@ namespace controle_vendas_comissoes.View.Forms.Main
             }
         }
 
+        private void ConfiguracaoLayout()
+        {
+            lblCidadeData.Location = new Point(CardCabecalho.Width - lblCidadeData.Width - 20, (CardCabecalho.Height / 2) - (lblCidadeData.Height / 2));
+        }
+
+        private static void DrawShadowSmooth(GraphicsPath gp, int intensity, int radius, Bitmap dest)
+        {
+            using (Graphics g = Graphics.FromImage(dest))
+            {
+                g.Clear(Color.Transparent);
+                g.CompositingMode = CompositingMode.SourceCopy;
+                double alpha = 0;
+                double astep = 0;
+                double astepstep = (double)intensity / radius / (radius / 2D);
+                for (int thickness = radius; thickness > 0; thickness--)
+                {
+                    using (Pen p = new Pen(Color.FromArgb((int)alpha, 0, 0, 0), thickness))
+                    {
+                        p.LineJoin = LineJoin.Round;
+                        g.DrawPath(p, gp);
+                    }
+                    alpha += astep;
+                    astep += astepstep;
+                }
+            }
+        }
+
+        private void ConfiguraSombra()
+        {
+            shadowControls.Add(CardCabecalho);
+            this.Paint += FormMain_Paint;
+
+            this.Refresh();
+        }
+
         #endregion
 
         #region Requisições
@@ -344,6 +407,6 @@ namespace controle_vendas_comissoes.View.Forms.Main
             });
         }
 
-        #endregion
+        #endregion        
     }
 }
