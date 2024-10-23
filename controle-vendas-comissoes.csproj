@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Model\Db\Helpers\GestaoVendas\" />
-    <Folder Include="Model\Db\Helpers\Pessoal\" />
     <Folder Include="Model\Db\Helpers\Produtos\" />
     <Folder Include="Model\Db\Helpers\Vendas\" />
     <Folder Include="View\Forms\GestaoVendas\Comissoes\" />
