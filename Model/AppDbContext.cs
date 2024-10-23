@@ -11,6 +11,8 @@ namespace controle_vendas_comissoes.Model
 
         public DbSet<Cidade>? Cidades { get; set; } = null;
 
+        public DbSet<Classificacao>? Classificacoes { get; set; } = null;
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
