@@ -29,10 +29,11 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
-            boxNomeCidade = new MaterialSkin.Controls.MaterialTextBox();
-            boxNomeEstado = new MaterialSkin.Controls.MaterialTextBox();
-            btBuscaEstado = new FontAwesome.Sharp.IconButton();
+            boxIdEstado = new MaterialSkin.Controls.MaterialTextBox();
             boxSigla = new MaterialSkin.Controls.MaterialTextBox();
+            btBuscaEstado = new FontAwesome.Sharp.IconButton();
+            boxNomeEstado = new MaterialSkin.Controls.MaterialTextBox();
+            boxNomeCidade = new MaterialSkin.Controls.MaterialTextBox();
             btCancelar = new FontAwesome.Sharp.IconButton();
             btSalvar = new FontAwesome.Sharp.IconButton();
             btSalvarMais = new FontAwesome.Sharp.IconButton();
@@ -42,6 +43,7 @@
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(boxIdEstado);
             groupBox1.Controls.Add(boxSigla);
             groupBox1.Controls.Add(btBuscaEstado);
             groupBox1.Controls.Add(boxNomeEstado);
@@ -53,62 +55,26 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Informações da Cidade";
             // 
-            // boxNomeCidade
+            // boxIdEstado
             // 
-            boxNomeCidade.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            boxNomeCidade.AnimateReadOnly = false;
-            boxNomeCidade.BorderStyle = BorderStyle.None;
-            boxNomeCidade.Depth = 0;
-            boxNomeCidade.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            boxNomeCidade.Hint = "Cidade";
-            boxNomeCidade.LeadingIcon = null;
-            boxNomeCidade.Location = new Point(5, 19);
-            boxNomeCidade.Margin = new Padding(2);
-            boxNomeCidade.MaxLength = 50;
-            boxNomeCidade.MouseState = MaterialSkin.MouseState.OUT;
-            boxNomeCidade.Multiline = false;
-            boxNomeCidade.Name = "boxNomeCidade";
-            boxNomeCidade.Size = new Size(441, 50);
-            boxNomeCidade.TabIndex = 9;
-            boxNomeCidade.Text = "";
-            boxNomeCidade.TrailingIcon = null;
-            // 
-            // boxNomeEstado
-            // 
-            boxNomeEstado.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            boxNomeEstado.AnimateReadOnly = false;
-            boxNomeEstado.BorderStyle = BorderStyle.None;
-            boxNomeEstado.Depth = 0;
-            boxNomeEstado.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            boxNomeEstado.Hint = "Estado";
-            boxNomeEstado.LeadingIcon = null;
-            boxNomeEstado.Location = new Point(5, 73);
-            boxNomeEstado.Margin = new Padding(2);
-            boxNomeEstado.MaxLength = 50;
-            boxNomeEstado.MouseState = MaterialSkin.MouseState.OUT;
-            boxNomeEstado.Multiline = false;
-            boxNomeEstado.Name = "boxNomeEstado";
-            boxNomeEstado.Size = new Size(514, 50);
-            boxNomeEstado.TabIndex = 10;
-            boxNomeEstado.Text = "";
-            boxNomeEstado.TrailingIcon = null;
-            // 
-            // btBuscaEstado
-            // 
-            btBuscaEstado.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btBuscaEstado.BackColor = Color.FromArgb(199, 199, 199);
-            btBuscaEstado.FlatAppearance.BorderSize = 0;
-            btBuscaEstado.FlatStyle = FlatStyle.Flat;
-            btBuscaEstado.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlassArrowRight;
-            btBuscaEstado.IconColor = Color.White;
-            btBuscaEstado.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btBuscaEstado.IconSize = 35;
-            btBuscaEstado.Location = new Point(524, 72);
-            btBuscaEstado.Name = "btBuscaEstado";
-            btBuscaEstado.Size = new Size(50, 50);
-            btBuscaEstado.TabIndex = 11;
-            btBuscaEstado.TextImageRelation = TextImageRelation.TextAboveImage;
-            btBuscaEstado.UseVisualStyleBackColor = false;
+            boxIdEstado.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            boxIdEstado.AnimateReadOnly = false;
+            boxIdEstado.BorderStyle = BorderStyle.None;
+            boxIdEstado.Depth = 0;
+            boxIdEstado.Enabled = false;
+            boxIdEstado.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxIdEstado.Hint = "Id";
+            boxIdEstado.LeadingIcon = null;
+            boxIdEstado.Location = new Point(451, 73);
+            boxIdEstado.Margin = new Padding(2);
+            boxIdEstado.MaxLength = 50;
+            boxIdEstado.MouseState = MaterialSkin.MouseState.OUT;
+            boxIdEstado.Multiline = false;
+            boxIdEstado.Name = "boxIdEstado";
+            boxIdEstado.Size = new Size(68, 50);
+            boxIdEstado.TabIndex = 13;
+            boxIdEstado.Text = "";
+            boxIdEstado.TrailingIcon = null;
             // 
             // boxSigla
             // 
@@ -129,6 +95,64 @@
             boxSigla.TabIndex = 12;
             boxSigla.Text = "";
             boxSigla.TrailingIcon = null;
+            // 
+            // btBuscaEstado
+            // 
+            btBuscaEstado.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btBuscaEstado.BackColor = Color.FromArgb(199, 199, 199);
+            btBuscaEstado.FlatAppearance.BorderSize = 0;
+            btBuscaEstado.FlatStyle = FlatStyle.Flat;
+            btBuscaEstado.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlassArrowRight;
+            btBuscaEstado.IconColor = Color.White;
+            btBuscaEstado.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btBuscaEstado.IconSize = 35;
+            btBuscaEstado.Location = new Point(524, 72);
+            btBuscaEstado.Name = "btBuscaEstado";
+            btBuscaEstado.Size = new Size(50, 50);
+            btBuscaEstado.TabIndex = 11;
+            btBuscaEstado.TextImageRelation = TextImageRelation.TextAboveImage;
+            btBuscaEstado.UseVisualStyleBackColor = false;
+            // 
+            // boxNomeEstado
+            // 
+            boxNomeEstado.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxNomeEstado.AnimateReadOnly = false;
+            boxNomeEstado.BorderStyle = BorderStyle.None;
+            boxNomeEstado.Depth = 0;
+            boxNomeEstado.Enabled = false;
+            boxNomeEstado.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxNomeEstado.Hint = "Estado";
+            boxNomeEstado.LeadingIcon = null;
+            boxNomeEstado.Location = new Point(5, 73);
+            boxNomeEstado.Margin = new Padding(2);
+            boxNomeEstado.MaxLength = 50;
+            boxNomeEstado.MouseState = MaterialSkin.MouseState.OUT;
+            boxNomeEstado.Multiline = false;
+            boxNomeEstado.Name = "boxNomeEstado";
+            boxNomeEstado.Size = new Size(441, 50);
+            boxNomeEstado.TabIndex = 10;
+            boxNomeEstado.Text = "";
+            boxNomeEstado.TrailingIcon = null;
+            // 
+            // boxNomeCidade
+            // 
+            boxNomeCidade.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxNomeCidade.AnimateReadOnly = false;
+            boxNomeCidade.BorderStyle = BorderStyle.None;
+            boxNomeCidade.Depth = 0;
+            boxNomeCidade.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxNomeCidade.Hint = "Cidade";
+            boxNomeCidade.LeadingIcon = null;
+            boxNomeCidade.Location = new Point(5, 19);
+            boxNomeCidade.Margin = new Padding(2);
+            boxNomeCidade.MaxLength = 50;
+            boxNomeCidade.MouseState = MaterialSkin.MouseState.OUT;
+            boxNomeCidade.Multiline = false;
+            boxNomeCidade.Name = "boxNomeCidade";
+            boxNomeCidade.Size = new Size(441, 50);
+            boxNomeCidade.TabIndex = 9;
+            boxNomeCidade.Text = "";
+            boxNomeCidade.TrailingIcon = null;
             // 
             // btCancelar
             // 
@@ -219,5 +243,6 @@
         private FontAwesome.Sharp.IconButton btCancelar;
         private FontAwesome.Sharp.IconButton btSalvar;
         private FontAwesome.Sharp.IconButton btSalvarMais;
+        private MaterialSkin.Controls.MaterialTextBox boxIdEstado;
     }
 }

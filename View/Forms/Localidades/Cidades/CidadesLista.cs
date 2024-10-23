@@ -1,4 +1,5 @@
 ﻿using controle_vendas_comissoes.Controller.Utils;
+using controle_vendas_comissoes.Model.Db.Entidades;
 using controle_vendas_comissoes.Model.Db.Helpers.Localidades.Cidades;
 using controle_vendas_comissoes.View.Extensions;
 
@@ -25,13 +26,15 @@ namespace controle_vendas_comissoes.View.Forms.Localidades.Cidades
 
         private void BtInserirNovo_Click(object? sender, EventArgs e)
         {
-            //ExibeModalInserirEstado();
+            ExibeModalInserirCidade();
         }
 
         private void BtBuscaEstado_Click(object? sender, EventArgs e)
         {
-            CidadesBuscaEstado buscaEstado = new CidadesBuscaEstado();
+            CidadesBuscaEstado buscaEstado = new (SetPropriedades);
             buscaEstado.ShowDialog();
+
+            boxNomeEstado.Focus();
         }
 
         #endregion
@@ -42,6 +45,23 @@ namespace controle_vendas_comissoes.View.Forms.Localidades.Cidades
         {
             btInserirNovo.Click += BtInserirNovo_Click;
             btBuscaEstado.Click += BtBuscaEstado_Click;
+        }
+
+        private void ExibeModalInserirCidade()
+        {
+            CidadesDetalhes cidadesDetalhes = new()
+            {
+                Text = "Criar Nova Cidade"
+            };
+
+            cidadesDetalhes.ShowDialog();
+
+            ListarCidades();
+        }
+
+        private void SetPropriedades(Estado estado)
+        {
+            boxNomeEstado.Text = estado.Nome;
         }
 
         #endregion
