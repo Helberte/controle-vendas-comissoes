@@ -194,7 +194,5 @@
         private GroupBox groupBox1;
         private MaterialSkin.Controls.MaterialMaskedTextBox maskUF;
         private MaterialSkin.Controls.MaterialTextBox boxNomeEstado;
-        private FontAwesome.Sharp.IconButton btInserirNovo;
-        private FontAwesome.Sharp.IconButton iconButton1;
     }
 }
