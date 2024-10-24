@@ -1,6 +1,7 @@
 ﻿using controle_vendas_comissoes.View.Forms.Localidades.Estados;
 using controle_vendas_comissoes.View.Forms.Localidades.Cidades;
 using controle_vendas_comissoes.View.Forms.Pessoal.Classificacoes;
+using controle_vendas_comissoes.View.Forms.Pessoal.Pessoas;
 
 namespace controle_vendas_comissoes
 {
@@ -21,6 +22,12 @@ namespace controle_vendas_comissoes
         public static void SendClassificacoes()
         {
             ClassificacoesLista rotina = new();
+            rotina.ShowDialog();
+        }
+
+        public static void SendPessoas()
+        {
+            PessoasLista rotina = new();
             rotina.ShowDialog();
         }
     }
