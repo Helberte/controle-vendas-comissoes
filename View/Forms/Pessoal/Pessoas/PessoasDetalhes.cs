@@ -16,5 +16,6 @@ namespace controle_vendas_comissoes.View.Forms.Pessoal.Pessoas
         {
             InitializeComponent();
         }
+
     }
 }
