@@ -13,6 +13,10 @@ namespace controle_vendas_comissoes.Model
 
         public DbSet<Classificacao>? Classificacoes { get; set; } = null;
 
+        public DbSet<Pessoa>? Pessoas { get; set; } = null;
+
+        public DbSet<Endereco>? Enderecos { get; set; } = null;
+         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
