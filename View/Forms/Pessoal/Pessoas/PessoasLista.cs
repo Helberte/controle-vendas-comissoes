@@ -2,6 +2,7 @@
 using controle_vendas_comissoes.Model.Db.Entidades;
 using controle_vendas_comissoes.Model.Db.Helpers.Pessoal.Pessoas;
 using controle_vendas_comissoes.View.Extensions;
+using controle_vendas_comissoes.View.Forms.Modais;
 
 namespace controle_vendas_comissoes.View.Forms.Pessoal.Pessoas
 {
@@ -31,10 +32,10 @@ namespace controle_vendas_comissoes.View.Forms.Pessoal.Pessoas
 
         private void BtBuscaClassificacao_Click(object? sender, EventArgs e)
         {
-            //CidadesBuscaEstado buscaEstado = new(SetPropriedades);
-            //buscaEstado.ShowDialog();
+            BuscaClassificacoes modal = new(SetPropriedades);
+            modal.ShowDialog();
 
-            //boxNomeEstado.Focus();
+            boxClassificacao.Focus();
         }
 
         #endregion

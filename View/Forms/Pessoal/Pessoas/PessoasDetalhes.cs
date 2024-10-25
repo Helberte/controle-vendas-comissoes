@@ -40,7 +40,9 @@ namespace controle_vendas_comissoes.View.Forms.Pessoal.Pessoas
 
                 novaPessoa = new()
                 {
-
+                    Cpf            = maskCPF.GetText(),
+                    DataNascimento = DateTime.Parse(string.Format("{0:yyyy-mm-DD}", dateDataNascimento.Text)),
+                    ,
                 };
 
                 AdicionaPessoa();
