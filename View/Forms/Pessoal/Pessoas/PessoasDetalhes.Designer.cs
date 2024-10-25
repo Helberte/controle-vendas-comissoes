@@ -28,72 +28,282 @@
         /// </summary>
         private void InitializeComponent()
         {
-            groupBox1 = new GroupBox();
+            groupInformacoesPessoais = new GroupBox();
+            comboClassificacao = new MaterialSkin.Controls.MaterialComboBox();
             groupBox2 = new GroupBox();
-            dateTimePicker1 = new DateTimePicker();
+            dateDataNascimento = new DateTimePicker();
+            maskRG = new MaterialSkin.Controls.MaterialMaskedTextBox();
+            maskCPF = new MaterialSkin.Controls.MaterialMaskedTextBox();
+            boxNomeSobrenome = new MaterialSkin.Controls.MaterialTextBox();
+            boxNomePessoa = new MaterialSkin.Controls.MaterialTextBox();
+            groupEndereco = new GroupBox();
+            btBuscaCidade = new FontAwesome.Sharp.IconButton();
+            boxCidade = new MaterialSkin.Controls.MaterialTextBox();
             btBuscaEstado = new FontAwesome.Sharp.IconButton();
-            materialTextBox3 = new MaterialSkin.Controls.MaterialTextBox();
-            materialTextBox2 = new MaterialSkin.Controls.MaterialTextBox();
-            materialMaskedTextBox2 = new MaterialSkin.Controls.MaterialMaskedTextBox();
-            materialMaskedTextBox1 = new MaterialSkin.Controls.MaterialMaskedTextBox();
-            materialTextBox1 = new MaterialSkin.Controls.MaterialTextBox();
-            boxNomeEstado = new MaterialSkin.Controls.MaterialTextBox();
-            groupBox3 = new GroupBox();
-            iconButton2 = new FontAwesome.Sharp.IconButton();
-            materialTextBox7 = new MaterialSkin.Controls.MaterialTextBox();
-            iconButton1 = new FontAwesome.Sharp.IconButton();
-            materialTextBox6 = new MaterialSkin.Controls.MaterialTextBox();
-            materialMaskedTextBox4 = new MaterialSkin.Controls.MaterialMaskedTextBox();
-            materialMaskedTextBox3 = new MaterialSkin.Controls.MaterialMaskedTextBox();
-            materialTextBox5 = new MaterialSkin.Controls.MaterialTextBox();
-            materialTextBox4 = new MaterialSkin.Controls.MaterialTextBox();
+            boxEstado = new MaterialSkin.Controls.MaterialTextBox();
+            maskNumero = new MaterialSkin.Controls.MaterialMaskedTextBox();
+            maskCEP = new MaterialSkin.Controls.MaterialMaskedTextBox();
+            boxBairro = new MaterialSkin.Controls.MaterialTextBox();
+            boxRua = new MaterialSkin.Controls.MaterialTextBox();
             groupBox4 = new GroupBox();
+            switchSemEndereco = new MaterialSkin.Controls.MaterialSwitch();
             btCancelar = new FontAwesome.Sharp.IconButton();
             btSalvar = new FontAwesome.Sharp.IconButton();
             btSalvarMais = new FontAwesome.Sharp.IconButton();
-            materialSwitch1 = new MaterialSkin.Controls.MaterialSwitch();
-            groupBox1.SuspendLayout();
+            groupInformacoesPessoais.SuspendLayout();
             groupBox2.SuspendLayout();
-            groupBox3.SuspendLayout();
+            groupEndereco.SuspendLayout();
             groupBox4.SuspendLayout();
             SuspendLayout();
             // 
-            // groupBox1
+            // groupInformacoesPessoais
             // 
-            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            groupBox1.Controls.Add(groupBox2);
-            groupBox1.Controls.Add(btBuscaEstado);
-            groupBox1.Controls.Add(materialTextBox3);
-            groupBox1.Controls.Add(materialTextBox2);
-            groupBox1.Controls.Add(materialMaskedTextBox2);
-            groupBox1.Controls.Add(materialMaskedTextBox1);
-            groupBox1.Controls.Add(materialTextBox1);
-            groupBox1.Controls.Add(boxNomeEstado);
-            groupBox1.Location = new Point(5, 4);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(852, 137);
-            groupBox1.TabIndex = 0;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Informações Pessoais";
+            groupInformacoesPessoais.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupInformacoesPessoais.Controls.Add(comboClassificacao);
+            groupInformacoesPessoais.Controls.Add(groupBox2);
+            groupInformacoesPessoais.Controls.Add(maskRG);
+            groupInformacoesPessoais.Controls.Add(maskCPF);
+            groupInformacoesPessoais.Controls.Add(boxNomeSobrenome);
+            groupInformacoesPessoais.Controls.Add(boxNomePessoa);
+            groupInformacoesPessoais.Location = new Point(5, 4);
+            groupInformacoesPessoais.Name = "groupInformacoesPessoais";
+            groupInformacoesPessoais.Size = new Size(841, 137);
+            groupInformacoesPessoais.TabIndex = 0;
+            groupInformacoesPessoais.TabStop = false;
+            groupInformacoesPessoais.Text = "Informações Pessoais";
+            // 
+            // comboClassificacao
+            // 
+            comboClassificacao.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            comboClassificacao.AutoResize = false;
+            comboClassificacao.BackColor = Color.FromArgb(255, 255, 255);
+            comboClassificacao.Depth = 0;
+            comboClassificacao.DrawMode = DrawMode.OwnerDrawVariable;
+            comboClassificacao.DropDownHeight = 174;
+            comboClassificacao.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboClassificacao.DropDownWidth = 121;
+            comboClassificacao.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Pixel);
+            comboClassificacao.ForeColor = Color.FromArgb(222, 0, 0, 0);
+            comboClassificacao.FormattingEnabled = true;
+            comboClassificacao.Hint = "Classificação";
+            comboClassificacao.IntegralHeight = false;
+            comboClassificacao.ItemHeight = 43;
+            comboClassificacao.Items.AddRange(new object[] { "Gestor (a)", "Representante", "Nenhum" });
+            comboClassificacao.Location = new Point(417, 80);
+            comboClassificacao.MaxDropDownItems = 4;
+            comboClassificacao.MouseState = MaterialSkin.MouseState.OUT;
+            comboClassificacao.Name = "comboClassificacao";
+            comboClassificacao.Size = new Size(258, 49);
+            comboClassificacao.StartIndex = 0;
+            comboClassificacao.TabIndex = 5;
+            comboClassificacao.Tag = "Classificação";
             // 
             // groupBox2
             // 
-            groupBox2.Controls.Add(dateTimePicker1);
-            groupBox2.Location = new Point(691, 73);
+            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            groupBox2.Controls.Add(dateDataNascimento);
+            groupBox2.Location = new Point(680, 72);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(154, 58);
             groupBox2.TabIndex = 16;
             groupBox2.TabStop = false;
             groupBox2.Text = "Data Nascimento";
             // 
-            // dateTimePicker1
+            // dateDataNascimento
             // 
-            dateTimePicker1.Format = DateTimePickerFormat.Short;
-            dateTimePicker1.Location = new Point(6, 22);
-            dateTimePicker1.MinDate = new DateTime(1930, 1, 1, 0, 0, 0, 0);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(140, 21);
-            dateTimePicker1.TabIndex = 13;
+            dateDataNascimento.Format = DateTimePickerFormat.Short;
+            dateDataNascimento.Location = new Point(6, 22);
+            dateDataNascimento.MaxDate = new DateTime(2099, 12, 31, 0, 0, 0, 0);
+            dateDataNascimento.MinDate = new DateTime(1930, 1, 1, 0, 0, 0, 0);
+            dateDataNascimento.Name = "dateDataNascimento";
+            dateDataNascimento.Size = new Size(140, 21);
+            dateDataNascimento.TabIndex = 6;
+            // 
+            // maskRG
+            // 
+            maskRG.AllowPromptAsInput = true;
+            maskRG.AnimateReadOnly = false;
+            maskRG.AsciiOnly = false;
+            maskRG.BackgroundImageLayout = ImageLayout.None;
+            maskRG.BeepOnError = false;
+            maskRG.CutCopyMaskFormat = MaskFormat.IncludeLiterals;
+            maskRG.Depth = 0;
+            maskRG.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            maskRG.HidePromptOnLeave = false;
+            maskRG.HideSelection = true;
+            maskRG.Hint = "RG";
+            maskRG.InsertKeyMode = InsertKeyMode.Default;
+            maskRG.LeadingIcon = null;
+            maskRG.Location = new Point(209, 81);
+            maskRG.Mask = "00000000";
+            maskRG.MaxLength = 32767;
+            maskRG.MouseState = MaterialSkin.MouseState.OUT;
+            maskRG.Name = "maskRG";
+            maskRG.PasswordChar = '\0';
+            maskRG.PrefixSuffixText = null;
+            maskRG.PromptChar = '_';
+            maskRG.ReadOnly = false;
+            maskRG.RejectInputOnFirstFailure = false;
+            maskRG.ResetOnPrompt = true;
+            maskRG.ResetOnSpace = true;
+            maskRG.RightToLeft = RightToLeft.No;
+            maskRG.SelectedText = "";
+            maskRG.SelectionLength = 0;
+            maskRG.SelectionStart = 0;
+            maskRG.ShortcutsEnabled = true;
+            maskRG.Size = new Size(202, 48);
+            maskRG.SkipLiterals = true;
+            maskRG.TabIndex = 4;
+            maskRG.TabStop = false;
+            maskRG.Tag = "RG";
+            maskRG.TextAlign = HorizontalAlignment.Left;
+            maskRG.TextMaskFormat = MaskFormat.IncludeLiterals;
+            maskRG.TrailingIcon = null;
+            maskRG.UseSystemPasswordChar = false;
+            maskRG.ValidatingType = null;
+            // 
+            // maskCPF
+            // 
+            maskCPF.AllowPromptAsInput = true;
+            maskCPF.AnimateReadOnly = false;
+            maskCPF.AsciiOnly = false;
+            maskCPF.BackgroundImageLayout = ImageLayout.None;
+            maskCPF.BeepOnError = false;
+            maskCPF.CutCopyMaskFormat = MaskFormat.IncludeLiterals;
+            maskCPF.Depth = 0;
+            maskCPF.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            maskCPF.HidePromptOnLeave = false;
+            maskCPF.HideSelection = true;
+            maskCPF.Hint = "CPF";
+            maskCPF.InsertKeyMode = InsertKeyMode.Default;
+            maskCPF.LeadingIcon = null;
+            maskCPF.Location = new Point(7, 81);
+            maskCPF.Mask = "000.000.000-00";
+            maskCPF.MaxLength = 32767;
+            maskCPF.MouseState = MaterialSkin.MouseState.OUT;
+            maskCPF.Name = "maskCPF";
+            maskCPF.PasswordChar = '\0';
+            maskCPF.PrefixSuffixText = null;
+            maskCPF.PromptChar = '_';
+            maskCPF.ReadOnly = false;
+            maskCPF.RejectInputOnFirstFailure = false;
+            maskCPF.ResetOnPrompt = true;
+            maskCPF.ResetOnSpace = true;
+            maskCPF.RightToLeft = RightToLeft.No;
+            maskCPF.SelectedText = "";
+            maskCPF.SelectionLength = 0;
+            maskCPF.SelectionStart = 0;
+            maskCPF.ShortcutsEnabled = true;
+            maskCPF.Size = new Size(196, 48);
+            maskCPF.SkipLiterals = true;
+            maskCPF.TabIndex = 3;
+            maskCPF.TabStop = false;
+            maskCPF.Tag = "CPF";
+            maskCPF.Text = "   ,   ,   -";
+            maskCPF.TextAlign = HorizontalAlignment.Left;
+            maskCPF.TextMaskFormat = MaskFormat.IncludeLiterals;
+            maskCPF.TrailingIcon = null;
+            maskCPF.UseSystemPasswordChar = false;
+            maskCPF.ValidatingType = null;
+            // 
+            // boxNomeSobrenome
+            // 
+            boxNomeSobrenome.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            boxNomeSobrenome.AnimateReadOnly = false;
+            boxNomeSobrenome.BorderStyle = BorderStyle.None;
+            boxNomeSobrenome.Depth = 0;
+            boxNomeSobrenome.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxNomeSobrenome.Hint = "Sobrenome";
+            boxNomeSobrenome.LeadingIcon = null;
+            boxNomeSobrenome.Location = new Point(418, 22);
+            boxNomeSobrenome.Margin = new Padding(2);
+            boxNomeSobrenome.MaxLength = 50;
+            boxNomeSobrenome.MouseState = MaterialSkin.MouseState.OUT;
+            boxNomeSobrenome.Multiline = false;
+            boxNomeSobrenome.Name = "boxNomeSobrenome";
+            boxNomeSobrenome.Size = new Size(416, 50);
+            boxNomeSobrenome.TabIndex = 2;
+            boxNomeSobrenome.Tag = "Sobrenome";
+            boxNomeSobrenome.Text = "";
+            boxNomeSobrenome.TrailingIcon = null;
+            // 
+            // boxNomePessoa
+            // 
+            boxNomePessoa.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxNomePessoa.AnimateReadOnly = false;
+            boxNomePessoa.BorderStyle = BorderStyle.None;
+            boxNomePessoa.Depth = 0;
+            boxNomePessoa.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxNomePessoa.Hint = "Nome da Pessoa";
+            boxNomePessoa.LeadingIcon = null;
+            boxNomePessoa.Location = new Point(6, 22);
+            boxNomePessoa.Margin = new Padding(2);
+            boxNomePessoa.MaxLength = 50;
+            boxNomePessoa.MouseState = MaterialSkin.MouseState.OUT;
+            boxNomePessoa.Multiline = false;
+            boxNomePessoa.Name = "boxNomePessoa";
+            boxNomePessoa.Size = new Size(405, 50);
+            boxNomePessoa.TabIndex = 1;
+            boxNomePessoa.Tag = "Nome Pessoa";
+            boxNomePessoa.Text = "";
+            boxNomePessoa.TrailingIcon = null;
+            // 
+            // groupEndereco
+            // 
+            groupEndereco.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupEndereco.Controls.Add(btBuscaCidade);
+            groupEndereco.Controls.Add(boxCidade);
+            groupEndereco.Controls.Add(btBuscaEstado);
+            groupEndereco.Controls.Add(boxEstado);
+            groupEndereco.Controls.Add(maskNumero);
+            groupEndereco.Controls.Add(maskCEP);
+            groupEndereco.Controls.Add(boxBairro);
+            groupEndereco.Controls.Add(boxRua);
+            groupEndereco.Location = new Point(5, 150);
+            groupEndereco.Name = "groupEndereco";
+            groupEndereco.Size = new Size(841, 133);
+            groupEndereco.TabIndex = 1;
+            groupEndereco.TabStop = false;
+            groupEndereco.Text = "Endereço";
+            // 
+            // btBuscaCidade
+            // 
+            btBuscaCidade.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btBuscaCidade.BackColor = Color.FromArgb(199, 199, 199);
+            btBuscaCidade.FlatAppearance.BorderSize = 0;
+            btBuscaCidade.FlatStyle = FlatStyle.Flat;
+            btBuscaCidade.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlassArrowRight;
+            btBuscaCidade.IconColor = Color.White;
+            btBuscaCidade.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btBuscaCidade.IconSize = 35;
+            btBuscaCidade.Location = new Point(785, 74);
+            btBuscaCidade.Name = "btBuscaCidade";
+            btBuscaCidade.Size = new Size(49, 49);
+            btBuscaCidade.TabIndex = 14;
+            btBuscaCidade.TextImageRelation = TextImageRelation.TextAboveImage;
+            btBuscaCidade.UseVisualStyleBackColor = false;
+            // 
+            // boxCidade
+            // 
+            boxCidade.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            boxCidade.AnimateReadOnly = false;
+            boxCidade.BorderStyle = BorderStyle.None;
+            boxCidade.Depth = 0;
+            boxCidade.Enabled = false;
+            boxCidade.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxCidade.Hint = "Cidade";
+            boxCidade.LeadingIcon = null;
+            boxCidade.Location = new Point(559, 74);
+            boxCidade.Margin = new Padding(2);
+            boxCidade.MaxLength = 50;
+            boxCidade.MouseState = MaterialSkin.MouseState.OUT;
+            boxCidade.Multiline = false;
+            boxCidade.Name = "boxCidade";
+            boxCidade.Size = new Size(220, 50);
+            boxCidade.TabIndex = 13;
+            boxCidade.Tag = "Cidade";
+            boxCidade.Text = "";
+            boxCidade.TrailingIcon = null;
             // 
             // btBuscaEstado
             // 
@@ -105,406 +315,195 @@
             btBuscaEstado.IconColor = Color.White;
             btBuscaEstado.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btBuscaEstado.IconSize = 35;
-            btBuscaEstado.Location = new Point(637, 80);
+            btBuscaEstado.Location = new Point(504, 74);
             btBuscaEstado.Name = "btBuscaEstado";
             btBuscaEstado.Size = new Size(49, 49);
-            btBuscaEstado.TabIndex = 15;
+            btBuscaEstado.TabIndex = 12;
             btBuscaEstado.TextImageRelation = TextImageRelation.TextAboveImage;
             btBuscaEstado.UseVisualStyleBackColor = false;
             // 
-            // materialTextBox3
+            // boxEstado
             // 
-            materialTextBox3.AnimateReadOnly = false;
-            materialTextBox3.BorderStyle = BorderStyle.None;
-            materialTextBox3.Depth = 0;
-            materialTextBox3.Enabled = false;
-            materialTextBox3.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            materialTextBox3.Hint = "Id";
-            materialTextBox3.LeadingIcon = null;
-            materialTextBox3.Location = new Point(576, 80);
-            materialTextBox3.Margin = new Padding(2);
-            materialTextBox3.MaxLength = 50;
-            materialTextBox3.MouseState = MaterialSkin.MouseState.OUT;
-            materialTextBox3.Multiline = false;
-            materialTextBox3.Name = "materialTextBox3";
-            materialTextBox3.Size = new Size(56, 50);
-            materialTextBox3.TabIndex = 14;
-            materialTextBox3.Text = "";
-            materialTextBox3.TrailingIcon = null;
+            boxEstado.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxEstado.AnimateReadOnly = false;
+            boxEstado.BorderStyle = BorderStyle.None;
+            boxEstado.Depth = 0;
+            boxEstado.Enabled = false;
+            boxEstado.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxEstado.Hint = "Estado";
+            boxEstado.LeadingIcon = null;
+            boxEstado.Location = new Point(292, 74);
+            boxEstado.Margin = new Padding(2);
+            boxEstado.MaxLength = 50;
+            boxEstado.MouseState = MaterialSkin.MouseState.OUT;
+            boxEstado.Multiline = false;
+            boxEstado.Name = "boxEstado";
+            boxEstado.Size = new Size(206, 50);
+            boxEstado.TabIndex = 11;
+            boxEstado.Tag = "Estado";
+            boxEstado.Text = "";
+            boxEstado.TrailingIcon = null;
             // 
-            // materialTextBox2
+            // maskNumero
             // 
-            materialTextBox2.AnimateReadOnly = false;
-            materialTextBox2.BorderStyle = BorderStyle.None;
-            materialTextBox2.Depth = 0;
-            materialTextBox2.Enabled = false;
-            materialTextBox2.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            materialTextBox2.Hint = "Classificação";
-            materialTextBox2.LeadingIcon = null;
-            materialTextBox2.Location = new Point(292, 80);
-            materialTextBox2.Margin = new Padding(2);
-            materialTextBox2.MaxLength = 50;
-            materialTextBox2.MouseState = MaterialSkin.MouseState.OUT;
-            materialTextBox2.Multiline = false;
-            materialTextBox2.Name = "materialTextBox2";
-            materialTextBox2.Size = new Size(278, 50);
-            materialTextBox2.TabIndex = 13;
-            materialTextBox2.Text = "";
-            materialTextBox2.TrailingIcon = null;
+            maskNumero.AllowPromptAsInput = true;
+            maskNumero.AnimateReadOnly = false;
+            maskNumero.AsciiOnly = false;
+            maskNumero.BackgroundImageLayout = ImageLayout.None;
+            maskNumero.BeepOnError = false;
+            maskNumero.CutCopyMaskFormat = MaskFormat.IncludeLiterals;
+            maskNumero.Depth = 0;
+            maskNumero.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            maskNumero.HidePromptOnLeave = false;
+            maskNumero.HideSelection = true;
+            maskNumero.Hint = "Número";
+            maskNumero.InsertKeyMode = InsertKeyMode.Default;
+            maskNumero.LeadingIcon = null;
+            maskNumero.Location = new Point(157, 75);
+            maskNumero.Mask = "0000000000";
+            maskNumero.MaxLength = 32767;
+            maskNumero.MouseState = MaterialSkin.MouseState.OUT;
+            maskNumero.Name = "maskNumero";
+            maskNumero.PasswordChar = '\0';
+            maskNumero.PrefixSuffixText = null;
+            maskNumero.PromptChar = '_';
+            maskNumero.ReadOnly = false;
+            maskNumero.RejectInputOnFirstFailure = false;
+            maskNumero.ResetOnPrompt = true;
+            maskNumero.ResetOnSpace = true;
+            maskNumero.RightToLeft = RightToLeft.No;
+            maskNumero.SelectedText = "";
+            maskNumero.SelectionLength = 0;
+            maskNumero.SelectionStart = 0;
+            maskNumero.ShortcutsEnabled = true;
+            maskNumero.Size = new Size(129, 48);
+            maskNumero.SkipLiterals = true;
+            maskNumero.TabIndex = 10;
+            maskNumero.TabStop = false;
+            maskNumero.Tag = "Número";
+            maskNumero.TextAlign = HorizontalAlignment.Left;
+            maskNumero.TextMaskFormat = MaskFormat.IncludeLiterals;
+            maskNumero.TrailingIcon = null;
+            maskNumero.UseSystemPasswordChar = false;
+            maskNumero.ValidatingType = null;
             // 
-            // materialMaskedTextBox2
+            // maskCEP
             // 
-            materialMaskedTextBox2.AllowPromptAsInput = true;
-            materialMaskedTextBox2.AnimateReadOnly = false;
-            materialMaskedTextBox2.AsciiOnly = false;
-            materialMaskedTextBox2.BackgroundImageLayout = ImageLayout.None;
-            materialMaskedTextBox2.BeepOnError = false;
-            materialMaskedTextBox2.CutCopyMaskFormat = MaskFormat.IncludeLiterals;
-            materialMaskedTextBox2.Depth = 0;
-            materialMaskedTextBox2.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            materialMaskedTextBox2.HidePromptOnLeave = false;
-            materialMaskedTextBox2.HideSelection = true;
-            materialMaskedTextBox2.Hint = "RG";
-            materialMaskedTextBox2.InsertKeyMode = InsertKeyMode.Default;
-            materialMaskedTextBox2.LeadingIcon = null;
-            materialMaskedTextBox2.Location = new Point(157, 81);
-            materialMaskedTextBox2.Mask = "00000000";
-            materialMaskedTextBox2.MaxLength = 32767;
-            materialMaskedTextBox2.MouseState = MaterialSkin.MouseState.OUT;
-            materialMaskedTextBox2.Name = "materialMaskedTextBox2";
-            materialMaskedTextBox2.PasswordChar = '\0';
-            materialMaskedTextBox2.PrefixSuffixText = null;
-            materialMaskedTextBox2.PromptChar = '_';
-            materialMaskedTextBox2.ReadOnly = false;
-            materialMaskedTextBox2.RejectInputOnFirstFailure = false;
-            materialMaskedTextBox2.ResetOnPrompt = true;
-            materialMaskedTextBox2.ResetOnSpace = true;
-            materialMaskedTextBox2.RightToLeft = RightToLeft.No;
-            materialMaskedTextBox2.SelectedText = "";
-            materialMaskedTextBox2.SelectionLength = 0;
-            materialMaskedTextBox2.SelectionStart = 0;
-            materialMaskedTextBox2.ShortcutsEnabled = true;
-            materialMaskedTextBox2.Size = new Size(129, 48);
-            materialMaskedTextBox2.SkipLiterals = true;
-            materialMaskedTextBox2.TabIndex = 11;
-            materialMaskedTextBox2.TabStop = false;
-            materialMaskedTextBox2.TextAlign = HorizontalAlignment.Left;
-            materialMaskedTextBox2.TextMaskFormat = MaskFormat.IncludeLiterals;
-            materialMaskedTextBox2.TrailingIcon = null;
-            materialMaskedTextBox2.UseSystemPasswordChar = false;
-            materialMaskedTextBox2.ValidatingType = null;
+            maskCEP.AllowPromptAsInput = true;
+            maskCEP.AnimateReadOnly = false;
+            maskCEP.AsciiOnly = false;
+            maskCEP.BackgroundImageLayout = ImageLayout.None;
+            maskCEP.BeepOnError = false;
+            maskCEP.CutCopyMaskFormat = MaskFormat.IncludeLiterals;
+            maskCEP.Depth = 0;
+            maskCEP.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            maskCEP.HidePromptOnLeave = false;
+            maskCEP.HideSelection = true;
+            maskCEP.Hint = "CEP";
+            maskCEP.InsertKeyMode = InsertKeyMode.Default;
+            maskCEP.LeadingIcon = null;
+            maskCEP.Location = new Point(7, 75);
+            maskCEP.Mask = "00.000-000000";
+            maskCEP.MaxLength = 32767;
+            maskCEP.MouseState = MaterialSkin.MouseState.OUT;
+            maskCEP.Name = "maskCEP";
+            maskCEP.PasswordChar = '\0';
+            maskCEP.PrefixSuffixText = null;
+            maskCEP.PromptChar = '_';
+            maskCEP.ReadOnly = false;
+            maskCEP.RejectInputOnFirstFailure = false;
+            maskCEP.ResetOnPrompt = true;
+            maskCEP.ResetOnSpace = true;
+            maskCEP.RightToLeft = RightToLeft.No;
+            maskCEP.SelectedText = "";
+            maskCEP.SelectionLength = 0;
+            maskCEP.SelectionStart = 0;
+            maskCEP.ShortcutsEnabled = true;
+            maskCEP.Size = new Size(144, 48);
+            maskCEP.SkipLiterals = true;
+            maskCEP.TabIndex = 9;
+            maskCEP.TabStop = false;
+            maskCEP.Tag = "CEP";
+            maskCEP.Text = "  ,   -";
+            maskCEP.TextAlign = HorizontalAlignment.Left;
+            maskCEP.TextMaskFormat = MaskFormat.IncludeLiterals;
+            maskCEP.TrailingIcon = null;
+            maskCEP.UseSystemPasswordChar = false;
+            maskCEP.ValidatingType = null;
             // 
-            // materialMaskedTextBox1
+            // boxBairro
             // 
-            materialMaskedTextBox1.AllowPromptAsInput = true;
-            materialMaskedTextBox1.AnimateReadOnly = false;
-            materialMaskedTextBox1.AsciiOnly = false;
-            materialMaskedTextBox1.BackgroundImageLayout = ImageLayout.None;
-            materialMaskedTextBox1.BeepOnError = false;
-            materialMaskedTextBox1.CutCopyMaskFormat = MaskFormat.IncludeLiterals;
-            materialMaskedTextBox1.Depth = 0;
-            materialMaskedTextBox1.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            materialMaskedTextBox1.HidePromptOnLeave = false;
-            materialMaskedTextBox1.HideSelection = true;
-            materialMaskedTextBox1.Hint = "CPF";
-            materialMaskedTextBox1.InsertKeyMode = InsertKeyMode.Default;
-            materialMaskedTextBox1.LeadingIcon = null;
-            materialMaskedTextBox1.Location = new Point(7, 81);
-            materialMaskedTextBox1.Mask = "000.000.000-00";
-            materialMaskedTextBox1.MaxLength = 32767;
-            materialMaskedTextBox1.MouseState = MaterialSkin.MouseState.OUT;
-            materialMaskedTextBox1.Name = "materialMaskedTextBox1";
-            materialMaskedTextBox1.PasswordChar = '\0';
-            materialMaskedTextBox1.PrefixSuffixText = null;
-            materialMaskedTextBox1.PromptChar = '_';
-            materialMaskedTextBox1.ReadOnly = false;
-            materialMaskedTextBox1.RejectInputOnFirstFailure = false;
-            materialMaskedTextBox1.ResetOnPrompt = true;
-            materialMaskedTextBox1.ResetOnSpace = true;
-            materialMaskedTextBox1.RightToLeft = RightToLeft.No;
-            materialMaskedTextBox1.SelectedText = "";
-            materialMaskedTextBox1.SelectionLength = 0;
-            materialMaskedTextBox1.SelectionStart = 0;
-            materialMaskedTextBox1.ShortcutsEnabled = true;
-            materialMaskedTextBox1.Size = new Size(144, 48);
-            materialMaskedTextBox1.SkipLiterals = true;
-            materialMaskedTextBox1.TabIndex = 10;
-            materialMaskedTextBox1.TabStop = false;
-            materialMaskedTextBox1.Text = "   ,   ,   -";
-            materialMaskedTextBox1.TextAlign = HorizontalAlignment.Left;
-            materialMaskedTextBox1.TextMaskFormat = MaskFormat.IncludeLiterals;
-            materialMaskedTextBox1.TrailingIcon = null;
-            materialMaskedTextBox1.UseSystemPasswordChar = false;
-            materialMaskedTextBox1.ValidatingType = null;
+            boxBairro.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            boxBairro.AnimateReadOnly = false;
+            boxBairro.BorderStyle = BorderStyle.None;
+            boxBairro.Depth = 0;
+            boxBairro.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxBairro.Hint = "Bairro";
+            boxBairro.LeadingIcon = null;
+            boxBairro.Location = new Point(418, 19);
+            boxBairro.Margin = new Padding(2);
+            boxBairro.MaxLength = 50;
+            boxBairro.MouseState = MaterialSkin.MouseState.OUT;
+            boxBairro.Multiline = false;
+            boxBairro.Name = "boxBairro";
+            boxBairro.Size = new Size(416, 50);
+            boxBairro.TabIndex = 8;
+            boxBairro.Tag = "Bairro";
+            boxBairro.Text = "";
+            boxBairro.TrailingIcon = null;
             // 
-            // materialTextBox1
+            // boxRua
             // 
-            materialTextBox1.AnimateReadOnly = false;
-            materialTextBox1.BorderStyle = BorderStyle.None;
-            materialTextBox1.Depth = 0;
-            materialTextBox1.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            materialTextBox1.Hint = "Sobrenome";
-            materialTextBox1.LeadingIcon = null;
-            materialTextBox1.Location = new Point(429, 22);
-            materialTextBox1.Margin = new Padding(2);
-            materialTextBox1.MaxLength = 50;
-            materialTextBox1.MouseState = MaterialSkin.MouseState.OUT;
-            materialTextBox1.Multiline = false;
-            materialTextBox1.Name = "materialTextBox1";
-            materialTextBox1.Size = new Size(416, 50);
-            materialTextBox1.TabIndex = 9;
-            materialTextBox1.Text = "";
-            materialTextBox1.TrailingIcon = null;
-            // 
-            // boxNomeEstado
-            // 
-            boxNomeEstado.AnimateReadOnly = false;
-            boxNomeEstado.BorderStyle = BorderStyle.None;
-            boxNomeEstado.Depth = 0;
-            boxNomeEstado.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            boxNomeEstado.Hint = "Nome da Pessoa";
-            boxNomeEstado.LeadingIcon = null;
-            boxNomeEstado.Location = new Point(6, 22);
-            boxNomeEstado.Margin = new Padding(2);
-            boxNomeEstado.MaxLength = 50;
-            boxNomeEstado.MouseState = MaterialSkin.MouseState.OUT;
-            boxNomeEstado.Multiline = false;
-            boxNomeEstado.Name = "boxNomeEstado";
-            boxNomeEstado.Size = new Size(416, 50);
-            boxNomeEstado.TabIndex = 8;
-            boxNomeEstado.Text = "";
-            boxNomeEstado.TrailingIcon = null;
-            // 
-            // groupBox3
-            // 
-            groupBox3.Controls.Add(iconButton2);
-            groupBox3.Controls.Add(materialTextBox7);
-            groupBox3.Controls.Add(iconButton1);
-            groupBox3.Controls.Add(materialTextBox6);
-            groupBox3.Controls.Add(materialMaskedTextBox4);
-            groupBox3.Controls.Add(materialMaskedTextBox3);
-            groupBox3.Controls.Add(materialTextBox5);
-            groupBox3.Controls.Add(materialTextBox4);
-            groupBox3.Location = new Point(5, 150);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(852, 133);
-            groupBox3.TabIndex = 1;
-            groupBox3.TabStop = false;
-            groupBox3.Text = "Endereço";
-            // 
-            // iconButton2
-            // 
-            iconButton2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            iconButton2.BackColor = Color.FromArgb(199, 199, 199);
-            iconButton2.FlatAppearance.BorderSize = 0;
-            iconButton2.FlatStyle = FlatStyle.Flat;
-            iconButton2.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlassArrowRight;
-            iconButton2.IconColor = Color.White;
-            iconButton2.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconButton2.IconSize = 35;
-            iconButton2.Location = new Point(796, 74);
-            iconButton2.Name = "iconButton2";
-            iconButton2.Size = new Size(49, 49);
-            iconButton2.TabIndex = 18;
-            iconButton2.TextImageRelation = TextImageRelation.TextAboveImage;
-            iconButton2.UseVisualStyleBackColor = false;
-            // 
-            // materialTextBox7
-            // 
-            materialTextBox7.AnimateReadOnly = false;
-            materialTextBox7.BorderStyle = BorderStyle.None;
-            materialTextBox7.Depth = 0;
-            materialTextBox7.Enabled = false;
-            materialTextBox7.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            materialTextBox7.Hint = "Cidade";
-            materialTextBox7.LeadingIcon = null;
-            materialTextBox7.Location = new Point(570, 74);
-            materialTextBox7.Margin = new Padding(2);
-            materialTextBox7.MaxLength = 50;
-            materialTextBox7.MouseState = MaterialSkin.MouseState.OUT;
-            materialTextBox7.Multiline = false;
-            materialTextBox7.Name = "materialTextBox7";
-            materialTextBox7.Size = new Size(220, 50);
-            materialTextBox7.TabIndex = 17;
-            materialTextBox7.Text = "";
-            materialTextBox7.TrailingIcon = null;
-            // 
-            // iconButton1
-            // 
-            iconButton1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            iconButton1.BackColor = Color.FromArgb(199, 199, 199);
-            iconButton1.FlatAppearance.BorderSize = 0;
-            iconButton1.FlatStyle = FlatStyle.Flat;
-            iconButton1.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlassArrowRight;
-            iconButton1.IconColor = Color.White;
-            iconButton1.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconButton1.IconSize = 35;
-            iconButton1.Location = new Point(515, 74);
-            iconButton1.Name = "iconButton1";
-            iconButton1.Size = new Size(49, 49);
-            iconButton1.TabIndex = 16;
-            iconButton1.TextImageRelation = TextImageRelation.TextAboveImage;
-            iconButton1.UseVisualStyleBackColor = false;
-            // 
-            // materialTextBox6
-            // 
-            materialTextBox6.AnimateReadOnly = false;
-            materialTextBox6.BorderStyle = BorderStyle.None;
-            materialTextBox6.Depth = 0;
-            materialTextBox6.Enabled = false;
-            materialTextBox6.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            materialTextBox6.Hint = "Estado";
-            materialTextBox6.LeadingIcon = null;
-            materialTextBox6.Location = new Point(292, 74);
-            materialTextBox6.Margin = new Padding(2);
-            materialTextBox6.MaxLength = 50;
-            materialTextBox6.MouseState = MaterialSkin.MouseState.OUT;
-            materialTextBox6.Multiline = false;
-            materialTextBox6.Name = "materialTextBox6";
-            materialTextBox6.Size = new Size(217, 50);
-            materialTextBox6.TabIndex = 14;
-            materialTextBox6.Text = "";
-            materialTextBox6.TrailingIcon = null;
-            // 
-            // materialMaskedTextBox4
-            // 
-            materialMaskedTextBox4.AllowPromptAsInput = true;
-            materialMaskedTextBox4.AnimateReadOnly = false;
-            materialMaskedTextBox4.AsciiOnly = false;
-            materialMaskedTextBox4.BackgroundImageLayout = ImageLayout.None;
-            materialMaskedTextBox4.BeepOnError = false;
-            materialMaskedTextBox4.CutCopyMaskFormat = MaskFormat.IncludeLiterals;
-            materialMaskedTextBox4.Depth = 0;
-            materialMaskedTextBox4.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            materialMaskedTextBox4.HidePromptOnLeave = false;
-            materialMaskedTextBox4.HideSelection = true;
-            materialMaskedTextBox4.Hint = "Número";
-            materialMaskedTextBox4.InsertKeyMode = InsertKeyMode.Default;
-            materialMaskedTextBox4.LeadingIcon = null;
-            materialMaskedTextBox4.Location = new Point(157, 75);
-            materialMaskedTextBox4.Mask = "0000000000";
-            materialMaskedTextBox4.MaxLength = 32767;
-            materialMaskedTextBox4.MouseState = MaterialSkin.MouseState.OUT;
-            materialMaskedTextBox4.Name = "materialMaskedTextBox4";
-            materialMaskedTextBox4.PasswordChar = '\0';
-            materialMaskedTextBox4.PrefixSuffixText = null;
-            materialMaskedTextBox4.PromptChar = '_';
-            materialMaskedTextBox4.ReadOnly = false;
-            materialMaskedTextBox4.RejectInputOnFirstFailure = false;
-            materialMaskedTextBox4.ResetOnPrompt = true;
-            materialMaskedTextBox4.ResetOnSpace = true;
-            materialMaskedTextBox4.RightToLeft = RightToLeft.No;
-            materialMaskedTextBox4.SelectedText = "";
-            materialMaskedTextBox4.SelectionLength = 0;
-            materialMaskedTextBox4.SelectionStart = 0;
-            materialMaskedTextBox4.ShortcutsEnabled = true;
-            materialMaskedTextBox4.Size = new Size(129, 48);
-            materialMaskedTextBox4.SkipLiterals = true;
-            materialMaskedTextBox4.TabIndex = 12;
-            materialMaskedTextBox4.TabStop = false;
-            materialMaskedTextBox4.TextAlign = HorizontalAlignment.Left;
-            materialMaskedTextBox4.TextMaskFormat = MaskFormat.IncludeLiterals;
-            materialMaskedTextBox4.TrailingIcon = null;
-            materialMaskedTextBox4.UseSystemPasswordChar = false;
-            materialMaskedTextBox4.ValidatingType = null;
-            // 
-            // materialMaskedTextBox3
-            // 
-            materialMaskedTextBox3.AllowPromptAsInput = true;
-            materialMaskedTextBox3.AnimateReadOnly = false;
-            materialMaskedTextBox3.AsciiOnly = false;
-            materialMaskedTextBox3.BackgroundImageLayout = ImageLayout.None;
-            materialMaskedTextBox3.BeepOnError = false;
-            materialMaskedTextBox3.CutCopyMaskFormat = MaskFormat.IncludeLiterals;
-            materialMaskedTextBox3.Depth = 0;
-            materialMaskedTextBox3.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            materialMaskedTextBox3.HidePromptOnLeave = false;
-            materialMaskedTextBox3.HideSelection = true;
-            materialMaskedTextBox3.Hint = "CEP";
-            materialMaskedTextBox3.InsertKeyMode = InsertKeyMode.Default;
-            materialMaskedTextBox3.LeadingIcon = null;
-            materialMaskedTextBox3.Location = new Point(7, 75);
-            materialMaskedTextBox3.Mask = "00.000-000000";
-            materialMaskedTextBox3.MaxLength = 32767;
-            materialMaskedTextBox3.MouseState = MaterialSkin.MouseState.OUT;
-            materialMaskedTextBox3.Name = "materialMaskedTextBox3";
-            materialMaskedTextBox3.PasswordChar = '\0';
-            materialMaskedTextBox3.PrefixSuffixText = null;
-            materialMaskedTextBox3.PromptChar = '_';
-            materialMaskedTextBox3.ReadOnly = false;
-            materialMaskedTextBox3.RejectInputOnFirstFailure = false;
-            materialMaskedTextBox3.ResetOnPrompt = true;
-            materialMaskedTextBox3.ResetOnSpace = true;
-            materialMaskedTextBox3.RightToLeft = RightToLeft.No;
-            materialMaskedTextBox3.SelectedText = "";
-            materialMaskedTextBox3.SelectionLength = 0;
-            materialMaskedTextBox3.SelectionStart = 0;
-            materialMaskedTextBox3.ShortcutsEnabled = true;
-            materialMaskedTextBox3.Size = new Size(144, 48);
-            materialMaskedTextBox3.SkipLiterals = true;
-            materialMaskedTextBox3.TabIndex = 11;
-            materialMaskedTextBox3.TabStop = false;
-            materialMaskedTextBox3.Text = "  ,   -";
-            materialMaskedTextBox3.TextAlign = HorizontalAlignment.Left;
-            materialMaskedTextBox3.TextMaskFormat = MaskFormat.IncludeLiterals;
-            materialMaskedTextBox3.TrailingIcon = null;
-            materialMaskedTextBox3.UseSystemPasswordChar = false;
-            materialMaskedTextBox3.ValidatingType = null;
-            // 
-            // materialTextBox5
-            // 
-            materialTextBox5.AnimateReadOnly = false;
-            materialTextBox5.BorderStyle = BorderStyle.None;
-            materialTextBox5.Depth = 0;
-            materialTextBox5.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            materialTextBox5.Hint = "Bairro";
-            materialTextBox5.LeadingIcon = null;
-            materialTextBox5.Location = new Point(429, 19);
-            materialTextBox5.Margin = new Padding(2);
-            materialTextBox5.MaxLength = 50;
-            materialTextBox5.MouseState = MaterialSkin.MouseState.OUT;
-            materialTextBox5.Multiline = false;
-            materialTextBox5.Name = "materialTextBox5";
-            materialTextBox5.Size = new Size(416, 50);
-            materialTextBox5.TabIndex = 10;
-            materialTextBox5.Text = "";
-            materialTextBox5.TrailingIcon = null;
-            // 
-            // materialTextBox4
-            // 
-            materialTextBox4.AnimateReadOnly = false;
-            materialTextBox4.BorderStyle = BorderStyle.None;
-            materialTextBox4.Depth = 0;
-            materialTextBox4.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            materialTextBox4.Hint = "Rua";
-            materialTextBox4.LeadingIcon = null;
-            materialTextBox4.Location = new Point(7, 20);
-            materialTextBox4.Margin = new Padding(2);
-            materialTextBox4.MaxLength = 50;
-            materialTextBox4.MouseState = MaterialSkin.MouseState.OUT;
-            materialTextBox4.Multiline = false;
-            materialTextBox4.Name = "materialTextBox4";
-            materialTextBox4.Size = new Size(415, 50);
-            materialTextBox4.TabIndex = 9;
-            materialTextBox4.Text = "";
-            materialTextBox4.TrailingIcon = null;
+            boxRua.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxRua.AnimateReadOnly = false;
+            boxRua.BorderStyle = BorderStyle.None;
+            boxRua.Depth = 0;
+            boxRua.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxRua.Hint = "Rua";
+            boxRua.LeadingIcon = null;
+            boxRua.Location = new Point(7, 20);
+            boxRua.Margin = new Padding(2);
+            boxRua.MaxLength = 50;
+            boxRua.MouseState = MaterialSkin.MouseState.OUT;
+            boxRua.Multiline = false;
+            boxRua.Name = "boxRua";
+            boxRua.Size = new Size(404, 50);
+            boxRua.TabIndex = 7;
+            boxRua.Tag = "Rua";
+            boxRua.Text = "";
+            boxRua.TrailingIcon = null;
             // 
             // groupBox4
             // 
-            groupBox4.Controls.Add(materialSwitch1);
+            groupBox4.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            groupBox4.Controls.Add(switchSemEndereco);
             groupBox4.Controls.Add(btCancelar);
             groupBox4.Controls.Add(btSalvar);
             groupBox4.Controls.Add(btSalvarMais);
-            groupBox4.Location = new Point(350, 316);
+            groupBox4.Location = new Point(339, 366);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(507, 59);
             groupBox4.TabIndex = 24;
             groupBox4.TabStop = false;
             groupBox4.Text = "Ações";
             // 
+            // switchSemEndereco
+            // 
+            switchSemEndereco.AutoSize = true;
+            switchSemEndereco.Depth = 0;
+            switchSemEndereco.Location = new Point(10, 15);
+            switchSemEndereco.Margin = new Padding(0);
+            switchSemEndereco.MouseLocation = new Point(-1, -1);
+            switchSemEndereco.MouseState = MaterialSkin.MouseState.HOVER;
+            switchSemEndereco.Name = "switchSemEndereco";
+            switchSemEndereco.Ripple = true;
+            switchSemEndereco.Size = new Size(159, 37);
+            switchSemEndereco.TabIndex = 15;
+            switchSemEndereco.Text = "Sem Endereço";
+            switchSemEndereco.UseVisualStyleBackColor = true;
+            // 
             // btCancelar
             // 
-            btCancelar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btCancelar.BackColor = Color.FromArgb(199, 199, 199);
             btCancelar.FlatAppearance.BorderSize = 0;
             btCancelar.FlatStyle = FlatStyle.Flat;
@@ -517,14 +516,13 @@
             btCancelar.Location = new Point(402, 16);
             btCancelar.Name = "btCancelar";
             btCancelar.Size = new Size(97, 33);
-            btCancelar.TabIndex = 26;
+            btCancelar.TabIndex = 18;
             btCancelar.Text = "CANCELAR";
             btCancelar.TextImageRelation = TextImageRelation.ImageBeforeText;
             btCancelar.UseVisualStyleBackColor = false;
             // 
             // btSalvar
             // 
-            btSalvar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btSalvar.BackColor = Color.FromArgb(199, 199, 199);
             btSalvar.FlatAppearance.BorderSize = 0;
             btSalvar.FlatStyle = FlatStyle.Flat;
@@ -536,13 +534,12 @@
             btSalvar.Location = new Point(299, 16);
             btSalvar.Name = "btSalvar";
             btSalvar.Size = new Size(97, 33);
-            btSalvar.TabIndex = 25;
+            btSalvar.TabIndex = 17;
             btSalvar.Text = "SALVAR";
             btSalvar.UseVisualStyleBackColor = false;
             // 
             // btSalvarMais
             // 
-            btSalvarMais.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btSalvarMais.BackColor = Color.FromArgb(199, 199, 199);
             btSalvarMais.FlatAppearance.BorderSize = 0;
             btSalvarMais.FlatStyle = FlatStyle.Flat;
@@ -555,42 +552,30 @@
             btSalvarMais.Location = new Point(196, 16);
             btSalvarMais.Name = "btSalvarMais";
             btSalvarMais.Size = new Size(97, 33);
-            btSalvarMais.TabIndex = 24;
+            btSalvarMais.TabIndex = 16;
             btSalvarMais.Text = "SALVAR";
             btSalvarMais.TextImageRelation = TextImageRelation.ImageBeforeText;
             btSalvarMais.UseVisualStyleBackColor = false;
-            // 
-            // materialSwitch1
-            // 
-            materialSwitch1.AutoSize = true;
-            materialSwitch1.Depth = 0;
-            materialSwitch1.Location = new Point(10, 15);
-            materialSwitch1.Margin = new Padding(0);
-            materialSwitch1.MouseLocation = new Point(-1, -1);
-            materialSwitch1.MouseState = MaterialSkin.MouseState.HOVER;
-            materialSwitch1.Name = "materialSwitch1";
-            materialSwitch1.Ripple = true;
-            materialSwitch1.Size = new Size(159, 37);
-            materialSwitch1.TabIndex = 27;
-            materialSwitch1.Text = "Sem Endereço";
-            materialSwitch1.UseVisualStyleBackColor = true;
             // 
             // PessoasDetalhes
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(862, 383);
+            ClientSize = new Size(851, 433);
             Controls.Add(groupBox4);
-            Controls.Add(groupBox3);
-            Controls.Add(groupBox1);
+            Controls.Add(groupEndereco);
+            Controls.Add(groupInformacoesPessoais);
             Font = new Font("Montserrat", 8.249999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            MaximizeBox = false;
+            MaximumSize = new Size(1009, 511);
+            MinimumSize = new Size(836, 443);
             Name = "PessoasDetalhes";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Detalhes da Pessoa";
-            groupBox1.ResumeLayout(false);
+            groupInformacoesPessoais.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
-            groupBox3.ResumeLayout(false);
+            groupEndereco.ResumeLayout(false);
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
             ResumeLayout(false);
@@ -598,29 +583,27 @@
 
         #endregion
 
-        private GroupBox groupBox1;
-        private MaterialSkin.Controls.MaterialTextBox boxNomeEstado;
-        private MaterialSkin.Controls.MaterialMaskedTextBox materialMaskedTextBox1;
-        private MaterialSkin.Controls.MaterialTextBox materialTextBox1;
-        private MaterialSkin.Controls.MaterialMaskedTextBox materialMaskedTextBox2;
-        private MaterialSkin.Controls.MaterialTextBox materialTextBox2;
-        private MaterialSkin.Controls.MaterialTextBox materialTextBox3;
+        private GroupBox groupInformacoesPessoais;
+        private MaterialSkin.Controls.MaterialTextBox boxNomePessoa;
+        private MaterialSkin.Controls.MaterialMaskedTextBox maskCPF;
+        private MaterialSkin.Controls.MaterialTextBox boxNomeSobrenome;
+        private MaterialSkin.Controls.MaterialMaskedTextBox maskRG;
         private GroupBox groupBox2;
-        private DateTimePicker dateTimePicker1;
+        private DateTimePicker dateDataNascimento;
+        private GroupBox groupEndereco;
+        private MaterialSkin.Controls.MaterialTextBox boxBairro;
+        private MaterialSkin.Controls.MaterialTextBox boxRua;
+        private MaterialSkin.Controls.MaterialMaskedTextBox maskCEP;
+        private MaterialSkin.Controls.MaterialMaskedTextBox maskNumero;
+        private FontAwesome.Sharp.IconButton btBuscaCidade;
+        private MaterialSkin.Controls.MaterialTextBox boxCidade;
         private FontAwesome.Sharp.IconButton btBuscaEstado;
-        private GroupBox groupBox3;
-        private MaterialSkin.Controls.MaterialTextBox materialTextBox5;
-        private MaterialSkin.Controls.MaterialTextBox materialTextBox4;
-        private MaterialSkin.Controls.MaterialMaskedTextBox materialMaskedTextBox3;
-        private MaterialSkin.Controls.MaterialMaskedTextBox materialMaskedTextBox4;
-        private FontAwesome.Sharp.IconButton iconButton2;
-        private MaterialSkin.Controls.MaterialTextBox materialTextBox7;
-        private FontAwesome.Sharp.IconButton iconButton1;
-        private MaterialSkin.Controls.MaterialTextBox materialTextBox6;
+        private MaterialSkin.Controls.MaterialTextBox boxEstado;
         private GroupBox groupBox4;
         private FontAwesome.Sharp.IconButton btCancelar;
         private FontAwesome.Sharp.IconButton btSalvar;
         private FontAwesome.Sharp.IconButton btSalvarMais;
-        private MaterialSkin.Controls.MaterialSwitch materialSwitch1;
+        private MaterialSkin.Controls.MaterialSwitch switchSemEndereco;
+        private MaterialSkin.Controls.MaterialComboBox comboClassificacao;
     }
 }

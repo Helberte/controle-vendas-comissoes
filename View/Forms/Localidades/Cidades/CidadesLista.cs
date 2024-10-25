@@ -2,6 +2,7 @@
 using controle_vendas_comissoes.Model.Db.Entidades;
 using controle_vendas_comissoes.Model.Db.Helpers.Localidades.Cidades;
 using controle_vendas_comissoes.View.Extensions;
+using controle_vendas_comissoes.View.Forms.Modais;
 
 namespace controle_vendas_comissoes.View.Forms.Localidades.Cidades
 {
@@ -31,7 +32,7 @@ namespace controle_vendas_comissoes.View.Forms.Localidades.Cidades
 
         private void BtBuscaEstado_Click(object? sender, EventArgs e)
         {
-            CidadesBuscaEstado buscaEstado = new (SetPropriedades);
+            BuscaEstado buscaEstado = new (SetPropriedades);
             buscaEstado.ShowDialog();
 
             boxNomeEstado.Focus();

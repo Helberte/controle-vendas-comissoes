@@ -1,6 +1,6 @@
-﻿namespace controle_vendas_comissoes.View.Forms.Localidades.Cidades
+﻿namespace controle_vendas_comissoes.View.Forms.Modais
 {
-    partial class CidadesBuscaEstado
+    partial class BuscaEstado
     {
         /// <summary>
         /// Required designer variable.
@@ -43,7 +43,7 @@
             groupBox1.Location = new Point(8, 1);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(549, 74);
-            groupBox1.TabIndex = 0;
+            groupBox1.TabIndex = 1;
             groupBox1.TabStop = false;
             groupBox1.Text = "Pesquisa";
             // 
@@ -95,7 +95,7 @@
             boxNomeEstado.AnimateReadOnly = false;
             boxNomeEstado.BorderStyle = BorderStyle.None;
             boxNomeEstado.Depth = 0;
-            boxNomeEstado.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxNomeEstado.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
             boxNomeEstado.Hint = "Estado";
             boxNomeEstado.LeadingIcon = null;
             boxNomeEstado.Location = new Point(7, 18);
@@ -116,20 +116,19 @@
             dataGridEstados.Location = new Point(0, 81);
             dataGridEstados.Name = "dataGridEstados";
             dataGridEstados.Size = new Size(563, 303);
-            dataGridEstados.TabIndex = 2;
+            dataGridEstados.TabIndex = 3;
             // 
-            // CidadesBuscaEstado
+            // BuscaEstado
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(563, 384);
             Controls.Add(dataGridEstados);
             Controls.Add(groupBox1);
-            Font = new Font("Montserrat", 8.249999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             MaximizeBox = false;
             MaximumSize = new Size(579, 423);
             MinimumSize = new Size(579, 423);
-            Name = "CidadesBuscaEstado";
+            Name = "BuscaEstado";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Busca Estado";
@@ -141,8 +140,8 @@
         #endregion
 
         private GroupBox groupBox1;
-        private MaterialSkin.Controls.MaterialTextBox boxNomeEstado;
         private MaterialSkin.Controls.MaterialMaskedTextBox maskUF;
+        private MaterialSkin.Controls.MaterialTextBox boxNomeEstado;
         private DataGridView dataGridEstados;
     }
 }

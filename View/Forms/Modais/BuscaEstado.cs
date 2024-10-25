@@ -3,19 +3,19 @@ using controle_vendas_comissoes.Model.Db.Entidades;
 using controle_vendas_comissoes.Model.Db.Helpers.Localidades.Estados;
 using controle_vendas_comissoes.View.Extensions;
 
-namespace controle_vendas_comissoes.View.Forms.Localidades.Cidades
+namespace controle_vendas_comissoes.View.Forms.Modais
 {
-    public partial class CidadesBuscaEstado : Form
+    public partial class BuscaEstado : Form
     {
         #region Variáveis
 
         readonly Action<Estado>? ActionEstado;
-     
+
         #endregion
 
         #region Construtores
 
-        public CidadesBuscaEstado(Action<Estado>? action)
+        public BuscaEstado(Action<Estado>? action)
         {
             InitializeComponent();
 
@@ -35,13 +35,13 @@ namespace controle_vendas_comissoes.View.Forms.Localidades.Cidades
             if (sender is DataGridView grid)
             {
                 var teste = grid.Rows[e.RowIndex].Cells["nome"];
-                              
+
                 this.ActionEstado?.Invoke(new Estado()
                 {
-                    Id   = Convert.ToInt32(grid.Rows[e.RowIndex].Cells["id"].Value ?? 0),
-                    Nome = grid.Rows[e.RowIndex].Cells["nome"].Value.ToString()    ?? "",
-                    UF   = grid.Rows[e.RowIndex].Cells["uf"].Value.ToString()      ?? ""
-                });                
+                    Id = Convert.ToInt32(grid.Rows[e.RowIndex].Cells["id"].Value ?? 0),
+                    Nome = grid.Rows[e.RowIndex].Cells["nome"].Value.ToString() ?? "",
+                    UF = grid.Rows[e.RowIndex].Cells["uf"].Value.ToString() ?? ""
+                });
             }
 
             this.Close();
@@ -57,7 +57,7 @@ namespace controle_vendas_comissoes.View.Forms.Localidades.Cidades
         {
             dataGridEstados.CellDoubleClick += DataGridEstados_CellDoubleClick;
         }
-                
+
         #endregion
 
         #region Requisições
