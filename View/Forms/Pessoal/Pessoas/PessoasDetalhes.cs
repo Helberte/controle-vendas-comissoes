@@ -12,6 +12,7 @@ namespace controle_vendas_comissoes.View.Forms.Pessoal.Pessoas
 
         private Pessoa? novaPessoa = null;
         private static Action? action = null;
+        private Estado? EstadoEscolhido = null;
 
         #endregion
 
@@ -123,7 +124,14 @@ namespace controle_vendas_comissoes.View.Forms.Pessoal.Pessoas
 
         private void SetPropriedades(Estado estado)
         {
-            boxEstado.Text = estado.Nome;
+            this.EstadoEscolhido = estado;
+
+            boxEstado.Text = EstadoEscolhido.Nome;
+        }
+
+        private void SetPropriedades(Cidade cidade)
+        {
+            boxCidade.Text = cidade.Nome;
         }
 
         #endregion
@@ -160,12 +168,25 @@ namespace controle_vendas_comissoes.View.Forms.Pessoal.Pessoas
             BuscaEstado buscaEstado = new(SetPropriedades);
             buscaEstado.ShowDialog();
 
-            boxNomePessoa.Focus();
+            boxCidade.Text = string.Empty;
+            boxNomePessoa.Focus();            
         }
 
         private void BtBuscaCidade_Click(object? sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(boxEstado.Text.Trim()))
+            {
+                MessageBox.Show("Informe o Estado antes de informar a Cidade.");
 
+                btBuscaEstado.Focus();
+            }
+            else
+            {
+                BuscaCidade buscaCidade = new(SetPropriedades, EstadoEscolhido);
+                buscaCidade.ShowDialog();
+
+                boxCidade.Focus();
+            }
         }
 
         private void SwitchSemEndereco_CheckedChanged(object? sender, EventArgs e)

@@ -39,6 +39,40 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Localidades.Cidades
             return promise;
         }
 
+        public static IPromise<List<Cidade>> ObtemCidades(int EstadoId)
+        {
+            Promise<List<Cidade>> promise = new();
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    using AppDbContext context = new();
+
+                    if (context.Cidades is not null)
+                        promise.Resolve([..
+                            context.Cidades
+                            .Where(c => c.EstadoId == EstadoId)
+                            .OrderByDescending(x => x.CreatedAt)
+                            .Take(20)
+                            .Select(estado => new Cidade
+                            {
+                                Id    = estado.Id,
+                                Nome  = estado.Nome,
+                                Sigla = estado.Sigla
+                            })]);
+                    else
+                        promise.Reject(new Exception("Ocorreu um erro ao buscar as Cidades"));
+                }
+                catch (Exception ex)
+                {
+                    promise.Reject(ex);
+                }
+            });
+
+            return promise;
+        }
+
         public static IPromise<Cidade> AdicionaCidade(Cidade cidade)
         {
             Promise<Cidade> promise = new();
