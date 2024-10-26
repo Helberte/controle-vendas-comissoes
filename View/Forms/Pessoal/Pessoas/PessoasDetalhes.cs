@@ -1,5 +1,7 @@
 ﻿using controle_vendas_comissoes.Controller.Utils;
 using controle_vendas_comissoes.Model.Db.Entidades;
+using controle_vendas_comissoes.Model.Db.Helpers.Pessoal.Classificacoes;
+using controle_vendas_comissoes.Model.Db.Helpers.Pessoal.Pessoas;
 using controle_vendas_comissoes.View.Extensions;
 using controle_vendas_comissoes.View.Forms.Modais;
 using MaterialSkin.Controls;
@@ -10,9 +12,14 @@ namespace controle_vendas_comissoes.View.Forms.Pessoal.Pessoas
     {
         #region Variaveis
 
-        private Pessoa? novaPessoa = null;
-        private static Action? action = null;
-        private Estado? EstadoEscolhido = null;
+        private int indexClassificacao = -1;
+
+        private Pessoa?              novaPessoa      = null;
+        private Endereco?            novoEndereco    = null;
+        private static Action?       action          = null;
+        private Estado?              estadoEscolhido = null;
+        private Cidade?              cidadeEscolhida = null;
+        private List<Classificacao>? classificacoes;
 
         #endregion
 
@@ -36,15 +43,37 @@ namespace controle_vendas_comissoes.View.Forms.Pessoal.Pessoas
                 ValidaCampos(groupInformacoesPessoais);
 
                 if (!switchSemEndereco.Checked)
+                {
                     ValidaCampos(groupEndereco);
 
+                    if (estadoEscolhido is not null && cidadeEscolhida is not null)
+                    {
+                        novoEndereco = new Endereco()
+                        {
+                            Rua      = boxRua.Text.Trim().ToUpper(),
+                            Cep      = maskCEP.GetText().ToUpper(),
+                            Numero   = maskNumero.GetText(),
+                            Bairro   = boxBairro.Text.Trim().ToUpper(),
+                            CidadeId = cidadeEscolhida.Id,
+                            EstadoId = estadoEscolhido.Id
+                        };
+                    }
+                    else                    
+                        throw new Exception("Problemas ao obter dados informados.");                    
+                }
+                                    
                 novaPessoa = new()
                 {
                     Cpf            = maskCPF.GetText(),
                     DataNascimento = DateTime.Parse(string.Format("{0:yyyy-mm-DD}", dateDataNascimento.Text)),
-                    ,
+                    Nome           = boxNomePessoa.Text.ToUpper().Trim(),
+                    Sobrenome      = boxNomeSobrenome.Text.ToUpper().Trim(),
+                    Rg             = maskRG.GetText()                    
                 };
 
+                if (!(classificacoes?.Count.Equals(indexClassificacao) ?? true))                
+                    novaPessoa.ClassificacaoId = classificacoes[indexClassificacao].Id;
+                
                 AdicionaPessoa();
             }
             catch (Exception ex)
@@ -93,12 +122,14 @@ namespace controle_vendas_comissoes.View.Forms.Pessoal.Pessoas
 
         private void DelegaEventos()
         {
-            btSalvarMais.Click += BtSalvarMais_Click;
-            btSalvar.Click += BtSalvar_Click;
-            btCancelar.Click += BtCancelar_Click;
-            btBuscaEstado.Click += BtBuscaEstado_Click;
-            btBuscaCidade.Click += BtBuscaCidade_Click;
+            btSalvarMais.Click               += BtSalvarMais_Click;
+            btSalvar.Click                   += BtSalvar_Click;
+            btCancelar.Click                 += BtCancelar_Click;
+            btBuscaEstado.Click              += BtBuscaEstado_Click;
+            btBuscaCidade.Click              += BtBuscaCidade_Click;
             switchSemEndereco.CheckedChanged += SwitchSemEndereco_CheckedChanged;
+            this.Load                        += PessoasDetalhes_Load;
+            comboClassificacao.SelectedIndexChanged += ComboClassificacao_SelectedIndexChanged;
         }
 
         private void LimpaCampos()
@@ -126,13 +157,15 @@ namespace controle_vendas_comissoes.View.Forms.Pessoal.Pessoas
 
         private void SetPropriedades(Estado estado)
         {
-            this.EstadoEscolhido = estado;
+            this.estadoEscolhido = estado;
 
-            boxEstado.Text = EstadoEscolhido.Nome;
+            boxEstado.Text = estadoEscolhido.Nome;
         }
 
         private void SetPropriedades(Cidade cidade)
         {
+            this.cidadeEscolhida = cidade;
+
             boxCidade.Text = cidade.Nome;
         }
 
@@ -151,7 +184,7 @@ namespace controle_vendas_comissoes.View.Forms.Pessoal.Pessoas
         {
             ValidaCampos();
 
-            action = this.Dispose;
+            action = this.Close;
         }
 
         private void BtCancelar_Click(object? sender, EventArgs e)
@@ -184,7 +217,7 @@ namespace controle_vendas_comissoes.View.Forms.Pessoal.Pessoas
             }
             else
             {
-                BuscaCidade buscaCidade = new(SetPropriedades, EstadoEscolhido);
+                BuscaCidade buscaCidade = new(SetPropriedades, estadoEscolhido);
                 buscaCidade.ShowDialog();
 
                 boxCidade.Focus();
@@ -204,6 +237,17 @@ namespace controle_vendas_comissoes.View.Forms.Pessoal.Pessoas
                 }                    
         }
 
+        private void PessoasDetalhes_Load(object? sender, EventArgs e)
+        {
+            ListarClassificacoes();
+        }
+
+        private void ComboClassificacao_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (sender is MaterialComboBox combo)            
+                indexClassificacao = combo.SelectedIndex;            
+        }
+
         #endregion
 
         #region Requisições
@@ -212,29 +256,53 @@ namespace controle_vendas_comissoes.View.Forms.Pessoal.Pessoas
         {
             try
             {
-                //if (novaPessoa is null)
-                //    throw new Exception("O objeto de inserção é inválido");
+                if (novaPessoa is null)
+                    throw new Exception("O objeto de inserção é inválido");
 
-                //HelperCidade.AdicionaCidade(novaPessoa).Then(cidade =>
-                //{
-                //    Utils.RunOnUiThread(this, () =>
-                //    {
-                //        MessageBox.Show("Cidade inserida com sucesso!");
+                HelperPessoas.AdicionaPessoa(novaPessoa, novoEndereco).Then(pessoa =>
+                {
+                    Utils.RunOnUiThread(this, () =>
+                    {
+                        MessageBox.Show("Pessoa inserida com sucesso!");
 
-                //        action?.Invoke(groupInformacoesPessoais);
-                //    });
-                //}).Catch(erro =>
-                //{
-                //    Utils.RunOnUiThread(this, () =>
-                //    {
-                //        MessageBox.Show(erro.Message);
-                //    });
-                //});
+                        action?.Invoke();
+                    });
+                }).Catch(erro =>
+                {
+                    Utils.RunOnUiThread(this, () =>
+                    {
+                        MessageBox.Show(erro.Message);
+                    });
+                });
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void ListarClassificacoes()
+        {
+            HelperClassificacoes.ObtemClassificacoes().Then(listaClassificacoes =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    this.classificacoes = listaClassificacoes;
+
+                    comboClassificacao.Items.Clear();
+
+                    foreach (Classificacao item in listaClassificacoes)                    
+                        comboClassificacao.Items.Add(item.Nome);
+
+                    comboClassificacao.Items.Add("NENHUMA");
+                });
+            }).Catch(erro =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    MessageBox.Show(erro.Message);
+                });
+            });
         }
 
         #endregion

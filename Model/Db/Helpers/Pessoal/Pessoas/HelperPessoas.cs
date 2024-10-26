@@ -1,5 +1,7 @@
-﻿using controle_vendas_comissoes.Model.Db.Models;
+﻿using controle_vendas_comissoes.Model.Db.Entidades;
+using controle_vendas_comissoes.Model.Db.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using RSG;
 using System.Runtime.CompilerServices;
 
@@ -60,41 +62,80 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Pessoal.Pessoas
 
             return promise;
         }
-
-        /*
-        public static IPromise<Cidade> AdicionaCidade(Cidade cidade)
+                
+        public static IPromise<Pessoa> AdicionaPessoa(Pessoa pessoa, Endereco? endereco)
         {
-            Promise<Cidade> promise = new();
+            Promise<Pessoa> promise = new();
 
             Task.Run(() =>
             {
                 try
                 {
-                    using AppDbContext context = new();
+                    using AppDbContext          context     = new();
+                    using IDbContextTransaction transaction = context.Database.BeginTransaction();                  
 
-                    if (context.Cidades is not null)
+                    if (context.Pessoas is not null && context.Enderecos is not null)
                     {
-                        List<Cidade> cidadeExiste = [.. context.Cidades.Where(e => EF.Functions.Like(e.Nome, "%" + cidade.Nome + "%"))];
+                        Endereco? novoEndereco = null;
+                        Pessoa?   pessoaExiste = context.Pessoas.Where(e => (e.Nome.Equals(pessoa.Nome) && e.Sobrenome.Equals(pessoa.Sobrenome)) ||
+                                                                             e.Cpf.Equals(pessoa.Cpf) ||
+                                                                             e.Rg.Equals(pessoa.Rg)).FirstOrDefault();
 
-                        if (cidadeExiste.Count > 0)
-                            throw new Exception("Já existe uma cidade com este nome.\n\nNome: " + cidade.Nome);
+                        if (pessoaExiste is not null)
+                        {
+                            if (pessoaExiste.Nome.Equals(pessoa.Nome) && pessoaExiste.Sobrenome.Equals(pessoa.Sobrenome))
+                                throw new Exception("Já existe uma pessoa cadastrada com este nome e sobrenome.");
 
-                        List<Cidade> siglaExiste = [.. context.Cidades.Where(e => EF.Functions.Like(e.Sigla, "%" + cidade.Sigla + "%"))];
+                            if (pessoaExiste.Cpf.Equals(pessoa.Cpf))
+                                throw new Exception("Já existe uma pessoa cadastrada com este CPF.");
 
-                        if (siglaExiste.Count > 0)
-                            throw new Exception("Já existe uma cidade com esta sigla.\n\nSigla: " + cidade.Sigla);
+                            if (pessoaExiste.Rg.Equals(pessoa.Rg))
+                                throw new Exception("Já existe uma pessoa cadastrada com este RG.");
+                        }
 
-                        // verifica se o estado informado existe
-                        Estado? estadoExiste = (context.Estados?.Where(e => e.Id == cidade.EstadoId).FirstOrDefault()) ?? throw new Exception("O Estado Informado não existe.\nId do Estado: " + cidade.EstadoId);
+                        if (pessoa.ClassificacaoId is not null && pessoa.ClassificacaoId > 0)
+                        {
+                            Classificacao? classificacao = context.Classificacoes?.Where(c => c.Id == pessoa.ClassificacaoId).FirstOrDefault();
+
+                            if (classificacao is null)
+                                throw new Exception("A classificação informada nou foi encontrada.");
+                        }
+
+                        // endereço
+                        if (endereco is not null && !string.IsNullOrEmpty(endereco.Rua))
+                        {
+                            Estado? estado = context.Estados?.Where(e => e.Id == endereco.EstadoId).FirstOrDefault();
+
+                            if (estado is null)
+                                throw new Exception("O estado informado não existe!");
+
+                            Cidade? cidade = context.Cidades?.Where(c => c.Id == endereco.CidadeId).FirstOrDefault();
+
+                            if (cidade is null)
+                                throw new Exception("A cidade informada não existe!");
+
+                            if (!cidade.EstadoId.Equals(estado.Id))
+                                throw new Exception("Esta cidade não pertence a este estado, favor, escolha uma que pertença");
+                                                        
+                            // insere novo endereço
+                            novoEndereco = context.Enderecos.Add(endereco).Entity;
+
+                            context.SaveChanges();
+                        }
+
+                        if (novoEndereco is not null && novoEndereco.Id > 0)
+                            pessoa.EnderecoId = novoEndereco.Id;
 
                         // adiciona a cidade
-                        Cidade novaCidade = context.Cidades.Add(cidade).Entity;
+                        Pessoa novaPessoa = context.Pessoas.Add(pessoa).Entity;
                         context.SaveChanges();
 
-                        promise.Resolve(novaCidade);
+                        transaction.Commit();
+
+                        promise.Resolve(novaPessoa);
                     }
                     else
-                        promise.Reject(new Exception("Ocorreu um erro ao Inserir uma Cidade"));
+                        promise.Reject(new Exception("Ocorreu um erro ao Inserir uma Nova Pessoa"));
                 }
                 catch (Exception ex)
                 {
@@ -103,6 +144,6 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Pessoal.Pessoas
             });
 
             return promise;
-        }*/
+        }
     }
 }
