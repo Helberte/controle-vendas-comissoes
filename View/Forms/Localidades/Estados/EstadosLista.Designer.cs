@@ -30,8 +30,8 @@
         {
             dataGridEstados = new DataGridView();
             groupBox1 = new GroupBox();
-            boxNomeEstado = new MaterialSkin.Controls.MaterialTextBox();
             maskUF = new MaterialSkin.Controls.MaterialMaskedTextBox();
+            boxNomeEstado = new MaterialSkin.Controls.MaterialTextBox();
             groupBox2 = new GroupBox();
             btInserirNovo = new FontAwesome.Sharp.IconButton();
             ((System.ComponentModel.ISupportInitialize)dataGridEstados).BeginInit();
@@ -59,25 +59,6 @@
             groupBox1.TabIndex = 13;
             groupBox1.TabStop = false;
             groupBox1.Text = "Pesquisa";
-            // 
-            // boxNomeEstado
-            // 
-            boxNomeEstado.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            boxNomeEstado.AnimateReadOnly = false;
-            boxNomeEstado.BorderStyle = BorderStyle.None;
-            boxNomeEstado.Depth = 0;
-            boxNomeEstado.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            boxNomeEstado.Hint = "Nome do Estado";
-            boxNomeEstado.LeadingIcon = null;
-            boxNomeEstado.Location = new Point(6, 20);
-            boxNomeEstado.MaxLength = 50;
-            boxNomeEstado.MouseState = MaterialSkin.MouseState.OUT;
-            boxNomeEstado.Multiline = false;
-            boxNomeEstado.Name = "boxNomeEstado";
-            boxNomeEstado.Size = new Size(519, 50);
-            boxNomeEstado.TabIndex = 5;
-            boxNomeEstado.Text = "";
-            boxNomeEstado.TrailingIcon = null;
             // 
             // maskUF
             // 
@@ -122,6 +103,25 @@
             maskUF.TrailingIcon = null;
             maskUF.UseSystemPasswordChar = false;
             maskUF.ValidatingType = null;
+            // 
+            // boxNomeEstado
+            // 
+            boxNomeEstado.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxNomeEstado.AnimateReadOnly = false;
+            boxNomeEstado.BorderStyle = BorderStyle.None;
+            boxNomeEstado.Depth = 0;
+            boxNomeEstado.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxNomeEstado.Hint = "Nome do Estado";
+            boxNomeEstado.LeadingIcon = null;
+            boxNomeEstado.Location = new Point(6, 20);
+            boxNomeEstado.MaxLength = 50;
+            boxNomeEstado.MouseState = MaterialSkin.MouseState.OUT;
+            boxNomeEstado.Multiline = false;
+            boxNomeEstado.Name = "boxNomeEstado";
+            boxNomeEstado.Size = new Size(519, 50);
+            boxNomeEstado.TabIndex = 5;
+            boxNomeEstado.Text = "";
+            boxNomeEstado.TrailingIcon = null;
             // 
             // groupBox2
             // 
