@@ -37,10 +37,10 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Produtos.UnidadesDeProdutos
 
             return promise;
         }
-        /*
-        public static IPromise<Classificacao> AdicionaClassificacao(Classificacao classificacao)
+        
+        public static IPromise<UnidadePrimaria> AdicionaUnidadePrimaria(UnidadePrimaria unidadePrimaria)
         {
-            Promise<Classificacao> promise = new();
+            Promise<UnidadePrimaria> promise = new();
 
             Task.Run(() =>
             {
@@ -48,20 +48,27 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Produtos.UnidadesDeProdutos
                 {
                     using AppDbContext context = new();
 
-                    if (context.Classificacoes is not null)
+                    if (context.UnidadesPrimarias is not null)
                     {
-                        Classificacao? classificacaoExiste = context.Classificacoes.Where(e => e.Nome.Equals(classificacao.Nome.Trim().ToUpper())).FirstOrDefault();
+                        UnidadePrimaria? unidadeExiste = context.UnidadesPrimarias.Where(e => e.Nome.Equals(unidadePrimaria.Nome.Trim().ToUpper())
+                                                                                           || e.Sigla.ToUpper().Trim().Equals(unidadePrimaria.Sigla.ToUpper().Trim())).FirstOrDefault();
 
-                        if (classificacaoExiste is not null)
-                            throw new Exception("Já existe uma classificação com este nome.\n\nNome: " + classificacao.Nome);
+                        if (unidadeExiste is not null)
+                        {
+                            if (unidadeExiste.Nome.ToUpper().Trim().Equals(unidadePrimaria.Nome.ToUpper().Trim()))
+                                throw new Exception("Já existe uma Unidade Primária com este nome.\n\nNome: " + unidadePrimaria.Nome);
 
-                        Classificacao novaClassificacao = context.Classificacoes.Add(classificacao).Entity;
+                            if (unidadeExiste.Sigla.ToUpper().Trim().Equals(unidadePrimaria.Sigla.ToUpper().Trim()))
+                                throw new Exception("Já existe uma Unidade Primária com esta sigla.\n\nSigla: " + unidadePrimaria.Sigla);
+                        }
+
+                        UnidadePrimaria novaUnidade = context.UnidadesPrimarias.Add(unidadePrimaria).Entity;
                         context.SaveChanges();
 
-                        promise.Resolve(novaClassificacao);
+                        promise.Resolve(novaUnidade);
                     }
                     else
-                        promise.Reject(new Exception("Ocorreu um erro ao Inserir uma Classificação"));
+                        promise.Reject(new Exception("Ocorreu um erro ao Inserir uma Unidade Primária"));
                 }
                 catch (Exception ex)
                 {
@@ -71,6 +78,5 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Produtos.UnidadesDeProdutos
 
             return promise;
         }
-        */
     }
 }
