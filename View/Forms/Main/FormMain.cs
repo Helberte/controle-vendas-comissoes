@@ -203,9 +203,10 @@ namespace controle_vendas_comissoes.View.Forms.Main
             int heightBotao = 0;
 
             botao.BackColor = System.Drawing.Color.Transparent;
-            botao.Height = 55;
-            botao.Width = 190;
-            botao.Text = menu.Nome;
+            botao.Height    = 55;
+            botao.Width     = 190;
+            botao.Text      = menu.Nome;
+            botao.Font      = new Font("montserrat", 10);
             CardMenuLateral.Controls.Add(botao);
 
             if (totalBotoes > 0)
@@ -341,7 +342,8 @@ namespace controle_vendas_comissoes.View.Forms.Main
 
         private void ConfiguracaoLayout()
         {
-            lblCidadeData.Location = new Point(CardCabecalho.Width - lblCidadeData.Width - 20, (CardCabecalho.Height / 2) - (lblCidadeData.Height / 2));
+            lblCidadeData.Location  = new Point(CardCabecalho.Width - lblCidadeData.Width - 10, (CardCabecalho.Height / 2) - (lblCidadeData.Height / 2));
+            lblNomeSistema.Location = new Point(10, (CardCabecalho.Height / 2) - (lblNomeSistema.Height / 2));
         }
 
         private static void DrawShadowSmooth(GraphicsPath gp, int intensity, int radius, Bitmap dest)

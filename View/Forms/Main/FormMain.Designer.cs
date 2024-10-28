@@ -33,12 +33,14 @@
             lblCidadeData = new Label();
             CardMenuLateral = new Panel();
             timerDataHora = new System.Windows.Forms.Timer(components);
+            lblNomeSistema = new Label();
             CardCabecalho.SuspendLayout();
             SuspendLayout();
             // 
             // CardCabecalho
             // 
             CardCabecalho.BackColor = Color.White;
+            CardCabecalho.Controls.Add(lblNomeSistema);
             CardCabecalho.Controls.Add(lblCidadeData);
             CardCabecalho.Dock = DockStyle.Top;
             CardCabecalho.Location = new Point(0, 0);
@@ -74,6 +76,17 @@
             timerDataHora.Interval = 500;
             timerDataHora.Tick += timerDataHora_Tick;
             // 
+            // lblNomeSistema
+            // 
+            lblNomeSistema.AutoSize = true;
+            lblNomeSistema.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblNomeSistema.ForeColor = Color.FromArgb(130, 130, 130);
+            lblNomeSistema.Location = new Point(12, 16);
+            lblNomeSistema.Name = "lblNomeSistema";
+            lblNomeSistema.Size = new Size(278, 22);
+            lblNomeSistema.TabIndex = 1;
+            lblNomeSistema.Text = "Controle de Vendas e Comissões";
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -81,11 +94,11 @@
             ClientSize = new Size(876, 490);
             Controls.Add(CardMenuLateral);
             Controls.Add(CardCabecalho);
+            Font = new Font("Montserrat", 8.249999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             MinimumSize = new Size(872, 529);
             Name = "FormMain";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Controle de Vendas e Comissões";
             WindowState = FormWindowState.Maximized;
             Load += FormMain_Load;
             CardCabecalho.ResumeLayout(false);
@@ -99,5 +112,6 @@
         private Panel CardMenuLateral;
         private Label lblCidadeData;
         private System.Windows.Forms.Timer timerDataHora;
+        private Label lblNomeSistema;
     }
 }
