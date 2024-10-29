@@ -44,7 +44,7 @@ namespace controle_vendas_comissoes.View.Forms.Pessoal.Pessoas
 
         private void DelegaEventos()
         {
-            btAdicionar.Click          += BtAdicionar_Click;
+            btAdicionar.Click += BtAdicionar_Click;
             btBuscaClassificacao.Click += BtBuscaClassificacao_Click;
         }
 
@@ -77,13 +77,13 @@ namespace controle_vendas_comissoes.View.Forms.Pessoal.Pessoas
                 {
                     dataGridPessoas.DataSource = listaPessoas;
 
-                    dataGridPessoas.Columns["CreatedAt"].Visible       = false;
+                    dataGridPessoas.Columns["CreatedAt"].Visible = false;
                     dataGridPessoas.Columns["ClassificacaoId"].Visible = false;
-                    dataGridPessoas.Columns["EnderecoId"].Visible      = false;
+                    dataGridPessoas.Columns["EnderecoId"].Visible = false;
 
                     dataGridPessoas.Columns["ClassificacaoDescricao"].HeaderText = "Classificação";
-                    dataGridPessoas.Columns["DataNascimento"].HeaderText         = "Nascimento";
-                    
+                    dataGridPessoas.Columns["DataNascimento"].HeaderText = "Nascimento";
+
                     dataGridPessoas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
                     dataGridPessoas.Columns["id"].Width = 60;

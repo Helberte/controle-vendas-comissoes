@@ -50,7 +50,7 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
         private void ExibeModalInserirProdutos()
         {
-            ProdutosDeralhes modal = new()
+            ProdutosDetalhes modal = new()
             {
                 Text = "Criar novo cadastro de Produto"
             };

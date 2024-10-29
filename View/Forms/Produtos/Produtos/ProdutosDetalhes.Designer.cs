@@ -1,6 +1,6 @@
 ﻿namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 {
-    partial class ProdutosDeralhes
+    partial class ProdutosDetalhes
     {
         /// <summary>
         /// Required designer variable.
@@ -184,24 +184,23 @@
             boxPeso.AnimateReadOnly = false;
             boxPeso.BorderStyle = BorderStyle.None;
             boxPeso.Depth = 0;
-            boxPeso.Font = new Font("Microsoft Sans Serif", 12F);
+            boxPeso.Font = new Font("Roboto", 12F);
             boxPeso.Hint = "Peso";
             boxPeso.LeadingIcon = null;
             boxPeso.Location = new Point(6, 20);
             boxPeso.Margin = new Padding(2);
-            boxPeso.MaxLength = 50;
+            boxPeso.MaxLength = 10;
             boxPeso.MouseState = MaterialSkin.MouseState.OUT;
             boxPeso.Multiline = false;
             boxPeso.Name = "boxPeso";
+            boxPeso.ShortcutsEnabled = false;
             boxPeso.Size = new Size(368, 50);
             boxPeso.TabIndex = 15;
             boxPeso.Tag = "";
             boxPeso.Text = "0,000";
             boxPeso.TrailingIcon = null;
-            boxPeso.TextChanged += boxPeso_TextChanged;
-            boxPeso.KeyDown += boxPeso_KeyDown;
-            boxPeso.KeyPress += boxPeso_KeyPress;
-            boxPeso.KeyUp += boxPeso_KeyUp;
+            boxPeso.TextChanged += BoxPeso_TextChanged;
+            boxPeso.KeyPress += BoxPeso_KeyPress;
             // 
             // btBuscaUnidadePrimaria
             // 
@@ -364,7 +363,7 @@
             btSalvarMais.TextImageRelation = TextImageRelation.ImageBeforeText;
             btSalvarMais.UseVisualStyleBackColor = false;
             // 
-            // ProdutosDeralhes
+            // ProdutosDetalhes
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -377,7 +376,7 @@
             MaximizeBox = false;
             MaximumSize = new Size(960, 622);
             MinimumSize = new Size(799, 517);
-            Name = "ProdutosDeralhes";
+            Name = "ProdutosDetalhes";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Detalhes do Produto";

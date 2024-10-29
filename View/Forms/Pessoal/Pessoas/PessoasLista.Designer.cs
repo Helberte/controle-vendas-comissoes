@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
-            boxTextoBusca = new MaterialSkin.Controls.MaterialTextBox();
-            boxClassificacao = new MaterialSkin.Controls.MaterialTextBox();
             btBuscaClassificacao = new FontAwesome.Sharp.IconButton();
+            boxClassificacao = new MaterialSkin.Controls.MaterialTextBox();
+            boxTextoBusca = new MaterialSkin.Controls.MaterialTextBox();
             groupBox2 = new GroupBox();
             btAdicionar = new FontAwesome.Sharp.IconButton();
             dataGridPessoas = new DataGridView();
@@ -53,46 +53,6 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Pesquisa";
             // 
-            // boxTextoBusca
-            // 
-            boxTextoBusca.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            boxTextoBusca.AnimateReadOnly = false;
-            boxTextoBusca.BorderStyle = BorderStyle.None;
-            boxTextoBusca.Depth = 0;
-            boxTextoBusca.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            boxTextoBusca.Hint = "Texto busca";
-            boxTextoBusca.LeadingIcon = null;
-            boxTextoBusca.Location = new Point(5, 19);
-            boxTextoBusca.Margin = new Padding(2);
-            boxTextoBusca.MaxLength = 50;
-            boxTextoBusca.MouseState = MaterialSkin.MouseState.OUT;
-            boxTextoBusca.Multiline = false;
-            boxTextoBusca.Name = "boxTextoBusca";
-            boxTextoBusca.Size = new Size(339, 50);
-            boxTextoBusca.TabIndex = 9;
-            boxTextoBusca.Text = "";
-            boxTextoBusca.TrailingIcon = null;
-            // 
-            // boxClassificacao
-            // 
-            boxClassificacao.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            boxClassificacao.AnimateReadOnly = false;
-            boxClassificacao.BorderStyle = BorderStyle.None;
-            boxClassificacao.Depth = 0;
-            boxClassificacao.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            boxClassificacao.Hint = "Classificação";
-            boxClassificacao.LeadingIcon = null;
-            boxClassificacao.Location = new Point(353, 19);
-            boxClassificacao.Margin = new Padding(2);
-            boxClassificacao.MaxLength = 50;
-            boxClassificacao.MouseState = MaterialSkin.MouseState.OUT;
-            boxClassificacao.Multiline = false;
-            boxClassificacao.Name = "boxClassificacao";
-            boxClassificacao.Size = new Size(240, 50);
-            boxClassificacao.TabIndex = 10;
-            boxClassificacao.Text = "";
-            boxClassificacao.TrailingIcon = null;
-            // 
             // btBuscaClassificacao
             // 
             btBuscaClassificacao.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -109,6 +69,46 @@
             btBuscaClassificacao.TabIndex = 11;
             btBuscaClassificacao.TextImageRelation = TextImageRelation.TextAboveImage;
             btBuscaClassificacao.UseVisualStyleBackColor = false;
+            // 
+            // boxClassificacao
+            // 
+            boxClassificacao.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            boxClassificacao.AnimateReadOnly = false;
+            boxClassificacao.BorderStyle = BorderStyle.None;
+            boxClassificacao.Depth = 0;
+            boxClassificacao.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxClassificacao.Hint = "Classificação";
+            boxClassificacao.LeadingIcon = null;
+            boxClassificacao.Location = new Point(353, 19);
+            boxClassificacao.Margin = new Padding(2);
+            boxClassificacao.MaxLength = 50;
+            boxClassificacao.MouseState = MaterialSkin.MouseState.OUT;
+            boxClassificacao.Multiline = false;
+            boxClassificacao.Name = "boxClassificacao";
+            boxClassificacao.Size = new Size(240, 50);
+            boxClassificacao.TabIndex = 10;
+            boxClassificacao.Text = "";
+            boxClassificacao.TrailingIcon = null;
+            // 
+            // boxTextoBusca
+            // 
+            boxTextoBusca.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxTextoBusca.AnimateReadOnly = false;
+            boxTextoBusca.BorderStyle = BorderStyle.None;
+            boxTextoBusca.Depth = 0;
+            boxTextoBusca.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxTextoBusca.Hint = "Texto busca";
+            boxTextoBusca.LeadingIcon = null;
+            boxTextoBusca.Location = new Point(5, 19);
+            boxTextoBusca.Margin = new Padding(2);
+            boxTextoBusca.MaxLength = 50;
+            boxTextoBusca.MouseState = MaterialSkin.MouseState.OUT;
+            boxTextoBusca.Multiline = false;
+            boxTextoBusca.Name = "boxTextoBusca";
+            boxTextoBusca.Size = new Size(339, 50);
+            boxTextoBusca.TabIndex = 9;
+            boxTextoBusca.Text = "";
+            boxTextoBusca.TrailingIcon = null;
             // 
             // groupBox2
             // 
