@@ -3,6 +3,7 @@ using controle_vendas_comissoes.View.Forms.Localidades.Cidades;
 using controle_vendas_comissoes.View.Forms.Pessoal.Classificacoes;
 using controle_vendas_comissoes.View.Forms.Pessoal.Pessoas;
 using controle_vendas_comissoes.View.Forms.Produtos.UnidadesDeProdutos;
+using controle_vendas_comissoes.View.Forms.Produtos.Produtos;
 
 namespace controle_vendas_comissoes
 {
@@ -35,6 +36,12 @@ namespace controle_vendas_comissoes
         public static void SendUnidadesPrimarias()
         {
             UnidadesDeProdutos rotina = new();
+            rotina.ShowDialog();
+        }
+
+        public static void SendProdutos()
+        {
+            ProdutosLista rotina = new();
             rotina.ShowDialog();
         }
     }

@@ -29,29 +29,66 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            btBuscaUnidadePrimaria = new FontAwesome.Sharp.IconButton();
+            boxUnidadePrimaria = new MaterialSkin.Controls.MaterialTextBox();
             boxTextoBusca = new MaterialSkin.Controls.MaterialTextBox();
-            boxClassificacao = new MaterialSkin.Controls.MaterialTextBox();
-            btBuscaClassificacao = new FontAwesome.Sharp.IconButton();
             groupBox2 = new GroupBox();
             btAdicionar = new FontAwesome.Sharp.IconButton();
-            dataGridPessoas = new DataGridView();
+            dataGridProdutos = new DataGridView();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridPessoas).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridProdutos).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            groupBox1.Controls.Add(btBuscaClassificacao);
-            groupBox1.Controls.Add(boxClassificacao);
+            groupBox1.Controls.Add(btBuscaUnidadePrimaria);
+            groupBox1.Controls.Add(boxUnidadePrimaria);
             groupBox1.Controls.Add(boxTextoBusca);
             groupBox1.Location = new Point(6, 8);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(713, 77);
+            groupBox1.Size = new Size(703, 77);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Pesquisa";
+            // 
+            // btBuscaUnidadePrimaria
+            // 
+            btBuscaUnidadePrimaria.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btBuscaUnidadePrimaria.BackColor = Color.FromArgb(199, 199, 199);
+            btBuscaUnidadePrimaria.FlatAppearance.BorderSize = 0;
+            btBuscaUnidadePrimaria.FlatStyle = FlatStyle.Flat;
+            btBuscaUnidadePrimaria.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlassArrowRight;
+            btBuscaUnidadePrimaria.IconColor = Color.White;
+            btBuscaUnidadePrimaria.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btBuscaUnidadePrimaria.IconSize = 35;
+            btBuscaUnidadePrimaria.Location = new Point(645, 18);
+            btBuscaUnidadePrimaria.Name = "btBuscaUnidadePrimaria";
+            btBuscaUnidadePrimaria.Size = new Size(50, 50);
+            btBuscaUnidadePrimaria.TabIndex = 12;
+            btBuscaUnidadePrimaria.TextImageRelation = TextImageRelation.TextAboveImage;
+            btBuscaUnidadePrimaria.UseVisualStyleBackColor = false;
+            // 
+            // boxUnidadePrimaria
+            // 
+            boxUnidadePrimaria.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            boxUnidadePrimaria.AnimateReadOnly = false;
+            boxUnidadePrimaria.BorderStyle = BorderStyle.None;
+            boxUnidadePrimaria.Depth = 0;
+            boxUnidadePrimaria.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxUnidadePrimaria.Hint = "Unidade Primária";
+            boxUnidadePrimaria.LeadingIcon = null;
+            boxUnidadePrimaria.Location = new Point(391, 19);
+            boxUnidadePrimaria.Margin = new Padding(2);
+            boxUnidadePrimaria.MaxLength = 50;
+            boxUnidadePrimaria.MouseState = MaterialSkin.MouseState.OUT;
+            boxUnidadePrimaria.Multiline = false;
+            boxUnidadePrimaria.Name = "boxUnidadePrimaria";
+            boxUnidadePrimaria.Size = new Size(247, 50);
+            boxUnidadePrimaria.TabIndex = 11;
+            boxUnidadePrimaria.Text = "";
+            boxUnidadePrimaria.TrailingIcon = null;
             // 
             // boxTextoBusca
             // 
@@ -68,53 +105,16 @@
             boxTextoBusca.MouseState = MaterialSkin.MouseState.OUT;
             boxTextoBusca.Multiline = false;
             boxTextoBusca.Name = "boxTextoBusca";
-            boxTextoBusca.Size = new Size(389, 50);
+            boxTextoBusca.Size = new Size(379, 50);
             boxTextoBusca.TabIndex = 10;
             boxTextoBusca.Text = "";
             boxTextoBusca.TrailingIcon = null;
-            // 
-            // boxClassificacao
-            // 
-            boxClassificacao.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            boxClassificacao.AnimateReadOnly = false;
-            boxClassificacao.BorderStyle = BorderStyle.None;
-            boxClassificacao.Depth = 0;
-            boxClassificacao.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            boxClassificacao.Hint = "Unidade Primária";
-            boxClassificacao.LeadingIcon = null;
-            boxClassificacao.Location = new Point(401, 19);
-            boxClassificacao.Margin = new Padding(2);
-            boxClassificacao.MaxLength = 50;
-            boxClassificacao.MouseState = MaterialSkin.MouseState.OUT;
-            boxClassificacao.Multiline = false;
-            boxClassificacao.Name = "boxClassificacao";
-            boxClassificacao.Size = new Size(247, 50);
-            boxClassificacao.TabIndex = 11;
-            boxClassificacao.Text = "";
-            boxClassificacao.TrailingIcon = null;
-            // 
-            // btBuscaClassificacao
-            // 
-            btBuscaClassificacao.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btBuscaClassificacao.BackColor = Color.FromArgb(199, 199, 199);
-            btBuscaClassificacao.FlatAppearance.BorderSize = 0;
-            btBuscaClassificacao.FlatStyle = FlatStyle.Flat;
-            btBuscaClassificacao.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlassArrowRight;
-            btBuscaClassificacao.IconColor = Color.White;
-            btBuscaClassificacao.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btBuscaClassificacao.IconSize = 35;
-            btBuscaClassificacao.Location = new Point(655, 18);
-            btBuscaClassificacao.Name = "btBuscaClassificacao";
-            btBuscaClassificacao.Size = new Size(50, 50);
-            btBuscaClassificacao.TabIndex = 12;
-            btBuscaClassificacao.TextImageRelation = TextImageRelation.TextAboveImage;
-            btBuscaClassificacao.UseVisualStyleBackColor = false;
             // 
             // groupBox2
             // 
             groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             groupBox2.Controls.Add(btAdicionar);
-            groupBox2.Location = new Point(725, 9);
+            groupBox2.Location = new Point(715, 9);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(139, 76);
             groupBox2.TabIndex = 4;
@@ -140,31 +140,32 @@
             btAdicionar.TextImageRelation = TextImageRelation.ImageBeforeText;
             btAdicionar.UseVisualStyleBackColor = false;
             // 
-            // dataGridPessoas
+            // dataGridProdutos
             // 
-            dataGridPessoas.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridPessoas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridPessoas.Location = new Point(0, 94);
-            dataGridPessoas.Name = "dataGridPessoas";
-            dataGridPessoas.Size = new Size(872, 205);
-            dataGridPessoas.TabIndex = 5;
+            dataGridProdutos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridProdutos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridProdutos.Location = new Point(0, 94);
+            dataGridProdutos.Name = "dataGridProdutos";
+            dataGridProdutos.Size = new Size(862, 310);
+            dataGridProdutos.TabIndex = 5;
             // 
             // ProdutosLista
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(872, 299);
-            Controls.Add(dataGridPessoas);
+            ClientSize = new Size(862, 404);
+            Controls.Add(dataGridProdutos);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Font = new Font("Montserrat", 8.249999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            MinimumSize = new Size(878, 443);
             Name = "ProdutosLista";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Produtos";
             groupBox1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridPessoas).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridProdutos).EndInit();
             ResumeLayout(false);
         }
 
@@ -172,10 +173,10 @@
 
         private GroupBox groupBox1;
         private MaterialSkin.Controls.MaterialTextBox boxTextoBusca;
-        private MaterialSkin.Controls.MaterialTextBox boxClassificacao;
-        private FontAwesome.Sharp.IconButton btBuscaClassificacao;
+        private MaterialSkin.Controls.MaterialTextBox boxUnidadePrimaria;
+        private FontAwesome.Sharp.IconButton btBuscaUnidadePrimaria;
         private GroupBox groupBox2;
         private FontAwesome.Sharp.IconButton btAdicionar;
-        private DataGridView dataGridPessoas;
+        private DataGridView dataGridProdutos;
     }
 }
