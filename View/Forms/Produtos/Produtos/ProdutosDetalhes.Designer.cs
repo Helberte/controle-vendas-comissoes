@@ -259,19 +259,20 @@
             boxPreco02.AnimateReadOnly = false;
             boxPreco02.BorderStyle = BorderStyle.None;
             boxPreco02.Depth = 0;
-            boxPreco02.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxPreco02.Font = new Font("Roboto", 12F);
             boxPreco02.Hint = "Preço 2";
             boxPreco02.LeadingIcon = null;
             boxPreco02.Location = new Point(7, 77);
             boxPreco02.Margin = new Padding(2);
-            boxPreco02.MaxLength = 50;
+            boxPreco02.MaxLength = 10;
             boxPreco02.MouseState = MaterialSkin.MouseState.OUT;
             boxPreco02.Multiline = false;
             boxPreco02.Name = "boxPreco02";
+            boxPreco02.ShortcutsEnabled = false;
             boxPreco02.Size = new Size(535, 50);
             boxPreco02.TabIndex = 4;
             boxPreco02.Tag = "";
-            boxPreco02.Text = "";
+            boxPreco02.Text = "0,00";
             boxPreco02.TrailingIcon = null;
             // 
             // boxPreco01
@@ -280,20 +281,23 @@
             boxPreco01.AnimateReadOnly = false;
             boxPreco01.BorderStyle = BorderStyle.None;
             boxPreco01.Depth = 0;
-            boxPreco01.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxPreco01.Font = new Font("Roboto", 12F);
             boxPreco01.Hint = "Preço 1";
             boxPreco01.LeadingIcon = null;
             boxPreco01.Location = new Point(7, 20);
             boxPreco01.Margin = new Padding(2);
-            boxPreco01.MaxLength = 50;
+            boxPreco01.MaxLength = 10;
             boxPreco01.MouseState = MaterialSkin.MouseState.OUT;
             boxPreco01.Multiline = false;
             boxPreco01.Name = "boxPreco01";
+            boxPreco01.ShortcutsEnabled = false;
             boxPreco01.Size = new Size(535, 50);
             boxPreco01.TabIndex = 3;
             boxPreco01.Tag = "";
-            boxPreco01.Text = "";
+            boxPreco01.Text = "0,00";
             boxPreco01.TrailingIcon = null;
+            boxPreco01.TextChanged += boxPreco01_TextChanged;
+            boxPreco01.KeyPress += boxPreco01_KeyPress;
             // 
             // groupBox4
             // 
