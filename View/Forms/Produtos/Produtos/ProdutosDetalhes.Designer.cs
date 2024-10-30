@@ -184,7 +184,7 @@
             boxPeso.AnimateReadOnly = false;
             boxPeso.BorderStyle = BorderStyle.None;
             boxPeso.Depth = 0;
-            boxPeso.Font = new Font("Roboto", 12F);
+            boxPeso.Font = new Font("Microsoft Sans Serif", 12F);
             boxPeso.Hint = "Peso";
             boxPeso.LeadingIcon = null;
             boxPeso.Location = new Point(6, 20);
@@ -259,8 +259,8 @@
             boxPreco02.AnimateReadOnly = false;
             boxPreco02.BorderStyle = BorderStyle.None;
             boxPreco02.Depth = 0;
-            boxPreco02.Font = new Font("Roboto", 12F);
-            boxPreco02.Hint = "Preço 2";
+            boxPreco02.Font = new Font("Microsoft Sans Serif", 12F);
+            boxPreco02.Hint = "Preço 2 - R$";
             boxPreco02.LeadingIcon = null;
             boxPreco02.Location = new Point(7, 77);
             boxPreco02.Margin = new Padding(2);
@@ -274,6 +274,8 @@
             boxPreco02.Tag = "";
             boxPreco02.Text = "0,00";
             boxPreco02.TrailingIcon = null;
+            boxPreco02.TextChanged += boxPreco01_TextChanged;
+            boxPreco02.KeyPress += boxPreco01_KeyPress;
             // 
             // boxPreco01
             // 
@@ -281,12 +283,12 @@
             boxPreco01.AnimateReadOnly = false;
             boxPreco01.BorderStyle = BorderStyle.None;
             boxPreco01.Depth = 0;
-            boxPreco01.Font = new Font("Roboto", 12F);
-            boxPreco01.Hint = "Preço 1";
+            boxPreco01.Font = new Font("Microsoft Sans Serif", 12F);
+            boxPreco01.Hint = "Preço 1 - R$";
             boxPreco01.LeadingIcon = null;
             boxPreco01.Location = new Point(7, 20);
             boxPreco01.Margin = new Padding(2);
-            boxPreco01.MaxLength = 10;
+            boxPreco01.MaxLength = 50;
             boxPreco01.MouseState = MaterialSkin.MouseState.OUT;
             boxPreco01.Multiline = false;
             boxPreco01.Name = "boxPreco01";
