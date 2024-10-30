@@ -7,7 +7,21 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Description>Contorle de vendas e cálculo de comissões.</Description>
+    <Copyright>Todos os direitos reservados a Mundo Verde</Copyright>
+    <PackageIcon>icons8_chart_94.png</PackageIcon>
+    <RepositoryUrl>https://github.com/Helberte/controle-vendas-comissoes</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <ApplicationIcon>View\Imagens\Icons\icons8_chart_94.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="View\Imagens\Icons\icons8_chart_94.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="View\Imagens\Icons\icons8_chart_94.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FontAwesome.Sharp" Version="6.6.0" />
@@ -21,6 +35,17 @@
     <Folder Include="Model\Db\Helpers\Vendas\" />
     <Folder Include="View\Forms\GestaoVendas\Comissoes\" />
     <Folder Include="View\Forms\Vendas\PedidoDeVendas\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\64429-helberte\Downloads\icons8_chart_94.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="View\Imagens\Icons\icons8_chart_94.ico" />
   </ItemGroup>
 
   <ItemGroup>

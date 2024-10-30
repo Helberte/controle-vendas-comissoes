@@ -48,7 +48,7 @@
             groupBox1.Controls.Add(boxTextoBusca);
             groupBox1.Location = new Point(6, 8);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(703, 77);
+            groupBox1.Size = new Size(941, 77);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Pesquisa";
@@ -63,7 +63,7 @@
             btBuscaUnidadePrimaria.IconColor = Color.White;
             btBuscaUnidadePrimaria.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btBuscaUnidadePrimaria.IconSize = 35;
-            btBuscaUnidadePrimaria.Location = new Point(645, 18);
+            btBuscaUnidadePrimaria.Location = new Point(883, 18);
             btBuscaUnidadePrimaria.Name = "btBuscaUnidadePrimaria";
             btBuscaUnidadePrimaria.Size = new Size(50, 50);
             btBuscaUnidadePrimaria.TabIndex = 12;
@@ -80,7 +80,7 @@
             boxUnidadePrimaria.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
             boxUnidadePrimaria.Hint = "Unidade Primária";
             boxUnidadePrimaria.LeadingIcon = null;
-            boxUnidadePrimaria.Location = new Point(391, 19);
+            boxUnidadePrimaria.Location = new Point(629, 19);
             boxUnidadePrimaria.Margin = new Padding(2);
             boxUnidadePrimaria.MaxLength = 50;
             boxUnidadePrimaria.MouseState = MaterialSkin.MouseState.OUT;
@@ -106,7 +106,7 @@
             boxTextoBusca.MouseState = MaterialSkin.MouseState.OUT;
             boxTextoBusca.Multiline = false;
             boxTextoBusca.Name = "boxTextoBusca";
-            boxTextoBusca.Size = new Size(379, 50);
+            boxTextoBusca.Size = new Size(617, 50);
             boxTextoBusca.TabIndex = 10;
             boxTextoBusca.Text = "";
             boxTextoBusca.TrailingIcon = null;
@@ -115,7 +115,7 @@
             // 
             groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             groupBox2.Controls.Add(btAdicionar);
-            groupBox2.Location = new Point(715, 9);
+            groupBox2.Location = new Point(953, 9);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(139, 76);
             groupBox2.TabIndex = 4;
@@ -147,14 +147,14 @@
             dataGridProdutos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridProdutos.Location = new Point(0, 94);
             dataGridProdutos.Name = "dataGridProdutos";
-            dataGridProdutos.Size = new Size(862, 310);
+            dataGridProdutos.Size = new Size(1100, 473);
             dataGridProdutos.TabIndex = 5;
             // 
             // ProdutosLista
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(862, 404);
+            ClientSize = new Size(1100, 567);
             Controls.Add(dataGridProdutos);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);

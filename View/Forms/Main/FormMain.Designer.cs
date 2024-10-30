@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             CardCabecalho = new Panel();
+            lblNomeSistema = new Label();
             lblCidadeData = new Label();
             CardMenuLateral = new Panel();
             timerDataHora = new System.Windows.Forms.Timer(components);
-            lblNomeSistema = new Label();
             CardCabecalho.SuspendLayout();
             SuspendLayout();
             // 
@@ -47,6 +48,17 @@
             CardCabecalho.Name = "CardCabecalho";
             CardCabecalho.Size = new Size(876, 53);
             CardCabecalho.TabIndex = 5;
+            // 
+            // lblNomeSistema
+            // 
+            lblNomeSistema.AutoSize = true;
+            lblNomeSistema.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblNomeSistema.ForeColor = Color.FromArgb(130, 130, 130);
+            lblNomeSistema.Location = new Point(12, 16);
+            lblNomeSistema.Name = "lblNomeSistema";
+            lblNomeSistema.Size = new Size(278, 22);
+            lblNomeSistema.TabIndex = 1;
+            lblNomeSistema.Text = "Controle de Vendas e Comissões";
             // 
             // lblCidadeData
             // 
@@ -76,17 +88,6 @@
             timerDataHora.Interval = 500;
             timerDataHora.Tick += timerDataHora_Tick;
             // 
-            // lblNomeSistema
-            // 
-            lblNomeSistema.AutoSize = true;
-            lblNomeSistema.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblNomeSistema.ForeColor = Color.FromArgb(130, 130, 130);
-            lblNomeSistema.Location = new Point(12, 16);
-            lblNomeSistema.Name = "lblNomeSistema";
-            lblNomeSistema.Size = new Size(278, 22);
-            lblNomeSistema.TabIndex = 1;
-            lblNomeSistema.Text = "Controle de Vendas e Comissões";
-            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -95,9 +96,9 @@
             Controls.Add(CardMenuLateral);
             Controls.Add(CardCabecalho);
             Font = new Font("Montserrat", 8.249999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(872, 529);
             Name = "FormMain";
-            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             WindowState = FormWindowState.Maximized;
             Load += FormMain_Load;

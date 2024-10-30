@@ -344,6 +344,8 @@ namespace controle_vendas_comissoes.View.Forms.Main
         {
             lblCidadeData.Location  = new Point(CardCabecalho.Width - lblCidadeData.Width - 10, (CardCabecalho.Height / 2) - (lblCidadeData.Height / 2));
             lblNomeSistema.Location = new Point(10, (CardCabecalho.Height / 2) - (lblNomeSistema.Height / 2));
+
+            this.Text = "Versão - " + Assembly.GetExecutingAssembly().GetName().Version;
         }
 
         private static void DrawShadowSmooth(GraphicsPath gp, int intensity, int radius, Bitmap dest)
