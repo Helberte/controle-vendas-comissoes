@@ -23,7 +23,5 @@ namespace controle_vendas_comissoes.Model.Db.Entidades
         [Column("unidade_primaria_id")]
         public int? UnidadePrimariaId { get; set; }
 
-        [Column("endereco_id")]
-        public int? EnderecoId { get; set; }
     }
 }

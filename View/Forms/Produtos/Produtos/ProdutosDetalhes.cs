@@ -1,14 +1,117 @@
-﻿using MaterialSkin.Controls;
+﻿using controle_vendas_comissoes.Controller.Utils;
+using controle_vendas_comissoes.Model.Db.Entidades;
+using controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos;
+using controle_vendas_comissoes.View.Forms.Modais;
+using MaterialSkin.Controls;
 
 namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 {
     public partial class ProdutosDetalhes : Form
     {
+        #region Variaveis
+
         private bool bloqueiaAlteracaoCampo = false;
+        
+        private Produto?          novoProduto        = null;
+        private List<TabelaPreco> listaTabelasPrecos = [];
+        private UnidadePrimaria?  unidadePrimaria    = null;
+        private static Action?    action             = null;
+       
+        #endregion
+
+        #region Construtores
 
         public ProdutosDetalhes()
         {
             InitializeComponent();
+
+            DelegaEventos();
+        }
+
+        #endregion
+
+        #region Métodos
+
+        private void ValidaCampos()
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(boxNomeProduto.Text))                
+                    throw new Exception("Preencha o nome do produto");
+
+                if (string.IsNullOrEmpty(boxUnidadePrimaria.Text))
+                    throw new Exception("Preencha a unidade primária");
+                              
+                if (unidadePrimaria is not null)
+                {
+                    novoProduto = new Produto()
+                    {
+                        Nome              = boxNomeProduto.Text.ToUpper().Trim(),
+                        Descricao         = string.IsNullOrEmpty(boxDescricao.Text)  ? "" : boxDescricao.Text.ToUpper().Trim(),
+                        Composicao        = string.IsNullOrEmpty(boxComposicao.Text) ? "" : boxComposicao.Text.ToUpper().Trim(),
+                        Peso              = Convert.ToDecimal(boxPeso.Text.Replace(".", "").Replace(",", ".")),
+                        UnidadePrimariaId = unidadePrimaria.Id
+                    };
+                }
+                else
+                    throw new Exception("Problemas ao obter dados informados da unidade primária.");
+
+                listaTabelasPrecos.Add(new TabelaPreco()
+                {
+                    Ordem = 1,
+                    PrecoCusto = Convert.ToDecimal(boxPrecoCusto01.Text),
+                    PrecoVenda = Convert.ToDecimal(boxPrecoVenda01.Text),
+                });
+
+                listaTabelasPrecos.Add(new TabelaPreco()
+                {
+                    Ordem = 2,
+                    PrecoCusto = Convert.ToDecimal(boxPrecoCusto02.Text.Replace(".", "").Replace(",", ".")),
+                    PrecoVenda = Convert.ToDecimal(boxPrecoVenda02.Text.Replace(".", "").Replace(",", ".")),
+                });
+
+                AdicionaPoduto();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void DelegaEventos()
+        {
+            btSalvarMais.Click           += BtSalvarMais_Click;
+            btSalvar.Click               += BtSalvar_Click;
+            btCancelar.Click             += BtCancelar_Click;
+            btBuscaUnidadePrimaria.Click += BtUnidadePrimaria_Click;
+        }
+
+        private void LimpaCampos()
+        {
+            LimpaCampos(groupInfoBasica);
+            LimpaCampos(groupInfoFisica);
+            LimpaCampos(groupTabPrecos);
+
+            boxNomeProduto.Focus();
+        }
+
+        private static void LimpaCampos(GroupBox Group)
+        {
+            foreach (Control controle in Group.Controls)
+            {
+                if (controle is MaterialTextBox box)
+                    box.Text = string.Empty;
+
+                if (controle is MaterialMultiLineTextBox mt)
+                    mt.Text = string.Empty;
+            }
+        }
+
+        private void SetPropriedades(UnidadePrimaria unidade)
+        {
+            this.unidadePrimaria    = unidade;
+
+            boxUnidadePrimaria.Text = unidade.Nome;
         }
 
         private string DecimalPesoParaString(decimal valor)
@@ -30,9 +133,9 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
         private string DecimalDInheiroParaString(decimal valor)
         {
-            string strValor     = valor.ToString();
-            string sobra        = string.Empty;
-            string valorCheio   = string.Empty;
+            string strValor = valor.ToString();
+            string sobra = string.Empty;
+            string valorCheio = string.Empty;
             string antesVirgula = string.Empty;
 
             if (strValor.Split(',').Length > 1)
@@ -40,11 +143,11 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
             if (sobra.Length < 2)
             {
-                sobra    = sobra.PadRight(2, '0');
+                sobra = sobra.PadRight(2, '0');
                 strValor = strValor.Split(',')[0] + "," + sobra;
             }
 
-            antesVirgula  = strValor.Split(',')[0].Replace(".", "");
+            antesVirgula = strValor.Split(',')[0].Replace(".", "");
 
             decimal casas = antesVirgula.Length / 3m;
 
@@ -57,14 +160,14 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
                 if ((antesVirgula.Length % 3m) > 0)
                 {
-                    string[] grupos   = new string[Convert.ToInt32(Math.Floor(casas)) + 1];
-                    string   auxiliar = antesVirgula;
+                    string[] grupos = new string[Convert.ToInt32(Math.Floor(casas)) + 1];
+                    string auxiliar = antesVirgula;
 
                     for (int i = 0; i < Convert.ToInt32(Math.Floor(casas)); i++)
                     {
-                        grupos[i]    = antesVirgula[(auxiliar.Length - 3)..];
+                        grupos[i] = antesVirgula[(auxiliar.Length - 3)..];
 
-                        auxiliar     = antesVirgula[..^3];
+                        auxiliar = antesVirgula[..^3];
                         antesVirgula = auxiliar;
 
                         if (i + 1 == Convert.ToInt32(Math.Floor(casas)))
@@ -88,14 +191,14 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
                 if ((antesVirgula.Length % 3m) == 0)
                 {
-                    string[] grupos   = new string[Convert.ToInt32(casas)];
-                    string   auxiliar = antesVirgula;
+                    string[] grupos = new string[Convert.ToInt32(casas)];
+                    string auxiliar = antesVirgula;
 
                     for (int i = 0; i < Convert.ToInt32(casas) - 1; i++)
                     {
-                        grupos[i]    = antesVirgula[(auxiliar.Length - 3)..];
+                        grupos[i] = antesVirgula[(auxiliar.Length - 3)..];
 
-                        auxiliar     = antesVirgula[..^3];
+                        auxiliar = antesVirgula[..^3];
                         antesVirgula = auxiliar;
 
                         if (i + 1 == Convert.ToInt32(casas) - 1)
@@ -131,7 +234,7 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
                 if (!string.IsNullOrEmpty(box.Text))
                 {
-                    valor  = Convert.ToDecimal(box.Text.Replace(".", "").Replace(",", "."));
+                    valor = Convert.ToDecimal(box.Text.Replace(".", "").Replace(",", "."));
                     valor /= 100;
                 }
 
@@ -187,6 +290,43 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
             }
         }
 
+        #endregion
+
+        #region Eventos e Cliques Keypress
+
+        private void BtSalvarMais_Click(object? sender, EventArgs e)
+        {
+            ValidaCampos();
+
+            action = LimpaCampos;
+        }
+
+        private void BtSalvar_Click(object? sender, EventArgs e)
+        {
+            ValidaCampos();
+
+            action = this.Close;
+        }
+
+        private void BtCancelar_Click(object? sender, EventArgs e)
+        {
+            if (MessageBox.Show("Deseja cancelar a edição atual?", "Cancelar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+                == DialogResult.Yes)
+            {
+                this.Close();
+            }
+            else
+                boxNomeProduto.Focus();
+        }
+
+        private void BtUnidadePrimaria_Click(object? sender, EventArgs e)
+        {            
+            BuscaUnidadesPrimarias buscaUnidades = new(SetPropriedades);
+            buscaUnidades.ShowDialog();
+
+            boxUnidadePrimaria.Focus();            
+        }
+
         private void BoxPeso_TextChanged(object sender, EventArgs e)
         {
             FormataCampoPeso((MaterialTextBox)sender);
@@ -198,15 +338,53 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
                 e.Handled = true;
         }
 
-        private void boxPreco01_KeyPress(object sender, KeyPressEventArgs e)
+        private void boxPreco_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',') && (e.KeyChar != '.'))
                 e.Handled = true;
         }
 
-        private void boxPreco01_TextChanged(object sender, EventArgs e)
+        private void boxPreco_TextChanged(object sender, EventArgs e)
         {
             FormataCampoDinheiro((MaterialTextBox)sender);
         }
+
+        #endregion
+
+        #region Requisições
+
+        private void AdicionaPoduto()
+        {
+            try
+            {
+                if (novoProduto is null)
+                    throw new Exception("O objeto de inserção é inválido");
+
+                if (listaTabelasPrecos.Count == 0)
+                    throw new Exception("O objeto de inserção da listagem de tabelas de preços é inválido");
+
+                HelperProdutos.AdicionaProduto(novoProduto, listaTabelasPrecos).Then(produto =>
+                {
+                    Utils.RunOnUiThread(this, () =>
+                    {
+                        MessageBox.Show("Produto inserido com sucesso!");
+
+                        action?.Invoke();
+                    });
+                }).Catch(erro =>
+                {
+                    Utils.RunOnUiThread(this, () =>
+                    {
+                        MessageBox.Show(erro.Message);
+                    });
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
     }
 }

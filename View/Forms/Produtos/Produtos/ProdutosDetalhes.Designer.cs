@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            groupBox1 = new GroupBox();
+            groupInfoBasica = new GroupBox();
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
@@ -36,39 +36,41 @@
             boxComposicao = new MaterialSkin.Controls.MaterialMultiLineTextBox();
             boxDescricao = new MaterialSkin.Controls.MaterialMultiLineTextBox();
             boxNomeProduto = new MaterialSkin.Controls.MaterialTextBox();
-            groupBox2 = new GroupBox();
+            groupInfoFisica = new GroupBox();
             boxPeso = new MaterialSkin.Controls.MaterialTextBox();
             btBuscaUnidadePrimaria = new FontAwesome.Sharp.IconButton();
             boxUnidadePrimaria = new MaterialSkin.Controls.MaterialTextBox();
-            groupBox3 = new GroupBox();
-            boxPreco02 = new MaterialSkin.Controls.MaterialTextBox();
-            boxPreco01 = new MaterialSkin.Controls.MaterialTextBox();
+            groupTabPrecos = new GroupBox();
+            boxPrecoVenda02 = new MaterialSkin.Controls.MaterialTextBox();
+            boxPrecoCusto02 = new MaterialSkin.Controls.MaterialTextBox();
+            boxPrecoVenda01 = new MaterialSkin.Controls.MaterialTextBox();
+            boxPrecoCusto01 = new MaterialSkin.Controls.MaterialTextBox();
             groupBox4 = new GroupBox();
             btCancelar = new FontAwesome.Sharp.IconButton();
             btSalvar = new FontAwesome.Sharp.IconButton();
             btSalvarMais = new FontAwesome.Sharp.IconButton();
-            groupBox1.SuspendLayout();
-            groupBox2.SuspendLayout();
-            groupBox3.SuspendLayout();
+            groupInfoBasica.SuspendLayout();
+            groupInfoFisica.SuspendLayout();
+            groupTabPrecos.SuspendLayout();
             groupBox4.SuspendLayout();
             SuspendLayout();
             // 
-            // groupBox1
+            // groupInfoBasica
             // 
-            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            groupBox1.Controls.Add(label3);
-            groupBox1.Controls.Add(label2);
-            groupBox1.Controls.Add(label1);
-            groupBox1.Controls.Add(boxModoUsar);
-            groupBox1.Controls.Add(boxComposicao);
-            groupBox1.Controls.Add(boxDescricao);
-            groupBox1.Controls.Add(boxNomeProduto);
-            groupBox1.Location = new Point(5, 4);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(933, 298);
-            groupBox1.TabIndex = 0;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Informações Básicas";
+            groupInfoBasica.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupInfoBasica.Controls.Add(label3);
+            groupInfoBasica.Controls.Add(label2);
+            groupInfoBasica.Controls.Add(label1);
+            groupInfoBasica.Controls.Add(boxModoUsar);
+            groupInfoBasica.Controls.Add(boxComposicao);
+            groupInfoBasica.Controls.Add(boxDescricao);
+            groupInfoBasica.Controls.Add(boxNomeProduto);
+            groupInfoBasica.Location = new Point(5, 4);
+            groupInfoBasica.Name = "groupInfoBasica";
+            groupInfoBasica.Size = new Size(933, 298);
+            groupInfoBasica.TabIndex = 0;
+            groupInfoBasica.TabStop = false;
+            groupInfoBasica.Text = "Informações Básicas";
             // 
             // label3
             // 
@@ -110,7 +112,7 @@
             boxModoUsar.MouseState = MaterialSkin.MouseState.HOVER;
             boxModoUsar.Name = "boxModoUsar";
             boxModoUsar.Size = new Size(921, 49);
-            boxModoUsar.TabIndex = 6;
+            boxModoUsar.TabIndex = 4;
             boxModoUsar.Text = "";
             // 
             // boxComposicao
@@ -126,7 +128,7 @@
             boxComposicao.MouseState = MaterialSkin.MouseState.HOVER;
             boxComposicao.Name = "boxComposicao";
             boxComposicao.Size = new Size(921, 49);
-            boxComposicao.TabIndex = 5;
+            boxComposicao.TabIndex = 3;
             boxComposicao.Text = "";
             // 
             // boxDescricao
@@ -142,7 +144,7 @@
             boxDescricao.MouseState = MaterialSkin.MouseState.HOVER;
             boxDescricao.Name = "boxDescricao";
             boxDescricao.Size = new Size(921, 49);
-            boxDescricao.TabIndex = 4;
+            boxDescricao.TabIndex = 2;
             boxDescricao.Text = "";
             // 
             // boxNomeProduto
@@ -161,22 +163,22 @@
             boxNomeProduto.Multiline = false;
             boxNomeProduto.Name = "boxNomeProduto";
             boxNomeProduto.Size = new Size(921, 50);
-            boxNomeProduto.TabIndex = 2;
+            boxNomeProduto.TabIndex = 1;
             boxNomeProduto.Tag = "";
             boxNomeProduto.Text = "";
             boxNomeProduto.TrailingIcon = null;
             // 
-            // groupBox2
+            // groupInfoFisica
             // 
-            groupBox2.Controls.Add(boxPeso);
-            groupBox2.Controls.Add(btBuscaUnidadePrimaria);
-            groupBox2.Controls.Add(boxUnidadePrimaria);
-            groupBox2.Location = new Point(5, 307);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(380, 132);
-            groupBox2.TabIndex = 13;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "Informaçõs Físicas";
+            groupInfoFisica.Controls.Add(boxPeso);
+            groupInfoFisica.Controls.Add(btBuscaUnidadePrimaria);
+            groupInfoFisica.Controls.Add(boxUnidadePrimaria);
+            groupInfoFisica.Location = new Point(5, 307);
+            groupInfoFisica.Name = "groupInfoFisica";
+            groupInfoFisica.Size = new Size(380, 132);
+            groupInfoFisica.TabIndex = 13;
+            groupInfoFisica.TabStop = false;
+            groupInfoFisica.Text = "Informaçõs Físicas";
             // 
             // boxPeso
             // 
@@ -195,7 +197,7 @@
             boxPeso.Name = "boxPeso";
             boxPeso.ShortcutsEnabled = false;
             boxPeso.Size = new Size(368, 50);
-            boxPeso.TabIndex = 15;
+            boxPeso.TabIndex = 5;
             boxPeso.Tag = "";
             boxPeso.Text = "0,000";
             boxPeso.TrailingIcon = null;
@@ -215,7 +217,7 @@
             btBuscaUnidadePrimaria.Location = new Point(325, 76);
             btBuscaUnidadePrimaria.Name = "btBuscaUnidadePrimaria";
             btBuscaUnidadePrimaria.Size = new Size(49, 49);
-            btBuscaUnidadePrimaria.TabIndex = 14;
+            btBuscaUnidadePrimaria.TabIndex = 6;
             btBuscaUnidadePrimaria.TextImageRelation = TextImageRelation.TextAboveImage;
             btBuscaUnidadePrimaria.UseVisualStyleBackColor = false;
             // 
@@ -241,65 +243,115 @@
             boxUnidadePrimaria.Text = "";
             boxUnidadePrimaria.TrailingIcon = null;
             // 
-            // groupBox3
+            // groupTabPrecos
             // 
-            groupBox3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            groupBox3.Controls.Add(boxPreco02);
-            groupBox3.Controls.Add(boxPreco01);
-            groupBox3.Location = new Point(389, 307);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(549, 132);
-            groupBox3.TabIndex = 14;
-            groupBox3.TabStop = false;
-            groupBox3.Text = "Tabelas Preço";
+            groupTabPrecos.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupTabPrecos.Controls.Add(boxPrecoVenda02);
+            groupTabPrecos.Controls.Add(boxPrecoCusto02);
+            groupTabPrecos.Controls.Add(boxPrecoVenda01);
+            groupTabPrecos.Controls.Add(boxPrecoCusto01);
+            groupTabPrecos.Location = new Point(389, 307);
+            groupTabPrecos.Name = "groupTabPrecos";
+            groupTabPrecos.Size = new Size(549, 132);
+            groupTabPrecos.TabIndex = 14;
+            groupTabPrecos.TabStop = false;
+            groupTabPrecos.Text = "Tabelas Preço";
             // 
-            // boxPreco02
+            // boxPrecoVenda02
             // 
-            boxPreco02.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            boxPreco02.AnimateReadOnly = false;
-            boxPreco02.BorderStyle = BorderStyle.None;
-            boxPreco02.Depth = 0;
-            boxPreco02.Font = new Font("Microsoft Sans Serif", 12F);
-            boxPreco02.Hint = "Preço 2 - R$";
-            boxPreco02.LeadingIcon = null;
-            boxPreco02.Location = new Point(7, 77);
-            boxPreco02.Margin = new Padding(2);
-            boxPreco02.MaxLength = 10;
-            boxPreco02.MouseState = MaterialSkin.MouseState.OUT;
-            boxPreco02.Multiline = false;
-            boxPreco02.Name = "boxPreco02";
-            boxPreco02.ShortcutsEnabled = false;
-            boxPreco02.Size = new Size(535, 50);
-            boxPreco02.TabIndex = 4;
-            boxPreco02.Tag = "";
-            boxPreco02.Text = "0,00";
-            boxPreco02.TrailingIcon = null;
-            boxPreco02.TextChanged += boxPreco01_TextChanged;
-            boxPreco02.KeyPress += boxPreco01_KeyPress;
+            boxPrecoVenda02.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxPrecoVenda02.AnimateReadOnly = false;
+            boxPrecoVenda02.BorderStyle = BorderStyle.None;
+            boxPrecoVenda02.Depth = 0;
+            boxPrecoVenda02.Font = new Font("Microsoft Sans Serif", 12F);
+            boxPrecoVenda02.Hint = "Preço Venda 2 - R$";
+            boxPrecoVenda02.LeadingIcon = null;
+            boxPrecoVenda02.Location = new Point(279, 76);
+            boxPrecoVenda02.Margin = new Padding(2);
+            boxPrecoVenda02.MaxLength = 10;
+            boxPrecoVenda02.MouseState = MaterialSkin.MouseState.OUT;
+            boxPrecoVenda02.Multiline = false;
+            boxPrecoVenda02.Name = "boxPrecoVenda02";
+            boxPrecoVenda02.ShortcutsEnabled = false;
+            boxPrecoVenda02.Size = new Size(262, 50);
+            boxPrecoVenda02.TabIndex = 10;
+            boxPrecoVenda02.Tag = "";
+            boxPrecoVenda02.Text = "0,00";
+            boxPrecoVenda02.TrailingIcon = null;
+            boxPrecoVenda02.TextChanged += boxPreco_TextChanged;
+            boxPrecoVenda02.KeyPress += boxPreco_KeyPress;
             // 
-            // boxPreco01
+            // boxPrecoCusto02
             // 
-            boxPreco01.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            boxPreco01.AnimateReadOnly = false;
-            boxPreco01.BorderStyle = BorderStyle.None;
-            boxPreco01.Depth = 0;
-            boxPreco01.Font = new Font("Microsoft Sans Serif", 12F);
-            boxPreco01.Hint = "Preço 1 - R$";
-            boxPreco01.LeadingIcon = null;
-            boxPreco01.Location = new Point(7, 20);
-            boxPreco01.Margin = new Padding(2);
-            boxPreco01.MaxLength = 50;
-            boxPreco01.MouseState = MaterialSkin.MouseState.OUT;
-            boxPreco01.Multiline = false;
-            boxPreco01.Name = "boxPreco01";
-            boxPreco01.ShortcutsEnabled = false;
-            boxPreco01.Size = new Size(535, 50);
-            boxPreco01.TabIndex = 3;
-            boxPreco01.Tag = "";
-            boxPreco01.Text = "0,00";
-            boxPreco01.TrailingIcon = null;
-            boxPreco01.TextChanged += boxPreco01_TextChanged;
-            boxPreco01.KeyPress += boxPreco01_KeyPress;
+            boxPrecoCusto02.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxPrecoCusto02.AnimateReadOnly = false;
+            boxPrecoCusto02.BorderStyle = BorderStyle.None;
+            boxPrecoCusto02.Depth = 0;
+            boxPrecoCusto02.Font = new Font("Microsoft Sans Serif", 12F);
+            boxPrecoCusto02.Hint = "Preço Custo 2 - R$";
+            boxPrecoCusto02.LeadingIcon = null;
+            boxPrecoCusto02.Location = new Point(279, 20);
+            boxPrecoCusto02.Margin = new Padding(2);
+            boxPrecoCusto02.MaxLength = 10;
+            boxPrecoCusto02.MouseState = MaterialSkin.MouseState.OUT;
+            boxPrecoCusto02.Multiline = false;
+            boxPrecoCusto02.Name = "boxPrecoCusto02";
+            boxPrecoCusto02.ShortcutsEnabled = false;
+            boxPrecoCusto02.Size = new Size(262, 50);
+            boxPrecoCusto02.TabIndex = 9;
+            boxPrecoCusto02.Tag = "";
+            boxPrecoCusto02.Text = "0,00";
+            boxPrecoCusto02.TrailingIcon = null;
+            boxPrecoCusto02.TextChanged += boxPreco_TextChanged;
+            boxPrecoCusto02.KeyPress += boxPreco_KeyPress;
+            // 
+            // boxPrecoVenda01
+            // 
+            boxPrecoVenda01.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxPrecoVenda01.AnimateReadOnly = false;
+            boxPrecoVenda01.BorderStyle = BorderStyle.None;
+            boxPrecoVenda01.Depth = 0;
+            boxPrecoVenda01.Font = new Font("Microsoft Sans Serif", 12F);
+            boxPrecoVenda01.Hint = "Preço Venda 1 - R$";
+            boxPrecoVenda01.LeadingIcon = null;
+            boxPrecoVenda01.Location = new Point(6, 76);
+            boxPrecoVenda01.Margin = new Padding(2);
+            boxPrecoVenda01.MaxLength = 10;
+            boxPrecoVenda01.MouseState = MaterialSkin.MouseState.OUT;
+            boxPrecoVenda01.Multiline = false;
+            boxPrecoVenda01.Name = "boxPrecoVenda01";
+            boxPrecoVenda01.ShortcutsEnabled = false;
+            boxPrecoVenda01.Size = new Size(266, 50);
+            boxPrecoVenda01.TabIndex = 8;
+            boxPrecoVenda01.Tag = "";
+            boxPrecoVenda01.Text = "0,00";
+            boxPrecoVenda01.TrailingIcon = null;
+            boxPrecoVenda01.TextChanged += boxPreco_TextChanged;
+            boxPrecoVenda01.KeyPress += boxPreco_KeyPress;
+            // 
+            // boxPrecoCusto01
+            // 
+            boxPrecoCusto01.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxPrecoCusto01.AnimateReadOnly = false;
+            boxPrecoCusto01.BorderStyle = BorderStyle.None;
+            boxPrecoCusto01.Depth = 0;
+            boxPrecoCusto01.Font = new Font("Microsoft Sans Serif", 12F);
+            boxPrecoCusto01.Hint = "Preço Custo 1 - R$";
+            boxPrecoCusto01.LeadingIcon = null;
+            boxPrecoCusto01.Location = new Point(6, 20);
+            boxPrecoCusto01.Margin = new Padding(2);
+            boxPrecoCusto01.MaxLength = 10;
+            boxPrecoCusto01.MouseState = MaterialSkin.MouseState.OUT;
+            boxPrecoCusto01.Multiline = false;
+            boxPrecoCusto01.Name = "boxPrecoCusto01";
+            boxPrecoCusto01.ShortcutsEnabled = false;
+            boxPrecoCusto01.Size = new Size(266, 50);
+            boxPrecoCusto01.TabIndex = 7;
+            boxPrecoCusto01.Tag = "";
+            boxPrecoCusto01.Text = "0,00";
+            boxPrecoCusto01.TrailingIcon = null;
+            boxPrecoCusto01.TextChanged += boxPreco_TextChanged;
+            boxPrecoCusto01.KeyPress += boxPreco_KeyPress;
             // 
             // groupBox4
             // 
@@ -328,7 +380,7 @@
             btCancelar.Location = new Point(224, 18);
             btCancelar.Name = "btCancelar";
             btCancelar.Size = new Size(97, 33);
-            btCancelar.TabIndex = 18;
+            btCancelar.TabIndex = 11;
             btCancelar.Text = "CANCELAR";
             btCancelar.TextImageRelation = TextImageRelation.ImageBeforeText;
             btCancelar.UseVisualStyleBackColor = false;
@@ -346,7 +398,7 @@
             btSalvar.Location = new Point(118, 18);
             btSalvar.Name = "btSalvar";
             btSalvar.Size = new Size(97, 33);
-            btSalvar.TabIndex = 17;
+            btSalvar.TabIndex = 10;
             btSalvar.Text = "SALVAR";
             btSalvar.UseVisualStyleBackColor = false;
             // 
@@ -364,7 +416,7 @@
             btSalvarMais.Location = new Point(11, 18);
             btSalvarMais.Name = "btSalvarMais";
             btSalvarMais.Size = new Size(97, 33);
-            btSalvarMais.TabIndex = 16;
+            btSalvarMais.TabIndex = 9;
             btSalvarMais.Text = "SALVAR";
             btSalvarMais.TextImageRelation = TextImageRelation.ImageBeforeText;
             btSalvarMais.UseVisualStyleBackColor = false;
@@ -375,9 +427,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(944, 583);
             Controls.Add(groupBox4);
-            Controls.Add(groupBox3);
-            Controls.Add(groupBox2);
-            Controls.Add(groupBox1);
+            Controls.Add(groupTabPrecos);
+            Controls.Add(groupInfoFisica);
+            Controls.Add(groupInfoBasica);
             Font = new Font("Montserrat", 8.249999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             MaximizeBox = false;
             MaximumSize = new Size(960, 622);
@@ -386,27 +438,27 @@
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Detalhes do Produto";
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            groupBox3.ResumeLayout(false);
+            groupInfoBasica.ResumeLayout(false);
+            groupInfoBasica.PerformLayout();
+            groupInfoFisica.ResumeLayout(false);
+            groupTabPrecos.ResumeLayout(false);
             groupBox4.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
-        private GroupBox groupBox1;
+        private GroupBox groupInfoBasica;
         private MaterialSkin.Controls.MaterialTextBox boxNomeProduto;
         private MaterialSkin.Controls.MaterialMultiLineTextBox boxDescricao;
         private MaterialSkin.Controls.MaterialMultiLineTextBox boxComposicao;
         private MaterialSkin.Controls.MaterialMultiLineTextBox boxModoUsar;
-        private GroupBox groupBox2;
+        private GroupBox groupInfoFisica;
         private FontAwesome.Sharp.IconButton btBuscaUnidadePrimaria;
         private MaterialSkin.Controls.MaterialTextBox boxUnidadePrimaria;
-        private GroupBox groupBox3;
-        private MaterialSkin.Controls.MaterialTextBox boxPreco02;
-        private MaterialSkin.Controls.MaterialTextBox boxPreco01;
+        private GroupBox groupTabPrecos;
+        private MaterialSkin.Controls.MaterialTextBox boxPrecoVenda01;
+        private MaterialSkin.Controls.MaterialTextBox boxPrecoCusto01;
         private GroupBox groupBox4;
         private FontAwesome.Sharp.IconButton btCancelar;
         private FontAwesome.Sharp.IconButton btSalvar;
@@ -415,5 +467,7 @@
         private Label label3;
         private Label label2;
         private MaterialSkin.Controls.MaterialTextBox boxPeso;
+        private MaterialSkin.Controls.MaterialTextBox boxPrecoVenda02;
+        private MaterialSkin.Controls.MaterialTextBox boxPrecoCusto02;
     }
 }
