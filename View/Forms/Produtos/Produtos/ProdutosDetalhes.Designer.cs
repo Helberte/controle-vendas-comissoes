@@ -278,8 +278,8 @@
             boxPrecoVenda02.Tag = "";
             boxPrecoVenda02.Text = "0,00";
             boxPrecoVenda02.TrailingIcon = null;
-            boxPrecoVenda02.TextChanged += boxPreco_TextChanged;
-            boxPrecoVenda02.KeyPress += boxPreco_KeyPress;
+            boxPrecoVenda02.TextChanged += BoxPreco_TextChanged;
+            boxPrecoVenda02.KeyPress += BoxPreco_KeyPress;
             // 
             // boxPrecoCusto02
             // 
@@ -302,8 +302,8 @@
             boxPrecoCusto02.Tag = "";
             boxPrecoCusto02.Text = "0,00";
             boxPrecoCusto02.TrailingIcon = null;
-            boxPrecoCusto02.TextChanged += boxPreco_TextChanged;
-            boxPrecoCusto02.KeyPress += boxPreco_KeyPress;
+            boxPrecoCusto02.TextChanged += BoxPreco_TextChanged;
+            boxPrecoCusto02.KeyPress += BoxPreco_KeyPress;
             // 
             // boxPrecoVenda01
             // 
@@ -326,8 +326,8 @@
             boxPrecoVenda01.Tag = "";
             boxPrecoVenda01.Text = "0,00";
             boxPrecoVenda01.TrailingIcon = null;
-            boxPrecoVenda01.TextChanged += boxPreco_TextChanged;
-            boxPrecoVenda01.KeyPress += boxPreco_KeyPress;
+            boxPrecoVenda01.TextChanged += BoxPreco_TextChanged;
+            boxPrecoVenda01.KeyPress += BoxPreco_KeyPress;
             // 
             // boxPrecoCusto01
             // 
@@ -350,8 +350,8 @@
             boxPrecoCusto01.Tag = "";
             boxPrecoCusto01.Text = "0,00";
             boxPrecoCusto01.TrailingIcon = null;
-            boxPrecoCusto01.TextChanged += boxPreco_TextChanged;
-            boxPrecoCusto01.KeyPress += boxPreco_KeyPress;
+            boxPrecoCusto01.TextChanged += BoxPreco_TextChanged;
+            boxPrecoCusto01.KeyPress += BoxPreco_KeyPress;
             // 
             // groupBox4
             // 

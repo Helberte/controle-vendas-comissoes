@@ -76,6 +76,7 @@
             boxUnidadePrimaria.AnimateReadOnly = false;
             boxUnidadePrimaria.BorderStyle = BorderStyle.None;
             boxUnidadePrimaria.Depth = 0;
+            boxUnidadePrimaria.Enabled = false;
             boxUnidadePrimaria.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
             boxUnidadePrimaria.Hint = "Unidade Primária";
             boxUnidadePrimaria.LeadingIcon = null;

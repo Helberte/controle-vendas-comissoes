@@ -49,7 +49,7 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
                         Nome              = boxNomeProduto.Text.ToUpper().Trim(),
                         Descricao         = string.IsNullOrEmpty(boxDescricao.Text)  ? "" : boxDescricao.Text.ToUpper().Trim(),
                         Composicao        = string.IsNullOrEmpty(boxComposicao.Text) ? "" : boxComposicao.Text.ToUpper().Trim(),
-                        Peso              = Convert.ToDecimal(boxPeso.Text.Replace(".", "").Replace(",", ".")),
+                        Peso              = Convert.ToDecimal(boxPeso.Text),
                         UnidadePrimariaId = unidadePrimaria.Id
                     };
                 }
@@ -66,8 +66,8 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
                 listaTabelasPrecos.Add(new TabelaPreco()
                 {
                     Ordem = 2,
-                    PrecoCusto = Convert.ToDecimal(boxPrecoCusto02.Text.Replace(".", "").Replace(",", ".")),
-                    PrecoVenda = Convert.ToDecimal(boxPrecoVenda02.Text.Replace(".", "").Replace(",", ".")),
+                    PrecoCusto = Convert.ToDecimal(boxPrecoCusto02.Text),
+                    PrecoVenda = Convert.ToDecimal(boxPrecoVenda02.Text),
                 });
 
                 AdicionaPoduto();
@@ -117,14 +117,14 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
         private string DecimalPesoParaString(decimal valor)
         {
             string strValor = valor.ToString();
-            string sobra = string.Empty;
+            string sobra    = string.Empty;
 
             if (strValor.Split(',').Length > 1)
                 sobra = strValor.Split(',')[1];
 
             if (sobra.Length < 3)
             {
-                sobra = sobra.PadRight(3, '0');
+                sobra    = sobra.PadRight(3, '0');
                 strValor = strValor.Split(',')[0] + "," + sobra;
             }
 
@@ -133,9 +133,9 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
         private string DecimalDInheiroParaString(decimal valor)
         {
-            string strValor = valor.ToString();
-            string sobra = string.Empty;
-            string valorCheio = string.Empty;
+            string strValor     = valor.ToString();
+            string sobra        = string.Empty;
+            string valorCheio   = string.Empty;
             string antesVirgula = string.Empty;
 
             if (strValor.Split(',').Length > 1)
@@ -143,7 +143,7 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
             if (sobra.Length < 2)
             {
-                sobra = sobra.PadRight(2, '0');
+                sobra    = sobra.PadRight(2, '0');
                 strValor = strValor.Split(',')[0] + "," + sobra;
             }
 
@@ -338,13 +338,13 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
                 e.Handled = true;
         }
 
-        private void boxPreco_KeyPress(object sender, KeyPressEventArgs e)
+        private void BoxPreco_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',') && (e.KeyChar != '.'))
                 e.Handled = true;
         }
 
-        private void boxPreco_TextChanged(object sender, EventArgs e)
+        private void BoxPreco_TextChanged(object sender, EventArgs e)
         {
             FormataCampoDinheiro((MaterialTextBox)sender);
         }

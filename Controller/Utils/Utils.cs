@@ -120,5 +120,17 @@ namespace controle_vendas_comissoes.Controller.Utils
             if (Convert.ToInt32(cpfLimpo[10].ToString()) != restoDiv_2)
                 throw new Exception(mensagem);
         }
+    
+        public static decimal FormataDecimalMonetario(decimal valor)
+        {
+            try
+            {
+                return Convert.ToDecimal(valor % 1 == 0 ? valor.ToString("0.00") : valor.ToString("0.##"));
+            }
+            catch (Exception)
+            {
+                return valor;
+            }            
+        }
     }
 }

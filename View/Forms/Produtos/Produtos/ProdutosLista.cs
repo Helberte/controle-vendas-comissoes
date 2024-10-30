@@ -76,6 +76,13 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
                 Utils.RunOnUiThread(this, () =>
                 {
                     dataGridProdutos.DataSource          = listaProdutos;
+
+                    dataGridProdutos.Columns["UnidadePrimaria"].HeaderText = "Unidade Primária";
+                    dataGridProdutos.Columns["PrecoCusto1"].HeaderText     = "Preço de Custo 1";
+                    dataGridProdutos.Columns["PrecoVenda1"].HeaderText     = "Preço de Venda 1";
+                    dataGridProdutos.Columns["PrecoCusto2"].HeaderText     = "Preço de Custo 2";
+                    dataGridProdutos.Columns["PrecoVenda2"].HeaderText     = "Preço de Venda 2";
+
                     dataGridProdutos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                     dataGridProdutos.Columns["id"].Width = 60;
                 });
