@@ -4,6 +4,7 @@ using controle_vendas_comissoes.View.Forms.Pessoal.Classificacoes;
 using controle_vendas_comissoes.View.Forms.Pessoal.Pessoas;
 using controle_vendas_comissoes.View.Forms.Produtos.UnidadesDeProdutos;
 using controle_vendas_comissoes.View.Forms.Produtos.Produtos;
+using controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes;
 
 namespace controle_vendas_comissoes
 {
@@ -42,6 +43,12 @@ namespace controle_vendas_comissoes
         public static void SendProdutos()
         {
             ProdutosLista rotina = new();
+            rotina.ShowDialog();
+        }
+
+        public static void SendComissoesConfiguracao()
+        {
+            ComissoesConfiguracao rotina = new();
             rotina.ShowDialog();
         }
     }

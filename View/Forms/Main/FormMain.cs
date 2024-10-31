@@ -5,6 +5,7 @@ using controle_vendas_comissoes.Model.Db.Helpers.Menu;
 using FontAwesome.Sharp;
 using System.Drawing.Drawing2D;
 using System.Reflection;
+using System.Drawing.Imaging;
 
 namespace controle_vendas_comissoes.View.Forms.Main
 {
@@ -13,6 +14,7 @@ namespace controle_vendas_comissoes.View.Forms.Main
         #region Variáveis
 
         private static List<Menu>? menus = null;
+        private static readonly int paddingTopMenuLateral = 15;
         private readonly List<Control> shadowControls = [];
         Bitmap? shadowBmp = null;
 
@@ -200,7 +202,7 @@ namespace controle_vendas_comissoes.View.Forms.Main
         private void SetBotaoPai(Menu menu, int totalBotoes)
         {
             IconButton botao = new();
-            int heightBotao = 0;
+            int heightBotao = paddingTopMenuLateral;
 
             botao.BackColor = System.Drawing.Color.Transparent;
             botao.Height    = 55;
@@ -210,7 +212,7 @@ namespace controle_vendas_comissoes.View.Forms.Main
             CardMenuLateral.Controls.Add(botao);
 
             if (totalBotoes > 0)
-                heightBotao = botao.Height * totalBotoes;
+                heightBotao = (botao.Height * totalBotoes) + paddingTopMenuLateral;
 
             botao.Tag = menu;
             botao.Location = new Point(5, heightBotao);
@@ -298,7 +300,7 @@ namespace controle_vendas_comissoes.View.Forms.Main
 
         private void ReorganizaBotoes(IconButton? button = null)
         {
-            int altura = 0;
+            int altura = paddingTopMenuLateral;
 
             if (FormMain.panelMenusFilhos is not null && button is not null)
             {
@@ -342,8 +344,11 @@ namespace controle_vendas_comissoes.View.Forms.Main
 
         private void ConfiguracaoLayout()
         {
-            lblCidadeData.Location  = new Point(CardCabecalho.Width - lblCidadeData.Width - 10, (CardCabecalho.Height / 2) - (lblCidadeData.Height / 2));
-            lblNomeSistema.Location = new Point(10, (CardCabecalho.Height / 2) - (lblNomeSistema.Height / 2));
+            this.BackgroundImage       = SetImageOpacity(Image.FromFile(@"background.png"), 0.25F);
+            this.BackgroundImageLayout = ImageLayout.Center;
+
+            lblCidadeData.Location     = new Point(CardCabecalho.Width - lblCidadeData.Width - 10, (CardCabecalho.Height / 2) - (lblCidadeData.Height / 2));
+            lblNomeSistema.Location    = new Point(10, (CardCabecalho.Height / 2) - (lblNomeSistema.Height / 2));
 
             this.Text = "Versão - " + Assembly.GetExecutingAssembly().GetName().Version;
         }
@@ -376,6 +381,27 @@ namespace controle_vendas_comissoes.View.Forms.Main
             this.Paint += FormMain_Paint;
 
             this.Refresh();
+        }
+
+        public Image SetImageOpacity(Image image, float opacity)
+        {
+            Bitmap bmp = new(image.Width, image.Height);
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                ColorMatrix matrix = new ColorMatrix();
+                matrix.Matrix33 = opacity;
+                ImageAttributes attributes = new ImageAttributes();
+                attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default,
+                                                  ColorAdjustType.Bitmap);
+                g.DrawImage(image, new Rectangle(0, 0, bmp.Width, bmp.Height),
+                                   0, 0, image.Width, image.Height,
+                                   GraphicsUnit.Pixel, attributes);
+            }
+            return bmp;
+
+            // fonte
+            //https://stackoverflow.com/questions/23114282/are-we-able-to-set-opacity-of-the-background-image-of-a-panel
+            //https://www.codeproject.com/Tips/201129/Change-Opacity-of-Image-in-C
         }
 
         #endregion

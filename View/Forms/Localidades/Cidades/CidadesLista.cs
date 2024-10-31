@@ -83,6 +83,7 @@ namespace controle_vendas_comissoes.View.Forms.Localidades.Cidades
                     dataGridCidades.Columns["createdBy"].Visible = false;
                     dataGridCidades.Columns["updatedBy"].Visible = false;
                     dataGridCidades.Columns["deletedBy"].Visible = false;
+                    dataGridCidades.Columns["estadoId"].Visible  = false;
 
                     dataGridCidades.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 

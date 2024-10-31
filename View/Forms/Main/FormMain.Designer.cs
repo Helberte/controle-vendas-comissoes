@@ -46,7 +46,7 @@
             CardCabecalho.Dock = DockStyle.Top;
             CardCabecalho.Location = new Point(0, 0);
             CardCabecalho.Name = "CardCabecalho";
-            CardCabecalho.Size = new Size(876, 53);
+            CardCabecalho.Size = new Size(876, 62);
             CardCabecalho.TabIndex = 5;
             // 
             // lblNomeSistema
@@ -54,7 +54,7 @@
             lblNomeSistema.AutoSize = true;
             lblNomeSistema.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblNomeSistema.ForeColor = Color.FromArgb(130, 130, 130);
-            lblNomeSistema.Location = new Point(12, 16);
+            lblNomeSistema.Location = new Point(12, 20);
             lblNomeSistema.Name = "lblNomeSistema";
             lblNomeSistema.Size = new Size(278, 22);
             lblNomeSistema.TabIndex = 1;
@@ -66,7 +66,7 @@
             lblCidadeData.AutoSize = true;
             lblCidadeData.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblCidadeData.ForeColor = Color.FromArgb(130, 130, 130);
-            lblCidadeData.Location = new Point(602, 16);
+            lblCidadeData.Location = new Point(602, 21);
             lblCidadeData.Name = "lblCidadeData";
             lblCidadeData.Size = new Size(262, 22);
             lblCidadeData.TabIndex = 0;
@@ -76,10 +76,10 @@
             // 
             CardMenuLateral.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             CardMenuLateral.BackColor = Color.White;
-            CardMenuLateral.Location = new Point(6, 68);
+            CardMenuLateral.Location = new Point(6, 79);
             CardMenuLateral.MaximumSize = new Size(196, 537);
             CardMenuLateral.Name = "CardMenuLateral";
-            CardMenuLateral.Size = new Size(196, 419);
+            CardMenuLateral.Size = new Size(196, 468);
             CardMenuLateral.TabIndex = 6;
             // 
             // timerDataHora
@@ -92,7 +92,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(876, 490);
+            ClientSize = new Size(876, 549);
             Controls.Add(CardMenuLateral);
             Controls.Add(CardCabecalho);
             Font = new Font("Montserrat", 8.249999F, FontStyle.Regular, GraphicsUnit.Point, 0);
