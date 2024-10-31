@@ -41,6 +41,15 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
             modal.ShowDialog();
         }
 
+        private void dataGridProdutos_SelectionChanged(object sender, EventArgs e)
+        {
+            if (((DataGridView)sender).SelectedRows.Count > 0)
+            {
+                lblIdProduto.Text        = ((DataGridView)sender).SelectedRows[0].Cells["Id"].Value.ToString();
+                lblDescricaoProduto.Text = ((DataGridView)sender).SelectedRows[0].Cells["Nome"].Value.ToString();
+            }
+        }
+
         #endregion
 
         #region Métodos
@@ -52,13 +61,14 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
             dataGridComissoes.SetStyleDataGridView();
 
             // grid estados
-            dataGridEstados.ColumnCount     = 3;
+            dataGridEstados.ColumnCount = 3;
             dataGridEstados.Columns[0].Name = "Id";
             dataGridEstados.Columns[1].Name = "Nome";
             dataGridEstados.Columns[2].Name = "UF";
 
-            dataGridEstados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridEstados.Columns[0].Width    = 60;
+            dataGridEstados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridEstados.Columns[0].Width = 60;
+            dataGridEstados.Columns[2].Width = 75;
         }
 
         private void DelegaEventos()
@@ -102,6 +112,6 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
             });
         }
 
-        #endregion
+        #endregion             
     }
 }

@@ -82,6 +82,7 @@
             dataGridProdutos.Name = "dataGridProdutos";
             dataGridProdutos.Size = new Size(546, 493);
             dataGridProdutos.TabIndex = 1;
+            dataGridProdutos.SelectionChanged += dataGridProdutos_SelectionChanged;
             // 
             // lblIdProduto
             // 
