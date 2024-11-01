@@ -3,16 +3,6 @@ using controle_vendas_comissoes.Model.Db.Entidades;
 using controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos;
 using controle_vendas_comissoes.View.Extensions;
 using controle_vendas_comissoes.View.Forms.Modais;
-using controle_vendas_comissoes.View.Forms.Produtos.Produtos;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 {
