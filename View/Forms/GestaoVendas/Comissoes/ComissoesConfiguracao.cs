@@ -66,10 +66,37 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
             btInserirEstado.Click += BtAdicionarEstado_Click;
         }
 
+        private static int ProcuraValorDataGridView(DataGridView dataGridView, string coluna, string valor)
+        {
+            try
+            {
+                DataGridViewRow row = dataGridView.Rows.Cast<DataGridViewRow>().Where((r) =>
+                {
+                    if (r.Cells[coluna].Value.ToString() == valor)
+                    {
+                        return true;
+                    }
+                    return false;
+
+                }).First();
+
+                return row.Index;
+            }
+            catch (Exception)
+            {
+                return -1;
+            }            
+        }
+
         private void SetPropriedades(Estado estado)
         {
-            string[] row0 = { estado.Id.ToString(), estado.Nome, estado.UF };
-            dataGridEstados.Rows.Add(row0);
+            int index = ProcuraValorDataGridView(dataGridEstados, "Id", estado.Id.ToString());
+
+            if (index < 0)
+            {
+                string[] row0 = { estado.Id.ToString(), estado.Nome, estado.UF };
+                dataGridEstados.Rows.Add(row0);
+            }            
         }
 
         #endregion
