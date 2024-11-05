@@ -35,7 +35,6 @@
             lblDescricaoProduto = new Label();
             dataGridEstados = new DataGridView();
             label3 = new Label();
-            btInserirEstado = new FontAwesome.Sharp.IconButton();
             dataGridComissoes = new DataGridView();
             label4 = new Label();
             groupBox1.SuspendLayout();
@@ -50,7 +49,7 @@
             groupBox1.Controls.Add(boxInformacoesProduto);
             groupBox1.Location = new Point(6, 7);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1020, 79);
+            groupBox1.Size = new Size(1084, 79);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Pesquisa";
@@ -69,7 +68,7 @@
             boxInformacoesProduto.MouseState = MaterialSkin.MouseState.OUT;
             boxInformacoesProduto.Multiline = false;
             boxInformacoesProduto.Name = "boxInformacoesProduto";
-            boxInformacoesProduto.Size = new Size(1008, 50);
+            boxInformacoesProduto.Size = new Size(1072, 50);
             boxInformacoesProduto.TabIndex = 6;
             boxInformacoesProduto.Text = "";
             boxInformacoesProduto.TrailingIcon = null;
@@ -80,9 +79,9 @@
             dataGridProdutos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridProdutos.Location = new Point(6, 92);
             dataGridProdutos.Name = "dataGridProdutos";
-            dataGridProdutos.Size = new Size(546, 493);
+            dataGridProdutos.Size = new Size(546, 605);
             dataGridProdutos.TabIndex = 1;
-            dataGridProdutos.SelectionChanged += dataGridProdutos_SelectionChanged;
+            dataGridProdutos.SelectionChanged += DataGridProdutos_SelectionChanged;
             // 
             // lblIdProduto
             // 
@@ -111,8 +110,9 @@
             dataGridEstados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridEstados.Location = new Point(558, 159);
             dataGridEstados.Name = "dataGridEstados";
-            dataGridEstados.Size = new Size(468, 197);
+            dataGridEstados.Size = new Size(532, 383);
             dataGridEstados.TabIndex = 4;
+            dataGridEstados.SelectionChanged += dataGridEstados_SelectionChanged;
             // 
             // label3
             // 
@@ -123,39 +123,19 @@
             label3.TabIndex = 5;
             label3.Text = "Estados desta configuração de comissão";
             // 
-            // btInserirEstado
-            // 
-            btInserirEstado.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btInserirEstado.BackColor = Color.FromArgb(199, 199, 199);
-            btInserirEstado.FlatAppearance.BorderSize = 0;
-            btInserirEstado.FlatStyle = FlatStyle.Flat;
-            btInserirEstado.Font = new Font("Montserrat ExtraBold", 8.249999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btInserirEstado.ForeColor = Color.White;
-            btInserirEstado.IconChar = FontAwesome.Sharp.IconChar.PlusSquare;
-            btInserirEstado.IconColor = Color.White;
-            btInserirEstado.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btInserirEstado.IconSize = 15;
-            btInserirEstado.Location = new Point(800, 362);
-            btInserirEstado.Name = "btInserirEstado";
-            btInserirEstado.Size = new Size(226, 29);
-            btInserirEstado.TabIndex = 14;
-            btInserirEstado.Text = "ADICIONAR ESTADO";
-            btInserirEstado.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btInserirEstado.UseVisualStyleBackColor = false;
-            // 
             // dataGridComissoes
             // 
             dataGridComissoes.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridComissoes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridComissoes.Location = new Point(558, 417);
+            dataGridComissoes.Location = new Point(558, 563);
             dataGridComissoes.Name = "dataGridComissoes";
-            dataGridComissoes.Size = new Size(468, 168);
+            dataGridComissoes.Size = new Size(532, 134);
             dataGridComissoes.TabIndex = 15;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(555, 397);
+            label4.Location = new Point(555, 545);
             label4.Name = "label4";
             label4.Size = new Size(177, 15);
             label4.TabIndex = 16;
@@ -165,10 +145,9 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1033, 591);
+            ClientSize = new Size(1097, 703);
             Controls.Add(label4);
             Controls.Add(dataGridComissoes);
-            Controls.Add(btInserirEstado);
             Controls.Add(label3);
             Controls.Add(dataGridEstados);
             Controls.Add(lblDescricaoProduto);
@@ -177,7 +156,7 @@
             Controls.Add(groupBox1);
             Font = new Font("Montserrat", 8.249999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             MaximizeBox = false;
-            MinimumSize = new Size(1049, 630);
+            MinimumSize = new Size(1113, 742);
             Name = "ComissoesConfiguracao";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
@@ -199,7 +178,6 @@
         private Label lblDescricaoProduto;
         private DataGridView dataGridEstados;
         private Label label3;
-        private FontAwesome.Sharp.IconButton btInserirEstado;
         private DataGridView dataGridComissoes;
         private Label label4;
     }

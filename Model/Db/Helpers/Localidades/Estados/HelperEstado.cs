@@ -20,7 +20,6 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Localidades.Estados
                         promise.Resolve([..
                             context.Estados
                             .OrderByDescending(x => x.CreatedAt)
-                            .Take(20)
                             .Select(estado => new Estado {
                                 Id   = estado.Id,
                                 Nome = estado.Nome,

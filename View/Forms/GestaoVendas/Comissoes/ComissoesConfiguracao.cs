@@ -1,13 +1,17 @@
 ﻿using controle_vendas_comissoes.Controller.Utils;
-using controle_vendas_comissoes.Model.Db.Entidades;
+using controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes;
+using controle_vendas_comissoes.Model.Db.Helpers.Localidades.Estados;
 using controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos;
 using controle_vendas_comissoes.View.Extensions;
-using controle_vendas_comissoes.View.Forms.Modais;
 
 namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 {
     public partial class ComissoesConfiguracao : Form
     {
+        private static int produtoId = 0;
+        private static int estadoId = 0;
+        private static bool enviandoRequisicao = false;
+
         #region Construtores
 
         public ComissoesConfiguracao()
@@ -19,24 +23,33 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
             DelegaEventos();
 
             ListarProdutos();
+            ListarEstados();
         }
 
         #endregion
 
         #region Eventos e Cliques
 
-        private void BtAdicionarEstado_Click(object? sender, EventArgs e)
-        {
-            BuscaEstado modal = new(SetPropriedades);
-            modal.ShowDialog();
-        }
-
-        private void dataGridProdutos_SelectionChanged(object sender, EventArgs e)
+        private void DataGridProdutos_SelectionChanged(object sender, EventArgs e)
         {
             if (((DataGridView)sender).SelectedRows.Count > 0)
             {
-                lblIdProduto.Text        = ((DataGridView)sender).SelectedRows[0].Cells["Id"].Value.ToString();
+                lblIdProduto.Text = ((DataGridView)sender).SelectedRows[0].Cells["Id"].Value.ToString();
                 lblDescricaoProduto.Text = ((DataGridView)sender).SelectedRows[0].Cells["Nome"].Value.ToString();
+
+                produtoId = Convert.ToInt32(((DataGridView)sender).SelectedRows[0].Cells["Id"].Value);
+
+                ObtemComissoesProduto();
+            }
+        }
+
+        private void dataGridEstados_SelectionChanged(object sender, EventArgs e)
+        {
+            if (((DataGridView)sender).SelectedRows.Count > 0)
+            {                
+                estadoId = Convert.ToInt32(((DataGridView)sender).SelectedRows[0].Cells["Id"].Value);
+
+                ObtemComissoesProduto();    
             }
         }
 
@@ -49,54 +62,11 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
             dataGridProdutos.SetStyleDataGridView();
             dataGridEstados.SetStyleDataGridView();
             dataGridComissoes.SetStyleDataGridView();
-
-            // grid estados
-            dataGridEstados.ColumnCount = 3;
-            dataGridEstados.Columns[0].Name = "Id";
-            dataGridEstados.Columns[1].Name = "Nome";
-            dataGridEstados.Columns[2].Name = "UF";
-
-            dataGridEstados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridEstados.Columns[0].Width = 60;
-            dataGridEstados.Columns[2].Width = 75;
         }
 
-        private void DelegaEventos()
+        private static void DelegaEventos()
         {
-            btInserirEstado.Click += BtAdicionarEstado_Click;
-        }
 
-        private static int ProcuraValorDataGridView(DataGridView dataGridView, string coluna, string valor)
-        {
-            try
-            {
-                DataGridViewRow row = dataGridView.Rows.Cast<DataGridViewRow>().Where((r) =>
-                {
-                    if (r.Cells[coluna].Value.ToString() == valor)
-                    {
-                        return true;
-                    }
-                    return false;
-
-                }).First();
-
-                return row.Index;
-            }
-            catch (Exception)
-            {
-                return -1;
-            }            
-        }
-
-        private void SetPropriedades(Estado estado)
-        {
-            int index = ProcuraValorDataGridView(dataGridEstados, "Id", estado.Id.ToString());
-
-            if (index < 0)
-            {
-                string[] row0 = { estado.Id.ToString(), estado.Nome, estado.UF };
-                dataGridEstados.Rows.Add(row0);
-            }            
         }
 
         #endregion
@@ -129,6 +99,66 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
             });
         }
 
-        #endregion             
+        private void ListarEstados()
+        {
+            HelperEstado.ObtemEstados().Then(listaEstados =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    dataGridEstados.DataSource = listaEstados;
+
+                    dataGridEstados.Columns["createdAt"].Visible = false;
+                    dataGridEstados.Columns["updatedAt"].Visible = false;
+                    dataGridEstados.Columns["deletedAt"].Visible = false;
+                    dataGridEstados.Columns["createdBy"].Visible = false;
+                    dataGridEstados.Columns["updatedBy"].Visible = false;
+                    dataGridEstados.Columns["deletedBy"].Visible = false;
+
+                    dataGridEstados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                    dataGridEstados.Columns["id"].Width = 60;
+                    dataGridEstados.Columns["uf"].Width = 100;
+
+                });
+            }).Catch(erro =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    MessageBox.Show(erro.Message);
+                });
+            });
+        }
+
+        private void ObtemComissoesProduto()
+        {
+            if (enviandoRequisicao) return;
+
+            if (!(produtoId > 0 && estadoId > 0)) return;
+
+            enviandoRequisicao = true;
+
+            HelperComissoes.ObtemComissoesProduto(produtoId, estadoId).Then(comissoes =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    dataGridComissoes.DataSource = comissoes;
+
+                    dataGridComissoes.Columns["ClassificacaoId"].Visible = false;
+                    dataGridComissoes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                    enviandoRequisicao = false;
+                });
+            }).Catch(erro =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    enviandoRequisicao = false;
+
+                    MessageBox.Show(erro.Message);
+                });
+            });
+        }
+
+        #endregion
     }
 }

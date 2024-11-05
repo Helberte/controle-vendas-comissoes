@@ -10,7 +10,14 @@ namespace controle_vendas_comissoes.Controller.Utils
 
         public static void RunOnUiThread(Control controle, Action action)
         {
-            controle.BeginInvoke(action);
+            try
+            {
+                controle.BeginInvoke(action);
+            }
+            catch (Exception)
+            {
+
+            }            
         }
 
         public static void ExibeCarregando(Control control)
@@ -131,6 +138,40 @@ namespace controle_vendas_comissoes.Controller.Utils
             {
                 return valor;
             }            
+        }
+
+        public static decimal FormataPorcentagem(decimal valor)
+        {
+            try
+            {
+                return Convert.ToDecimal(valor.ToString("0.####"));
+            }
+            catch (Exception)
+            {
+                return valor;
+            }
+        }
+
+        public static int ProcuraValorDataGridView(DataGridView dataGridView, string coluna, string valor)
+        {
+            try
+            {
+                DataGridViewRow row = dataGridView.Rows.Cast<DataGridViewRow>().Where((r) =>
+                {
+                    if (r.Cells[coluna].Value.ToString() == valor)
+                    {
+                        return true;
+                    }
+                    return false;
+
+                }).First();
+
+                return row.Index;
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
         }
     }
 }
