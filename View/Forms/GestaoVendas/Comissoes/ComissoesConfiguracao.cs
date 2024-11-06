@@ -42,8 +42,8 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
                 ObtemComissoesProduto();
             }
         }
-
-        private void dataGridEstados_SelectionChanged(object sender, EventArgs e)
+         
+        private void DataGridEstados_SelectionChanged(object sender, EventArgs e)
         {
             if (((DataGridView)sender).SelectedRows.Count > 0)
             {                
