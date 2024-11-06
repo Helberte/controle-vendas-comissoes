@@ -111,6 +111,7 @@
             dataGridComissoes.Name = "dataGridComissoes";
             dataGridComissoes.Size = new Size(476, 297);
             dataGridComissoes.TabIndex = 15;
+            dataGridComissoes.EditingControlShowing += dataGridComissoes_EditingControlShowing;
             // 
             // label4
             // 

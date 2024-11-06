@@ -20,7 +20,7 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes
                     string sql = string.Format(@"
                         SELECT ClassificacaoId   = TB.classificacaoId
 						     , ClassificacaoNome = TB.classificacaoNome
-							 , ValosReal		 = ISNULL(valosReal, 0)
+							 , ValorReal		 = ISNULL(valosReal, 0)
 							 , Porcentagem		 = ISNULL(porcentagem, 0)
 						
 						  FROM (
