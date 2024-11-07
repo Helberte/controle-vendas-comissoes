@@ -4,6 +4,7 @@ using controle_vendas_comissoes.Model.Db.Helpers.Localidades.Estados;
 using controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos;
 using controle_vendas_comissoes.View.Extensions;
 using MaterialSkin.Controls;
+using System.Windows.Controls;
 using System.Windows.Forms;
 
 namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
@@ -170,30 +171,35 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 
         #endregion
 
-        private void dataGridComissoes_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        private void DataGridComissoes_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             e.Control.KeyPress -= new KeyPressEventHandler(Column1_KeyPress);
             if (dataGridComissoes.CurrentCell.ColumnIndex == dataGridComissoes.Columns["ValorReal"].Index) //Desired Column
             {
-                if (e.Control is TextBox tb)
+                if (e.Control is System.Windows.Forms.TextBox tb)
                 {
-                    if (tb != null)                    
-                        tb.KeyPress += new KeyPressEventHandler(Column1_KeyPress);                    
+                    if (tb != null)
+                    {
+                        tb.KeyPress += new KeyPressEventHandler(Column1_KeyPress);
+                        tb.TextChanged += new EventHandler(BoxPreco_TextChanged);
+                    }  
                 }
             }
+        }
+
+        private void BoxPreco_TextChanged(object? sender, EventArgs e)
+        {
+            if (sender is not null)
+                FormataCampoDinheiro((System.Windows.Forms.TextBox)sender);
         }
 
         private void Column1_KeyPress(object? sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',') && (e.KeyChar != '.'))
                 e.Handled = true;
-
-            var teste = dataGridComissoes.Rows[dataGridComissoes.CurrentCell.RowIndex];
-
-            FormataCampoDinheiro(dataGridComissoes.CurrentCell);
         }
 
-        private void FormataCampoDinheiro(DataGridViewCell cell)
+        private void FormataCampoDinheiro(System.Windows.Forms.TextBox box)
         {
             try
             {
@@ -203,27 +209,29 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 
                 decimal valor = 0m;
 
-                if (!string.IsNullOrEmpty(cell.Value.ToString()))
+                if (!string.IsNullOrEmpty(box.Text))
                 {
-                    valor = Convert.ToDecimal((cell.Value.ToString() ?? "").Replace(".", "").Replace(",", "."));
+                    valor = Convert.ToDecimal(box.Text.Replace(".", "").Replace(",", "."));
                     valor /= 100;
                 }
 
                 if (valor > 0)
-                    cell.Value = DecimalDInheiroParaString(valor);
+                    box.Text = DecimalDInheiroParaString(valor);
                 else
-                    cell.Value = "0,00";
+                    box.Text = "0,00";
+
+                box.Select(box.Text.Length, 0);
 
                 bloqueiaAlteracaoCampo = false;
             }
             catch (Exception)
             {
-                cell.Value = "0,00";
+                box.Text = "0,00";
+                box.Select(box.Text.Length, 0);
 
                 bloqueiaAlteracaoCampo = false;
             }
         }
-
 
         private string DecimalDInheiroParaString(decimal valor)
         {
