@@ -173,7 +173,9 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 
         private void DataGridComissoes_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            e.Control.KeyPress -= new KeyPressEventHandler(Column1_KeyPress);
+            e.Control.KeyPress    -= new KeyPressEventHandler(Column1_KeyPress);
+            e.Control.TextChanged -= new EventHandler(BoxPreco_TextChanged);
+
             if (dataGridComissoes.CurrentCell.ColumnIndex == dataGridComissoes.Columns["ValorReal"].Index) //Desired Column
             {
                 if (e.Control is System.Windows.Forms.TextBox tb)
@@ -183,6 +185,18 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
                         tb.KeyPress += new KeyPressEventHandler(Column1_KeyPress);
                         tb.TextChanged += new EventHandler(BoxPreco_TextChanged);
                     }  
+                }
+            }
+
+            if (dataGridComissoes.CurrentCell.ColumnIndex == dataGridComissoes.Columns["Porcentagem"].Index) //Desired Column
+            {
+                if (e.Control is System.Windows.Forms.TextBox tb)
+                {
+                    if (tb != null)
+                    {
+                        tb.KeyPress += new KeyPressEventHandler(Column1_KeyPress2);
+                        tb.TextChanged += new EventHandler(BoxPreco_TextChanged);
+                    }
                 }
             }
         }
@@ -231,6 +245,18 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 
                 bloqueiaAlteracaoCampo = false;
             }
+        }
+
+        private void Column1_KeyPress2(object? sender, KeyPressEventArgs e)
+        {
+            if (sender is not null)
+            {
+                if (((System.Windows.Forms.TextBox)sender).Text.Length > 5 && !(e.KeyChar == 7 || e.KeyChar == 8))
+                    e.Handled = true;
+
+                if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',') && (e.KeyChar != '.'))
+                    e.Handled = true;               
+            }            
         }
 
         private string DecimalDInheiroParaString(decimal valor)
