@@ -153,7 +153,7 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
                     dataGridComissoes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
                     dataGridComissoes.Columns["ClassificacaoNome"].ReadOnly = true;
-                    dataGridComissoes.Columns["Porcentagem"].ReadOnly = false;
+                    dataGridComissoes.Columns["Porcentagem"].ReadOnly = true;
                     dataGridComissoes.Columns["ValorReal"].ReadOnly = false;
 
                     enviandoRequisicao = false;
@@ -173,8 +173,13 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 
         private void DataGridComissoes_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            e.Control.KeyPress    -= new KeyPressEventHandler(Column1_KeyPress);
-            e.Control.TextChanged -= new EventHandler(BoxPreco_TextChanged);
+            decimal precoVenda = Convert.ToDecimal(dataGridProdutos.CurrentRow.Cells[dataGridProdutos.Columns["PrecoVenda1"].Index].Value);
+
+            e.Control.KeyPress    -= new KeyPressEventHandler(CelulaComissao_KeyPress);
+            e.Control.TextChanged -= new EventHandler((object? sender, EventArgs e) =>
+            {
+                CelulaGrid_TextChanged(sender, e, precoVenda - 1);
+            });            
 
             if (dataGridComissoes.CurrentCell.ColumnIndex == dataGridComissoes.Columns["ValorReal"].Index) //Desired Column
             {
@@ -182,38 +187,29 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
                 {
                     if (tb != null)
                     {
-                        tb.KeyPress += new KeyPressEventHandler(Column1_KeyPress);
-                        tb.TextChanged += new EventHandler(BoxPreco_TextChanged);
-                    }  
-                }
-            }
-
-            if (dataGridComissoes.CurrentCell.ColumnIndex == dataGridComissoes.Columns["Porcentagem"].Index) //Desired Column
-            {
-                if (e.Control is System.Windows.Forms.TextBox tb)
-                {
-                    if (tb != null)
-                    {
-                        tb.KeyPress += new KeyPressEventHandler(Column1_KeyPress2);
-                        tb.TextChanged += new EventHandler(BoxPreco_TextChanged);
+                        tb.KeyPress += new KeyPressEventHandler(CelulaComissao_KeyPress);
+                        tb.TextChanged += new EventHandler((object? sender, EventArgs e) =>
+                        {                            
+                            CelulaGrid_TextChanged(sender, e, precoVenda - 1);
+                        });
                     }
                 }
             }
         }
 
-        private void BoxPreco_TextChanged(object? sender, EventArgs e)
+        private void CelulaGrid_TextChanged(object? sender, EventArgs e, decimal valorMaximo = 0)
         {
             if (sender is not null)
-                FormataCampoDinheiro((System.Windows.Forms.TextBox)sender);
+                FormataCampoDinheiro((System.Windows.Forms.TextBox)sender, valorMaximo);
         }
 
-        private void Column1_KeyPress(object? sender, KeyPressEventArgs e)
+        private void CelulaComissao_KeyPress(object? sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',') && (e.KeyChar != '.'))
                 e.Handled = true;
         }
 
-        private void FormataCampoDinheiro(System.Windows.Forms.TextBox box)
+        private void FormataCampoDinheiro(System.Windows.Forms.TextBox box, decimal valorMaximo = 0)
         {
             try
             {
@@ -230,7 +226,13 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
                 }
 
                 if (valor > 0)
+                {
+                    // se existir um valor máximo, considera ele
+                    if (valorMaximo > 0 && valor > valorMaximo)
+                        valor = valorMaximo;
+
                     box.Text = DecimalDInheiroParaString(valor);
+                }
                 else
                     box.Text = "0,00";
 
@@ -245,18 +247,6 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 
                 bloqueiaAlteracaoCampo = false;
             }
-        }
-
-        private void Column1_KeyPress2(object? sender, KeyPressEventArgs e)
-        {
-            if (sender is not null)
-            {
-                if (((System.Windows.Forms.TextBox)sender).Text.Length > 5 && !(e.KeyChar == 7 || e.KeyChar == 8))
-                    e.Handled = true;
-
-                if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',') && (e.KeyChar != '.'))
-                    e.Handled = true;               
-            }            
         }
 
         private string DecimalDInheiroParaString(decimal valor)
@@ -350,5 +340,17 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
             return strValor;
         }
 
+        private void DataGridComissoes_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dataGridComissoes.Columns["ValorReal"].Index == e.ColumnIndex)
+            {
+                decimal precoVenda    = Convert.ToDecimal(dataGridProdutos.CurrentRow.Cells[dataGridProdutos.Columns["PrecoVenda1"].Index].Value);
+                decimal valorComissao = Convert.ToDecimal(dataGridComissoes.CurrentCell.Value);
+
+                decimal porcentagem = (valorComissao * 100) / precoVenda;
+
+                dataGridComissoes.CurrentRow.Cells[dataGridComissoes.Columns["Porcentagem"].Index].Value = porcentagem;
+            }
+        }
     }
 }
