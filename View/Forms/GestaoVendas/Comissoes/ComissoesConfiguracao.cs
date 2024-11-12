@@ -2,10 +2,8 @@
 using controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes;
 using controle_vendas_comissoes.Model.Db.Helpers.Localidades.Estados;
 using controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos;
+using controle_vendas_comissoes.Model.Db.Models;
 using controle_vendas_comissoes.View.Extensions;
-using MaterialSkin.Controls;
-using System.Windows.Controls;
-using System.Windows.Forms;
 
 namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 {
@@ -15,6 +13,7 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
         private static int estadoId = 0;
         private static bool enviandoRequisicao = false;
         private bool bloqueiaAlteracaoCampo = false;
+        private List<ModelComissoesProduto> comissaoAtual = new();
 
         #region Construtores
 
@@ -57,129 +56,15 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
             }
         }
 
-        #endregion
-
-        #region Métodos
-
-        private void ConfiguraLayout()
-        {
-            dataGridProdutos.SetStyleDataGridView();
-            dataGridEstados.SetStyleDataGridView();
-            dataGridComissoes.SetStyleDataGridView();
-
-            dataGridComissoes.ReadOnly = false;
-        }
-
-        private static void DelegaEventos()
-        {
-
-        }
-
-        #endregion
-
-        #region Requisições
-
-        private void ListarProdutos()
-        {
-            HelperProdutos.ObtemProdtos().Then(listaProdutos =>
-            {
-                Utils.RunOnUiThread(this, () =>
-                {
-                    dataGridProdutos.DataSource = listaProdutos;
-
-                    dataGridProdutos.Columns["UnidadePrimaria"].HeaderText = "Unidade Primária";
-                    dataGridProdutos.Columns["PrecoCusto1"].HeaderText = "Preço de Custo 1";
-                    dataGridProdutos.Columns["PrecoVenda1"].HeaderText = "Preço de Venda 1";
-                    dataGridProdutos.Columns["PrecoCusto2"].HeaderText = "Preço de Custo 2";
-                    dataGridProdutos.Columns["PrecoVenda2"].HeaderText = "Preço de Venda 2";
-
-                    dataGridProdutos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-                    dataGridProdutos.Columns["id"].Width = 60;
-                });
-            }).Catch(erro =>
-            {
-                Utils.RunOnUiThread(this, () =>
-                {
-                    MessageBox.Show(erro.Message);
-                });
-            });
-        }
-
-        private void ListarEstados()
-        {
-            HelperEstado.ObtemEstados().Then(listaEstados =>
-            {
-                Utils.RunOnUiThread(this, () =>
-                {
-                    dataGridEstados.DataSource = listaEstados;
-
-                    dataGridEstados.Columns["createdAt"].Visible = false;
-                    dataGridEstados.Columns["updatedAt"].Visible = false;
-                    dataGridEstados.Columns["deletedAt"].Visible = false;
-                    dataGridEstados.Columns["createdBy"].Visible = false;
-                    dataGridEstados.Columns["updatedBy"].Visible = false;
-                    dataGridEstados.Columns["deletedBy"].Visible = false;
-
-                    dataGridEstados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-                    dataGridEstados.Columns["id"].Width = 60;
-                    dataGridEstados.Columns["uf"].Width = 100;
-
-                });
-            }).Catch(erro =>
-            {
-                Utils.RunOnUiThread(this, () =>
-                {
-                    MessageBox.Show(erro.Message);
-                });
-            });
-        }
-
-        private void ObtemComissoesProduto()
-        {
-            if (enviandoRequisicao) return;
-
-            if (!(produtoId > 0 && estadoId > 0)) return;
-
-            enviandoRequisicao = true;
-
-            HelperComissoes.ObtemComissoesProduto(produtoId, estadoId).Then(comissoes =>
-            {
-                Utils.RunOnUiThread(this, () =>
-                {
-                    dataGridComissoes.DataSource = comissoes;
-
-                    dataGridComissoes.Columns["ClassificacaoId"].Visible = false;
-                    dataGridComissoes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-                    dataGridComissoes.Columns["ClassificacaoNome"].ReadOnly = true;
-                    dataGridComissoes.Columns["Porcentagem"].ReadOnly = true;
-                    dataGridComissoes.Columns["ValorReal"].ReadOnly = false;
-
-                    enviandoRequisicao = false;
-                });
-            }).Catch(erro =>
-            {
-                Utils.RunOnUiThread(this, () =>
-                {
-                    enviandoRequisicao = false;
-
-                    MessageBox.Show(erro.Message);
-                });
-            });
-        }
-
-        #endregion
-
         private void DataGridComissoes_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             decimal precoVenda = Convert.ToDecimal(dataGridProdutos.CurrentRow.Cells[dataGridProdutos.Columns["PrecoVenda1"].Index].Value);
 
-            e.Control.KeyPress    -= new KeyPressEventHandler(CelulaComissao_KeyPress);
+            e.Control.KeyPress -= new KeyPressEventHandler(CelulaComissao_KeyPress);
             e.Control.TextChanged -= new EventHandler((object? sender, EventArgs e) =>
             {
                 CelulaGrid_TextChanged(sender, e, precoVenda - 1);
-            });            
+            });
 
             if (dataGridComissoes.CurrentCell.ColumnIndex == dataGridComissoes.Columns["ValorReal"].Index) //Desired Column
             {
@@ -189,7 +74,7 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
                     {
                         tb.KeyPress += new KeyPressEventHandler(CelulaComissao_KeyPress);
                         tb.TextChanged += new EventHandler((object? sender, EventArgs e) =>
-                        {                            
+                        {
                             CelulaGrid_TextChanged(sender, e, precoVenda - 1);
                         });
                     }
@@ -207,6 +92,50 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',') && (e.KeyChar != '.'))
                 e.Handled = true;
+        }
+
+        private void DataGridComissoes_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dataGridComissoes.Columns["ValorReal"].Index == e.ColumnIndex)
+            {
+                decimal precoVenda    = Convert.ToDecimal(dataGridProdutos.CurrentRow.Cells[dataGridProdutos.Columns["PrecoVenda1"].Index].Value);
+                decimal valorComissao = Convert.ToDecimal(dataGridComissoes.CurrentCell.Value);
+
+                decimal porcentagem = (valorComissao * 100) / precoVenda;
+
+                dataGridComissoes.CurrentRow.Cells[dataGridComissoes.Columns["Porcentagem"].Index].Value = porcentagem;
+
+                int produtoId       = Convert.ToInt32(dataGridProdutos.CurrentRow.Cells[dataGridProdutos.Columns["Id"].Index].Value);
+                int estadoId        = Convert.ToInt32(dataGridEstados.CurrentRow.Cells[dataGridEstados.Columns["Id"].Index].Value);
+                int classificacaoId = Convert.ToInt32(dataGridComissoes.CurrentRow.Cells[dataGridComissoes.Columns["ClassificacaoId"].Index].Value);
+
+                InserirComissao(
+                    produtoId,
+                    estadoId,
+                    classificacaoId,
+                    porcentagem,
+                    valorComissao,
+                    comissaoAtual.Find(c => c.ClassificacaoId.Equals(classificacaoId))?.ValorReal   ?? 0m,
+                    comissaoAtual.Find(c => c.ClassificacaoId.Equals(classificacaoId))?.Porcentagem ?? 0m);
+            }
+        }
+
+        #endregion
+
+        #region Métodos
+
+        private void ConfiguraLayout()
+        {
+            dataGridProdutos.SetStyleDataGridView();
+            dataGridEstados.SetStyleDataGridView();
+            dataGridComissoes.SetStyleDataGridView();
+
+            dataGridComissoes.ReadOnly = false;
+        }
+
+        private static void DelegaEventos()
+        {
+
         }
 
         private void FormataCampoDinheiro(System.Windows.Forms.TextBox box, decimal valorMaximo = 0)
@@ -340,17 +269,134 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
             return strValor;
         }
 
-        private void DataGridComissoes_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        #endregion
+
+        #region Requisições
+
+        private void ListarProdutos()
         {
-            if (dataGridComissoes.Columns["ValorReal"].Index == e.ColumnIndex)
+            HelperProdutos.ObtemProdtos().Then(listaProdutos =>
             {
-                decimal precoVenda    = Convert.ToDecimal(dataGridProdutos.CurrentRow.Cells[dataGridProdutos.Columns["PrecoVenda1"].Index].Value);
-                decimal valorComissao = Convert.ToDecimal(dataGridComissoes.CurrentCell.Value);
+                Utils.RunOnUiThread(this, () =>
+                {
+                    dataGridProdutos.DataSource = listaProdutos;
 
-                decimal porcentagem = (valorComissao * 100) / precoVenda;
+                    dataGridProdutos.Columns["UnidadePrimaria"].HeaderText = "Unidade Primária";
+                    dataGridProdutos.Columns["PrecoCusto1"].HeaderText = "Preço de Custo 1";
+                    dataGridProdutos.Columns["PrecoVenda1"].HeaderText = "Preço de Venda 1";
+                    dataGridProdutos.Columns["PrecoCusto2"].HeaderText = "Preço de Custo 2";
+                    dataGridProdutos.Columns["PrecoVenda2"].HeaderText = "Preço de Venda 2";
 
-                dataGridComissoes.CurrentRow.Cells[dataGridComissoes.Columns["Porcentagem"].Index].Value = porcentagem;
-            }
+                    dataGridProdutos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                    dataGridProdutos.Columns["id"].Width = 60;
+                });
+            }).Catch(erro =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    MessageBox.Show(erro.Message);
+                });
+            });
         }
+
+        private void ListarEstados()
+        {
+            HelperEstado.ObtemEstados().Then(listaEstados =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    dataGridEstados.DataSource = listaEstados;
+
+                    dataGridEstados.Columns["createdAt"].Visible = false;
+                    dataGridEstados.Columns["updatedAt"].Visible = false;
+                    dataGridEstados.Columns["deletedAt"].Visible = false;
+                    dataGridEstados.Columns["createdBy"].Visible = false;
+                    dataGridEstados.Columns["updatedBy"].Visible = false;
+                    dataGridEstados.Columns["deletedBy"].Visible = false;
+
+                    dataGridEstados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                    dataGridEstados.Columns["id"].Width = 60;
+                    dataGridEstados.Columns["uf"].Width = 100;
+
+                });
+            }).Catch(erro =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    MessageBox.Show(erro.Message);
+                });
+            });
+        }
+
+        private void ObtemComissoesProduto()
+        {
+            if (enviandoRequisicao) return;
+
+            if (!(produtoId > 0 && estadoId > 0)) return;
+
+            enviandoRequisicao = true;
+
+            HelperComissoes.ObtemComissoesProduto(produtoId, estadoId).Then(comissoes =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    dataGridComissoes.DataSource = comissoes;
+                    comissaoAtual                = comissoes;
+
+                    dataGridComissoes.Columns["ClassificacaoId"].Visible = false;
+                    dataGridComissoes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                    dataGridComissoes.Columns["ClassificacaoNome"].ReadOnly = true;
+                    dataGridComissoes.Columns["Porcentagem"].ReadOnly = true;
+                    dataGridComissoes.Columns["ValorReal"].ReadOnly = false;
+
+                    enviandoRequisicao = false;
+                });
+            }).Catch(erro =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    enviandoRequisicao = false;
+
+                    MessageBox.Show(erro.Message);
+                });
+            });
+        }
+
+        private void InserirComissao(
+            int     produtoId,
+            int     estadoId,
+            int     classificacaoId,
+            decimal porcentagem,
+            decimal valorReal,
+            decimal valorRealAnterior,
+            decimal porcentagemAnterior )
+        {
+            HelperComissoes.AdicionaComissao (
+                produtoId,
+                estadoId,
+                classificacaoId,
+                porcentagem,
+                valorReal,
+                valorRealAnterior,
+                porcentagemAnterior
+                ).Then(listaEstados => 
+                {
+                    Utils.RunOnUiThread(this, () =>
+                    {
+                        // sucesso
+                    }
+                );
+            }).Catch(erro =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    MessageBox.Show(erro.Message);
+                });
+            });
+        }
+
+        #endregion               
     }
 }

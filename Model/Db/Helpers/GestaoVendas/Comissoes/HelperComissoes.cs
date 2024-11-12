@@ -80,9 +80,17 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes
             return promise;
         }
 
-        public static IPromise<ModelComissoesProduto> AdicionaPessoa(Pessoa pessoa, Endereco? endereco)
+        public static IPromise<ComissaoItem> AdicionaComissao(
+            int produtoId, 
+            int estadoId,
+            int classificacaoId,
+            decimal porcentagem,
+            decimal valorReal,
+            decimal valorRealAnterior,
+            decimal porcentagemAnterior
+            )
         {
-            Promise<ModelComissoesProduto> promise = new();
+            Promise<ComissaoItem> promise = new();
 
             Task.Run(() =>
             {
@@ -91,68 +99,104 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes
                     using AppDbContext context = new();
                     using IDbContextTransaction transaction = context.Database.BeginTransaction();
 
-                    if (context.Pessoas is not null && context.Enderecos is not null)
+                    ComissaoItem? comissaoItem;
+
+                    if (context.Comissao is not null && context.EstadoComissao is not null && context.ComissaoItem is not null)
                     {
-                        Endereco? novoEndereco = null;
-                        Pessoa? pessoaExiste = context.Pessoas.Where(e => (e.Nome.Equals(pessoa.Nome) && e.Sobrenome.Equals(pessoa.Sobrenome)) ||
-                                                                             e.Cpf.Equals(pessoa.Cpf) ||
-                                                                             e.Rg.Equals(pessoa.Rg)).FirstOrDefault();
+                        string sql = string.Format(@"
+                        select ValorReal      = ISNULL(valor_real,  0)
+                             , Porcentagem    = ISNULL(porcentagem, 0)
+                             , ComissaoItemId = comissao_item.id
+                         
+                          from (
+                                select comissaoId = comissao.id
+                                  from (
+                                        select classificacaoId   = classificacao.id
+                                          from classificacao
+                                         where classificacao.deleted_at is null
+                                           and classificacao.id = {0}
+                                       ) as TB
+                         
+                                   inner
+                                    join comissao
+                                      on comissao.deleted_at is null
+                                     and comissao.classificacao_id = TB.classificacaoId
+                         
+                                   inner
+                                    join estado_comissao
+                                      on estado_comissao.deleted_at is null
+                                     and estado_comissao.comissao_id = comissao.id
+                                     and estado_comissao.estado_id   = {1}
+                               ) as TB2
+                            inner
+                             join comissao_item
+                               on comissao_item.deleted_at is null
+                              and comissao_item.comissao_id = comissaoId
+                              and comissao_item.produto_id  = {2}; ", classificacaoId, estadoId, produtoId);
 
-                        if (pessoaExiste is not null)
+                        List<ModelProdutoComissao>? resultado = context.Database.SqlQuery<ModelProdutoComissao>(FormattableStringFactory.Create(sql)).ToList();
+
+                        // atualiza comissão existente
+                        if (resultado is not null && resultado.Count > 0)
                         {
-                            if (pessoaExiste.Nome.Equals(pessoa.Nome) && pessoaExiste.Sobrenome.Equals(pessoa.Sobrenome))
-                                throw new Exception("Já existe uma pessoa cadastrada com este nome e sobrenome.");
+                            if (resultado.Count > 1)
+                                throw new Exception("Inconsistência ao atualizar a comissão do produto, tente novamente!");
 
-                            if (pessoaExiste.Cpf.Equals(pessoa.Cpf))
-                                throw new Exception("Já existe uma pessoa cadastrada com este CPF.");
+                            ModelProdutoComissao comissao = resultado[0];
 
-                            if (pessoaExiste.Rg.Equals(pessoa.Rg))
-                                throw new Exception("Já existe uma pessoa cadastrada com este RG.");
-                        }
+                            if (!comissao.ValorReal.Equals(valorRealAnterior))
+                                throw new Exception("O valor foi alterado por outra pessoa, atualize a grid e tente novamente.");
 
-                        if (pessoa.ClassificacaoId is not null && pessoa.ClassificacaoId > 0)
+                            if (!comissao.Porcentagem.Equals(porcentagemAnterior))
+                                throw new Exception("A porcentagem foi alterado por outra pessoa, atualize a grid e tente novamente.");
+
+                            comissaoItem = context.ComissaoItem.Where(c => c.Id.Equals(comissao.ComissaoItemId)).FirstOrDefault();
+
+                            if (comissaoItem is null)
+                                throw new Exception("Comissão Item não encontrada.");
+
+                            comissaoItem.ValorReal   = valorReal;
+                            comissaoItem.Porcentagem = porcentagem;
+
+                            context.SaveChanges();
+                        } 
+                        else
                         {
-                            Classificacao? classificacao = context.Classificacoes?.Where(c => c.Id == pessoa.ClassificacaoId).FirstOrDefault();
+                            Comissao comissao = new()
+                            {
+                                ClassificacaoId = classificacaoId
+                            };
 
-                            if (classificacao is null)
-                                throw new Exception("A classificação informada nou foi encontrada.");
-                        }
+                            Comissao novaComissao = context.Comissao.Add(comissao).Entity;
+                            context.SaveChanges();
 
-                        // endereço
-                        if (endereco is not null && !string.IsNullOrEmpty(endereco.Rua))
-                        {
-                            Estado? estado = context.Estados?.Where(e => e.Id == endereco.EstadoId).FirstOrDefault();
+                            EstadoComissao estadoComissao = new()
+                            {
+                                ComissaoId = novaComissao.Id,
+                                EstadoId   = estadoId
+                            };
 
-                            if (estado is null)
-                                throw new Exception("O estado informado não existe!");
+                            context.EstadoComissao.Add(estadoComissao);
+                            context.SaveChanges();
 
-                            Cidade? cidade = context.Cidades?.Where(c => c.Id == endereco.CidadeId).FirstOrDefault();
+                            comissaoItem = new()
+                            {
+                                Porcentagem = porcentagem,
+                                ValorReal   = valorReal,
+                                ProdutoId   = produtoId,
+                                ComissaoId  = novaComissao.Id
+                            };
 
-                            if (cidade is null)
-                                throw new Exception("A cidade informada não existe!");
-
-                            if (!cidade.EstadoId.Equals(estado.Id))
-                                throw new Exception("Esta cidade não pertence a este estado, favor, escolha uma que pertença");
-
-                            // insere novo endereço
-                            novoEndereco = context.Enderecos.Add(endereco).Entity;
-
+                            context.ComissaoItem.Add(comissaoItem);
                             context.SaveChanges();
                         }
 
-                        if (novoEndereco is not null && novoEndereco.Id > 0)
-                            pessoa.EnderecoId = novoEndereco.Id;
-
-                        // adiciona a cidade
-                        Pessoa novaPessoa = context.Pessoas.Add(pessoa).Entity;
-                        context.SaveChanges();
-
                         transaction.Commit();
 
-                        promise.Resolve(novaPessoa);
+                        promise.Resolve(comissaoItem);
                     }
                     else
-                        promise.Reject(new Exception("Ocorreu um erro ao Inserir uma Nova Pessoa"));
+                        promise.Reject(new Exception("Ocorreu um erro ao Inserir uma Nova Comissao"));
                 }
                 catch (Exception ex)
                 {
