@@ -155,6 +155,7 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes
                             if (comissaoItem is null)
                                 throw new Exception("Comissão Item não encontrada.");
 
+                            comissaoItem.UpdatedAt   = DateTime.Now;
                             comissaoItem.ValorReal   = valorReal;
                             comissaoItem.Porcentagem = porcentagem;
 

@@ -4,16 +4,19 @@ using controle_vendas_comissoes.Model.Db.Helpers.Localidades.Estados;
 using controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos;
 using controle_vendas_comissoes.Model.Db.Models;
 using controle_vendas_comissoes.View.Extensions;
+using System.Text.Json;
 
 namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 {
     public partial class ComissoesConfiguracao : Form
     {
         private static int produtoId = 0;
-        private static int estadoId = 0;
+        private static int estadoId  = 0;
         private static bool enviandoRequisicao = false;
         private bool bloqueiaAlteracaoCampo = false;
-        private List<ModelComissoesProduto> comissaoAtual = new();
+        private List<ModelComissoesProduto>? comissaoAtual = [];
+        KeyPressEventHandler? keyPressEventHandler;
+        EventHandler?         eventHandler;
 
         #region Construtores
 
@@ -37,7 +40,7 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
         {
             if (((DataGridView)sender).SelectedRows.Count > 0)
             {
-                lblIdProduto.Text = ((DataGridView)sender).SelectedRows[0].Cells["Id"].Value.ToString();
+                lblIdProduto.Text        = ((DataGridView)sender).SelectedRows[0].Cells["Id"].Value.ToString();
                 lblDescricaoProduto.Text = ((DataGridView)sender).SelectedRows[0].Cells["Nome"].Value.ToString();
 
                 produtoId = Convert.ToInt32(((DataGridView)sender).SelectedRows[0].Cells["Id"].Value);
@@ -60,11 +63,8 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
         {
             decimal precoVenda = Convert.ToDecimal(dataGridProdutos.CurrentRow.Cells[dataGridProdutos.Columns["PrecoVenda1"].Index].Value);
 
-            e.Control.KeyPress -= new KeyPressEventHandler(CelulaComissao_KeyPress);
-            e.Control.TextChanged -= new EventHandler((object? sender, EventArgs e) =>
-            {
-                CelulaGrid_TextChanged(sender, e, precoVenda - 1);
-            });
+            e.Control.KeyPress    -= keyPressEventHandler;
+            e.Control.TextChanged -= eventHandler;
 
             if (dataGridComissoes.CurrentCell.ColumnIndex == dataGridComissoes.Columns["ValorReal"].Index) //Desired Column
             {
@@ -72,11 +72,14 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
                 {
                     if (tb != null)
                     {
-                        tb.KeyPress += new KeyPressEventHandler(CelulaComissao_KeyPress);
-                        tb.TextChanged += new EventHandler((object? sender, EventArgs e) =>
+                        keyPressEventHandler = new KeyPressEventHandler(CelulaComissao_KeyPress);
+                        eventHandler         = new EventHandler((object? sender, EventArgs e) =>
                         {
                             CelulaGrid_TextChanged(sender, e, precoVenda - 1);
                         });
+
+                        tb.KeyPress    += keyPressEventHandler;
+                        tb.TextChanged += eventHandler;
                     }
                 }
             }
@@ -105,9 +108,11 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 
                 dataGridComissoes.CurrentRow.Cells[dataGridComissoes.Columns["Porcentagem"].Index].Value = porcentagem;
 
-                int produtoId       = Convert.ToInt32(dataGridProdutos.CurrentRow.Cells[dataGridProdutos.Columns["Id"].Index].Value);
-                int estadoId        = Convert.ToInt32(dataGridEstados.CurrentRow.Cells[dataGridEstados.Columns["Id"].Index].Value);
-                int classificacaoId = Convert.ToInt32(dataGridComissoes.CurrentRow.Cells[dataGridComissoes.Columns["ClassificacaoId"].Index].Value);
+                int     produtoId           = Convert.ToInt32(dataGridProdutos.CurrentRow.Cells[dataGridProdutos.Columns["Id"].Index].Value);
+                int     estadoId            = Convert.ToInt32(dataGridEstados.CurrentRow.Cells[dataGridEstados.Columns["Id"].Index].Value);
+                int     classificacaoId     = Convert.ToInt32(dataGridComissoes.CurrentRow.Cells[dataGridComissoes.Columns["ClassificacaoId"].Index].Value);
+                decimal valorRealAnterior   = comissaoAtual?.Find(c => c.ClassificacaoId.Equals(classificacaoId))?.ValorReal   ?? 0m;
+                decimal porcentagemAnterior = comissaoAtual?.Find(c => c.ClassificacaoId.Equals(classificacaoId))?.Porcentagem ?? 0m;
 
                 InserirComissao(
                     produtoId,
@@ -115,8 +120,8 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
                     classificacaoId,
                     porcentagem,
                     valorComissao,
-                    comissaoAtual.Find(c => c.ClassificacaoId.Equals(classificacaoId))?.ValorReal   ?? 0m,
-                    comissaoAtual.Find(c => c.ClassificacaoId.Equals(classificacaoId))?.Porcentagem ?? 0m);
+                    valorRealAnterior,
+                    porcentagemAnterior);
             }
         }
 
@@ -342,7 +347,9 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
                 Utils.RunOnUiThread(this, () =>
                 {
                     dataGridComissoes.DataSource = comissoes;
-                    comissaoAtual                = comissoes;
+                    string json = JsonSerializer.Serialize(comissoes);
+
+                    comissaoAtual = JsonSerializer.Deserialize<List<ModelComissoesProduto>>(json);
 
                     dataGridComissoes.Columns["ClassificacaoId"].Visible = false;
                     dataGridComissoes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
