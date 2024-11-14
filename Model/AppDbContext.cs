@@ -31,6 +31,12 @@ namespace controle_vendas_comissoes.Model
 
         public DbSet<EstadoComissao>? EstadoComissao { get; set; } = null;
 
+        public DbSet<PedidoVenda>? PedidoVenda { get; set; } = null;
+
+        public DbSet<PedidoVendaItem>? PedidoVendaItem { get; set; } = null;
+
+        public DbSet<PessoaPedidoVenda>? PessoaPedidoVenda { get; set; } = null;
+         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
