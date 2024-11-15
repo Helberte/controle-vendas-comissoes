@@ -12,5 +12,7 @@ namespace controle_vendas_comissoes.Model.Db.Entidades
         public string Nome { get; set; } = string.Empty;
 
         public string Sigla { get; set; } = string.Empty;
+
+        public ICollection<Produto>? Produtos { get; set; }
     }
 }

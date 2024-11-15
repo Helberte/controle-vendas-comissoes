@@ -23,5 +23,7 @@ namespace controle_vendas_comissoes.Model.Db.Entidades
         [Column("unidade_primaria_id")]
         public int? UnidadePrimariaId { get; set; }
 
+        public UnidadePrimaria? UnidadePrimaria { get; set; }
+
     }
 }

@@ -1,17 +1,14 @@
 ﻿using controle_vendas_comissoes.Model.Db.Entidades;
-using controle_vendas_comissoes.Model.Db.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using RSG;
-using System.Runtime.CompilerServices;
 
 namespace controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos
 {
     public class HelperProdutos
     {
-        public static IPromise<List<ModelProdutosLista>> ObtemProdtos(string textoFind = "")
+        public static IPromise<List<Produto>> ObtemProdtos(string textoFind = "")
         {
-            Promise<List<ModelProdutosLista>> promise = new();
+            Promise<List<Produto>> promise = new();
 
             Task.Run(() =>
             {
@@ -19,78 +16,22 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos
                 {
                     using AppDbContext context = new();
 
-                    string sql = string.Format(@"
-                        SELECT Id			   = TB.id
-                             , Nome			   = TB.nome
-                        	 , UnidadePrimaria = unidade_primaria.nome
-                        	 , PrecoCusto1	   = ISNULL( PRECO1.custo, 0)
-                        	 , PrecoVenda1	   = ISNULL( PRECO1.venda, 0)
-                        	 , PrecoCusto2	   = ISNULL( PRECO2.custo, 0)
-                        	 , PrecoVenda2	   = ISNULL( PRECO2.venda, 0)
-                        
-                          FROM (
-                        		SELECT TOP 20 
-                        		       id				 = produto.id	
-                        			 , nome				 = produto.nome
-                        			 , unidadePrimariaId = unidade_primaria_id
-                        		  FROM produto
-                        		 WHERE produto.deleted_at IS NULL
-                        		   AND CONCAT( produto.nome		 + ' '
-                        				     , produto.descricao + ' '
-                        					 , modo_usar		 + ' '
-                        					 , CAST(peso AS VARCHAR) + ' ') LIKE '%{0}%'
-                        	   ) 
-                        	  AS TB
-                        
-                           INNER 
-                            JOIN unidade_primaria
-                        	  ON unidade_primaria.deleted_at IS NULL
-                        	 AND unidade_primaria.id = TB.unidadePrimariaId
-                        
-                           OUTER 
-                           APPLY (
-                        		   SELECT custo = CAST(tabela_preco.preco_custo AS DECIMAL(10,4))
-                        		        , venda = CAST(tabela_preco.preco_venda AS DECIMAL(10,4))
-                        		   
-                        		     FROM produto_tabela_preco
-                        		   
-                        		    INNER 
-                        		     JOIN tabela_preco
-                        		       ON tabela_preco.deleted_at IS NULL
-                        		      AND tabela_preco.id    = produto_tabela_preco.tabela_preco_id
-                        		      AND tabela_preco.ordem = 1	
-
-                        		    WHERE produto_tabela_preco.deleted_at IS NULL
-                        		      AND produto_tabela_preco.produto_id = TB.id
-
-                        	     ) 
-                        		AS PRECO1
-                        
-                        	OUTER 
-                           APPLY (
-                        		   SELECT custo = CAST(tabela_preco.preco_custo AS DECIMAL(10,4))
-                        		        , venda = CAST(tabela_preco.preco_venda AS DECIMAL(10,4))
-                        		   
-                        		     FROM produto_tabela_preco
-                        		   
-                        		    INNER 
-                        		     JOIN tabela_preco
-                        		       ON tabela_preco.deleted_at IS NULL
-                        		      AND tabela_preco.id    = produto_tabela_preco.tabela_preco_id
-                        		      AND tabela_preco.ordem = 2	
-
-                        		    WHERE produto_tabela_preco.deleted_at IS NULL
-                        		      AND produto_tabela_preco.produto_id = TB.id
-                        		      
-                        	     )
-                        		AS PRECO2
-                        
-                        	 ORDER 
-                        	    BY TB.nome", textoFind);
-
-                    List<ModelProdutosLista>? resultado = context.Database.SqlQuery<ModelProdutosLista>(FormattableStringFactory.Create(sql)).ToList();
-
-                    promise.Resolve(resultado);
+                    if (context.Produtos is not null)
+                        promise.Resolve([..
+                            context.Produtos    
+                            .OrderByDescending(x => x.CreatedAt)
+                            .Take(20)
+                            .Select(produto => new Produto
+                            {
+                                Id              = produto.Id,
+                                Nome            = produto.Nome,
+                                Descricao       = produto.Descricao,
+                                Composicao      = produto.Composicao,
+                                ModoUsar        = produto.ModoUsar,
+                                UnidadePrimaria = produto.UnidadePrimaria
+                            })]);
+                    else
+                        promise.Reject(new Exception("Ocorreu um erro ao buscar os produtos."));
                 }
                 catch (Exception ex)
                 {
