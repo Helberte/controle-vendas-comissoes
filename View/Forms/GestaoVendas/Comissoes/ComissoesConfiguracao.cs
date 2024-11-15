@@ -1,4 +1,5 @@
 ﻿using controle_vendas_comissoes.Controller.Utils;
+using controle_vendas_comissoes.Model.Db.Entidades;
 using controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes;
 using controle_vendas_comissoes.Model.Db.Helpers.Localidades.Estados;
 using controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos;
@@ -284,14 +285,29 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
             {
                 Utils.RunOnUiThread(this, () =>
                 {
-                    dataGridProdutos.DataSource = listaProdutos;
+                    dataGridProdutos.Rows.Clear();
 
-                    dataGridProdutos.Columns["UnidadePrimaria"].HeaderText = "Unidade Primária";
-                    dataGridProdutos.Columns["PrecoCusto1"].HeaderText = "Preço de Custo 1";
-                    dataGridProdutos.Columns["PrecoVenda1"].HeaderText = "Preço de Venda 1";
-                    dataGridProdutos.Columns["PrecoCusto2"].HeaderText = "Preço de Custo 2";
-                    dataGridProdutos.Columns["PrecoVenda2"].HeaderText = "Preço de Venda 2";
+                    dataGridProdutos.ColumnCount = 6;
+                    List<string[]> linhas = [];
 
+                    dataGridProdutos.Columns[0].Name = "Id";
+                    dataGridProdutos.Columns[1].Name = "Nome";
+                    dataGridProdutos.Columns[2].Name = "UnidadePrimaria";
+                    dataGridProdutos.Columns[3].Name = "Descricao";
+                    dataGridProdutos.Columns[4].Name = "ModoUsar";
+                    dataGridProdutos.Columns[5].Name = "Composicao";
+
+                    foreach (Produto produto in listaProdutos)                    
+                        linhas.Add([ produto.Id.ToString()
+                                                    , produto.Nome
+                                                    , produto.UnidadePrimaria?.Nome ?? ""
+                                                    , produto.Descricao ?? ""
+                                                    , produto.ModoUsar ?? ""
+                                                    , produto.Composicao ?? "" ]);
+                    
+                    for (int i = 0; i < linhas.Count; i++)                    
+                        dataGridProdutos.Rows.Add(linhas[i]);
+                    
                     dataGridProdutos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                     dataGridProdutos.Columns["id"].Width = 60;
                 });
