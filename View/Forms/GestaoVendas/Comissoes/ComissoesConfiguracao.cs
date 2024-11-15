@@ -281,7 +281,7 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 
         private void ListarProdutos()
         {
-            HelperProdutos.ObtemProdtos().Then(listaProdutos =>
+            HelperProdutos.ObtemProdutos().Then(listaProdutos =>
             {
                 Utils.RunOnUiThread(this, () =>
                 {

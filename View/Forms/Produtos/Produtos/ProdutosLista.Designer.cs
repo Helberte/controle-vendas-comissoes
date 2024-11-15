@@ -35,11 +35,11 @@
             groupBox2 = new GroupBox();
             btAdicionar = new FontAwesome.Sharp.IconButton();
             dataGridProdutos = new DataGridView();
-            dataGridView1 = new DataGridView();
+            dataGridEstadosPreco = new DataGridView();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridProdutos).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridEstadosPreco).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
@@ -151,22 +151,23 @@
             dataGridProdutos.Name = "dataGridProdutos";
             dataGridProdutos.Size = new Size(915, 568);
             dataGridProdutos.TabIndex = 5;
+            dataGridProdutos.SelectionChanged += dataGridProdutos_SelectionChanged;
             // 
-            // dataGridView1
+            // dataGridEstadosPreco
             // 
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(918, 94);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(289, 568);
-            dataGridView1.TabIndex = 6;
+            dataGridEstadosPreco.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridEstadosPreco.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridEstadosPreco.Location = new Point(918, 94);
+            dataGridEstadosPreco.Name = "dataGridEstadosPreco";
+            dataGridEstadosPreco.Size = new Size(289, 568);
+            dataGridEstadosPreco.TabIndex = 6;
             // 
             // ProdutosLista
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1207, 662);
-            Controls.Add(dataGridView1);
+            Controls.Add(dataGridEstadosPreco);
             Controls.Add(dataGridProdutos);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
@@ -179,7 +180,7 @@
             groupBox1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridProdutos).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridEstadosPreco).EndInit();
             ResumeLayout(false);
         }
 
@@ -192,6 +193,6 @@
         private GroupBox groupBox2;
         private FontAwesome.Sharp.IconButton btAdicionar;
         private DataGridView dataGridProdutos;
-        private DataGridView dataGridView1;
+        private DataGridView dataGridEstadosPreco;
     }
 }

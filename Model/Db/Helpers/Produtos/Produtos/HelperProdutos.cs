@@ -1,12 +1,15 @@
 ﻿using controle_vendas_comissoes.Model.Db.Entidades;
+using controle_vendas_comissoes.Model.Db.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using RSG;
+using System.Runtime.CompilerServices;
 
 namespace controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos
 {
     public class HelperProdutos
     {
-        public static IPromise<List<Produto>> ObtemProdtos(string textoFind = "")
+        public static IPromise<List<Produto>> ObtemProdutos(string textoFind = "")
         {
             Promise<List<Produto>> promise = new();
 
@@ -32,6 +35,84 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos
                             })]);
                     else
                         promise.Reject(new Exception("Ocorreu um erro ao buscar os produtos."));
+                }
+                catch (Exception ex)
+                {
+                    promise.Reject(ex);
+                }
+            });
+
+            return promise;
+        }
+
+        public static IPromise<List<ModelProdutoEstadoPreco>> ObtemPrecosProduto(int produtoId, int estadoId = 0)
+        {
+            Promise<List<ModelProdutoEstadoPreco>> promise = new();
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    using AppDbContext context = new();
+
+                    string sql = string.Format(@"
+                        SELECT Id          = estado.id
+                             , Nome        = estado.nome
+                             , UF          = estado.UF
+                             , PrecoCusto1 = ISNULL(PRECO1.custo, 0)
+                             , PrecoVenda1 = ISNULL(PRECO1.venda, 0)
+                             , PrecoCusto2 = ISNULL(PRECO2.custo, 0)
+                             , PrecoVenda2 = ISNULL(PRECO2.venda, 0)
+                        
+                          FROM estado
+                        
+                          OUTER
+                          APPLY (
+                                   SELECT custo = CAST(tabela_preco.preco_custo AS DECIMAL(10,4))
+                                        , venda = CAST(tabela_preco.preco_venda AS DECIMAL(10,4))
+                        
+                                     FROM produto_tabela_preco
+                        
+                                    INNER
+                                     JOIN tabela_preco
+                                       ON tabela_preco.deleted_at IS NULL
+                                      AND tabela_preco.id        = produto_tabela_preco.tabela_preco_id
+                                      AND tabela_preco.ordem     = 1
+                                      AND tabela_preco.estado_id = estado.id
+                        
+                                    WHERE produto_tabela_preco.deleted_at IS NULL
+                                      AND produto_tabela_preco.produto_id = {0}
+                              )
+                             AS PRECO1
+                        
+                          OUTER
+                          APPLY (
+                                   SELECT custo = CAST(tabela_preco.preco_custo AS DECIMAL(10,4))
+                                        , venda = CAST(tabela_preco.preco_venda AS DECIMAL(10,4))
+                        
+                                     FROM produto_tabela_preco
+                        
+                                    INNER
+                                     JOIN tabela_preco
+                                       ON tabela_preco.deleted_at IS NULL
+                                      AND tabela_preco.id    = produto_tabela_preco.tabela_preco_id
+                                      AND tabela_preco.ordem = 2
+                                      AND tabela_preco.estado_id = estado.id
+                        
+                                    WHERE produto_tabela_preco.deleted_at IS NULL
+                                      AND produto_tabela_preco.produto_id = {0}
+                                )
+                                AS PRECO2
+                        
+                          WHERE estado.deleted_at IS NULL
+                            " + (estadoId > 0 ? " AND estado.id = {1} " : "") +                             
+                        
+                          @" ORDER
+                                BY estado.nome;", produtoId, estadoId);
+
+                    List<ModelProdutoEstadoPreco>? resultado = context.Database.SqlQuery<ModelProdutoEstadoPreco>(FormattableStringFactory.Create(sql)).ToList();
+
+                    promise.Resolve(resultado);
                 }
                 catch (Exception ex)
                 {
