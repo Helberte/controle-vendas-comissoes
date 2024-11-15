@@ -8,6 +8,11 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 {
     public partial class ProdutosLista : Form
     {
+        private static int produtoId = 0;
+        private static int estadoId  = 0;
+
+        private static bool controlaRequisicao = false;
+
         #region Construtores
 
         public ProdutosLista()
@@ -15,6 +20,7 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
             InitializeComponent();
 
             dataGridProdutos.SetStyleDataGridView();
+            dataGridEstadosPreco.SetStyleDataGridView();
 
             DelegaEventos();
 
@@ -36,6 +42,16 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
             modal.ShowDialog();
 
             boxUnidadePrimaria.Focus();
+        }
+
+        private void dataGridProdutos_SelectionChanged(object sender, EventArgs e)
+        {
+            if (((DataGridView)sender).SelectedRows.Count > 0)
+            {
+                produtoId = Convert.ToInt32(((DataGridView)sender).SelectedRows[0].Cells["Id"].Value);
+
+                ObterPrecosProdutoEstados();
+            }
         }
 
         #endregion
@@ -71,7 +87,7 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
         private void ListarProdutos()
         {
-            HelperProdutos.ObtemProdtos().Then(listaProdutos =>
+            HelperProdutos.ObtemProdutos().Then(listaProdutos =>
             {
                 Utils.RunOnUiThread(this, () =>
                 {
@@ -111,6 +127,33 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
             });
         }
 
-        #endregion
+        private void ObterPrecosProdutoEstados()
+        {
+            if (controlaRequisicao) return;
+
+            controlaRequisicao = true;
+
+            HelperProdutos.ObtemPrecosProduto(produtoId, estadoId).Then(estadosPreco =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    controlaRequisicao = false;
+
+                    dataGridEstadosPreco.DataSource          = estadosPreco;
+                    dataGridEstadosPreco.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                    dataGridEstadosPreco.Columns["id"].Width = 60;
+                });
+            }).Catch(erro =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    controlaRequisicao = false;
+
+                    MessageBox.Show(erro.Message);
+                });
+            });
+        }
+
+        #endregion       
     }
 }

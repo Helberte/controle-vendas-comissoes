@@ -49,17 +49,22 @@
             btCancelar = new FontAwesome.Sharp.IconButton();
             btSalvar = new FontAwesome.Sharp.IconButton();
             btSalvarMais = new FontAwesome.Sharp.IconButton();
+            dataGridView1 = new DataGridView();
             groupInfoBasica.SuspendLayout();
             groupInfoFisica.SuspendLayout();
             groupTabPrecos.SuspendLayout();
             groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // groupInfoBasica
             // 
             groupInfoBasica.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupInfoBasica.Controls.Add(dataGridView1);
             groupInfoBasica.Controls.Add(label3);
+            groupInfoBasica.Controls.Add(groupTabPrecos);
             groupInfoBasica.Controls.Add(label2);
+            groupInfoBasica.Controls.Add(groupInfoFisica);
             groupInfoBasica.Controls.Add(label1);
             groupInfoBasica.Controls.Add(boxModoUsar);
             groupInfoBasica.Controls.Add(boxComposicao);
@@ -67,15 +72,15 @@
             groupInfoBasica.Controls.Add(boxNomeProduto);
             groupInfoBasica.Location = new Point(5, 4);
             groupInfoBasica.Name = "groupInfoBasica";
-            groupInfoBasica.Size = new Size(933, 298);
+            groupInfoBasica.Size = new Size(1161, 731);
             groupInfoBasica.TabIndex = 0;
             groupInfoBasica.TabStop = false;
-            groupInfoBasica.Text = "Informações Básicas";
+            groupInfoBasica.Text = "Informações do Produto";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(3, 223);
+            label3.Location = new Point(3, 281);
             label3.Name = "label3";
             label3.Size = new Size(142, 15);
             label3.TabIndex = 9;
@@ -84,7 +89,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(3, 150);
+            label2.Location = new Point(3, 180);
             label2.Name = "label2";
             label2.Size = new Size(134, 15);
             label2.TabIndex = 8;
@@ -108,10 +113,10 @@
             boxModoUsar.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             boxModoUsar.ForeColor = Color.FromArgb(222, 0, 0, 0);
             boxModoUsar.Hint = "Descrição";
-            boxModoUsar.Location = new Point(6, 241);
+            boxModoUsar.Location = new Point(6, 300);
             boxModoUsar.MouseState = MaterialSkin.MouseState.HOVER;
             boxModoUsar.Name = "boxModoUsar";
-            boxModoUsar.Size = new Size(921, 49);
+            boxModoUsar.Size = new Size(476, 76);
             boxModoUsar.TabIndex = 4;
             boxModoUsar.Text = "";
             // 
@@ -124,10 +129,10 @@
             boxComposicao.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             boxComposicao.ForeColor = Color.FromArgb(222, 0, 0, 0);
             boxComposicao.Hint = "Descrição";
-            boxComposicao.Location = new Point(6, 169);
+            boxComposicao.Location = new Point(6, 199);
             boxComposicao.MouseState = MaterialSkin.MouseState.HOVER;
             boxComposicao.Name = "boxComposicao";
-            boxComposicao.Size = new Size(921, 49);
+            boxComposicao.Size = new Size(476, 76);
             boxComposicao.TabIndex = 3;
             boxComposicao.Text = "";
             // 
@@ -143,7 +148,7 @@
             boxDescricao.Location = new Point(6, 96);
             boxDescricao.MouseState = MaterialSkin.MouseState.HOVER;
             boxDescricao.Name = "boxDescricao";
-            boxDescricao.Size = new Size(921, 49);
+            boxDescricao.Size = new Size(476, 76);
             boxDescricao.TabIndex = 2;
             boxDescricao.Text = "";
             // 
@@ -162,7 +167,7 @@
             boxNomeProduto.MouseState = MaterialSkin.MouseState.OUT;
             boxNomeProduto.Multiline = false;
             boxNomeProduto.Name = "boxNomeProduto";
-            boxNomeProduto.Size = new Size(921, 50);
+            boxNomeProduto.Size = new Size(1149, 50);
             boxNomeProduto.TabIndex = 1;
             boxNomeProduto.Tag = "";
             boxNomeProduto.Text = "";
@@ -173,9 +178,9 @@
             groupInfoFisica.Controls.Add(boxPeso);
             groupInfoFisica.Controls.Add(btBuscaUnidadePrimaria);
             groupInfoFisica.Controls.Add(boxUnidadePrimaria);
-            groupInfoFisica.Location = new Point(5, 307);
+            groupInfoFisica.Location = new Point(6, 382);
             groupInfoFisica.Name = "groupInfoFisica";
-            groupInfoFisica.Size = new Size(380, 132);
+            groupInfoFisica.Size = new Size(476, 132);
             groupInfoFisica.TabIndex = 13;
             groupInfoFisica.TabStop = false;
             groupInfoFisica.Text = "Informaçõs Físicas";
@@ -196,7 +201,7 @@
             boxPeso.Multiline = false;
             boxPeso.Name = "boxPeso";
             boxPeso.ShortcutsEnabled = false;
-            boxPeso.Size = new Size(368, 50);
+            boxPeso.Size = new Size(464, 50);
             boxPeso.TabIndex = 5;
             boxPeso.Tag = "";
             boxPeso.Text = "0,000";
@@ -214,7 +219,7 @@
             btBuscaUnidadePrimaria.IconColor = Color.White;
             btBuscaUnidadePrimaria.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btBuscaUnidadePrimaria.IconSize = 35;
-            btBuscaUnidadePrimaria.Location = new Point(325, 76);
+            btBuscaUnidadePrimaria.Location = new Point(421, 76);
             btBuscaUnidadePrimaria.Name = "btBuscaUnidadePrimaria";
             btBuscaUnidadePrimaria.Size = new Size(49, 49);
             btBuscaUnidadePrimaria.TabIndex = 6;
@@ -237,7 +242,7 @@
             boxUnidadePrimaria.MouseState = MaterialSkin.MouseState.OUT;
             boxUnidadePrimaria.Multiline = false;
             boxUnidadePrimaria.Name = "boxUnidadePrimaria";
-            boxUnidadePrimaria.Size = new Size(314, 50);
+            boxUnidadePrimaria.Size = new Size(410, 50);
             boxUnidadePrimaria.TabIndex = 13;
             boxUnidadePrimaria.Tag = "Estado";
             boxUnidadePrimaria.Text = "";
@@ -250,12 +255,13 @@
             groupTabPrecos.Controls.Add(boxPrecoCusto02);
             groupTabPrecos.Controls.Add(boxPrecoVenda01);
             groupTabPrecos.Controls.Add(boxPrecoCusto01);
-            groupTabPrecos.Location = new Point(389, 307);
+            groupTabPrecos.Location = new Point(6, 541);
             groupTabPrecos.Name = "groupTabPrecos";
-            groupTabPrecos.Size = new Size(549, 132);
+            groupTabPrecos.Size = new Size(476, 132);
             groupTabPrecos.TabIndex = 14;
             groupTabPrecos.TabStop = false;
             groupTabPrecos.Text = "Tabelas Preço";
+            groupTabPrecos.Visible = false;
             // 
             // boxPrecoVenda02
             // 
@@ -273,7 +279,7 @@
             boxPrecoVenda02.Multiline = false;
             boxPrecoVenda02.Name = "boxPrecoVenda02";
             boxPrecoVenda02.ShortcutsEnabled = false;
-            boxPrecoVenda02.Size = new Size(262, 50);
+            boxPrecoVenda02.Size = new Size(189, 50);
             boxPrecoVenda02.TabIndex = 10;
             boxPrecoVenda02.Tag = "";
             boxPrecoVenda02.Text = "0,00";
@@ -297,7 +303,7 @@
             boxPrecoCusto02.Multiline = false;
             boxPrecoCusto02.Name = "boxPrecoCusto02";
             boxPrecoCusto02.ShortcutsEnabled = false;
-            boxPrecoCusto02.Size = new Size(262, 50);
+            boxPrecoCusto02.Size = new Size(189, 50);
             boxPrecoCusto02.TabIndex = 9;
             boxPrecoCusto02.Tag = "";
             boxPrecoCusto02.Text = "0,00";
@@ -321,7 +327,7 @@
             boxPrecoVenda01.Multiline = false;
             boxPrecoVenda01.Name = "boxPrecoVenda01";
             boxPrecoVenda01.ShortcutsEnabled = false;
-            boxPrecoVenda01.Size = new Size(266, 50);
+            boxPrecoVenda01.Size = new Size(193, 50);
             boxPrecoVenda01.TabIndex = 8;
             boxPrecoVenda01.Tag = "";
             boxPrecoVenda01.Text = "0,00";
@@ -345,7 +351,7 @@
             boxPrecoCusto01.Multiline = false;
             boxPrecoCusto01.Name = "boxPrecoCusto01";
             boxPrecoCusto01.ShortcutsEnabled = false;
-            boxPrecoCusto01.Size = new Size(266, 50);
+            boxPrecoCusto01.Size = new Size(193, 50);
             boxPrecoCusto01.TabIndex = 7;
             boxPrecoCusto01.Tag = "";
             boxPrecoCusto01.Text = "0,00";
@@ -359,7 +365,7 @@
             groupBox4.Controls.Add(btCancelar);
             groupBox4.Controls.Add(btSalvar);
             groupBox4.Controls.Add(btSalvarMais);
-            groupBox4.Location = new Point(606, 519);
+            groupBox4.Location = new Point(834, 741);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(332, 59);
             groupBox4.TabIndex = 25;
@@ -421,19 +427,23 @@
             btSalvarMais.TextImageRelation = TextImageRelation.ImageBeforeText;
             btSalvarMais.UseVisualStyleBackColor = false;
             // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(488, 96);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.Size = new Size(667, 629);
+            dataGridView1.TabIndex = 15;
+            // 
             // ProdutosDetalhes
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(944, 583);
+            ClientSize = new Size(1172, 805);
             Controls.Add(groupBox4);
-            Controls.Add(groupTabPrecos);
-            Controls.Add(groupInfoFisica);
             Controls.Add(groupInfoBasica);
             Font = new Font("Montserrat", 8.249999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             MaximizeBox = false;
-            MaximumSize = new Size(960, 622);
-            MinimumSize = new Size(799, 517);
             Name = "ProdutosDetalhes";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
@@ -443,6 +453,7 @@
             groupInfoFisica.ResumeLayout(false);
             groupTabPrecos.ResumeLayout(false);
             groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
@@ -469,5 +480,6 @@
         private MaterialSkin.Controls.MaterialTextBox boxPeso;
         private MaterialSkin.Controls.MaterialTextBox boxPrecoVenda02;
         private MaterialSkin.Controls.MaterialTextBox boxPrecoCusto02;
+        private DataGridView dataGridView1;
     }
 }
