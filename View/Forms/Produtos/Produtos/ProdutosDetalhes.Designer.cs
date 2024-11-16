@@ -29,40 +29,40 @@
         private void InitializeComponent()
         {
             groupInfoBasica = new GroupBox();
+            dataGridView1 = new DataGridView();
             label3 = new Label();
-            label2 = new Label();
-            label1 = new Label();
-            boxModoUsar = new MaterialSkin.Controls.MaterialMultiLineTextBox();
-            boxComposicao = new MaterialSkin.Controls.MaterialMultiLineTextBox();
-            boxDescricao = new MaterialSkin.Controls.MaterialMultiLineTextBox();
-            boxNomeProduto = new MaterialSkin.Controls.MaterialTextBox();
-            groupInfoFisica = new GroupBox();
-            boxPeso = new MaterialSkin.Controls.MaterialTextBox();
-            btBuscaUnidadePrimaria = new FontAwesome.Sharp.IconButton();
-            boxUnidadePrimaria = new MaterialSkin.Controls.MaterialTextBox();
             groupTabPrecos = new GroupBox();
             boxPrecoVenda02 = new MaterialSkin.Controls.MaterialTextBox();
             boxPrecoCusto02 = new MaterialSkin.Controls.MaterialTextBox();
             boxPrecoVenda01 = new MaterialSkin.Controls.MaterialTextBox();
             boxPrecoCusto01 = new MaterialSkin.Controls.MaterialTextBox();
+            label2 = new Label();
+            groupInfoFisica = new GroupBox();
+            boxPeso = new MaterialSkin.Controls.MaterialTextBox();
+            btBuscaUnidadePrimaria = new FontAwesome.Sharp.IconButton();
+            boxUnidadePrimaria = new MaterialSkin.Controls.MaterialTextBox();
+            label1 = new Label();
+            boxModoUsar = new MaterialSkin.Controls.MaterialMultiLineTextBox();
+            boxComposicao = new MaterialSkin.Controls.MaterialMultiLineTextBox();
+            boxDescricao = new MaterialSkin.Controls.MaterialMultiLineTextBox();
+            boxNomeProduto = new MaterialSkin.Controls.MaterialTextBox();
             groupBox4 = new GroupBox();
             btCancelar = new FontAwesome.Sharp.IconButton();
             btSalvar = new FontAwesome.Sharp.IconButton();
             btSalvarMais = new FontAwesome.Sharp.IconButton();
-            dataGridView1 = new DataGridView();
             groupInfoBasica.SuspendLayout();
-            groupInfoFisica.SuspendLayout();
-            groupTabPrecos.SuspendLayout();
-            groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            groupTabPrecos.SuspendLayout();
+            groupInfoFisica.SuspendLayout();
+            groupBox4.SuspendLayout();
             SuspendLayout();
             // 
             // groupInfoBasica
             // 
             groupInfoBasica.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupInfoBasica.Controls.Add(groupBox4);
             groupInfoBasica.Controls.Add(dataGridView1);
             groupInfoBasica.Controls.Add(label3);
-            groupInfoBasica.Controls.Add(groupTabPrecos);
             groupInfoBasica.Controls.Add(label2);
             groupInfoBasica.Controls.Add(groupInfoFisica);
             groupInfoBasica.Controls.Add(label1);
@@ -77,6 +77,14 @@
             groupInfoBasica.TabStop = false;
             groupInfoBasica.Text = "Informações do Produto";
             // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(488, 96);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.Size = new Size(667, 629);
+            dataGridView1.TabIndex = 15;
+            // 
             // label3
             // 
             label3.AutoSize = true;
@@ -86,168 +94,6 @@
             label3.TabIndex = 9;
             label3.Text = "Modo de Usar (Opcional)";
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(3, 180);
-            label2.Name = "label2";
-            label2.Size = new Size(134, 15);
-            label2.TabIndex = 8;
-            label2.Text = "Composição (Opcional)";
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(3, 76);
-            label1.Name = "label1";
-            label1.Size = new Size(119, 15);
-            label1.TabIndex = 7;
-            label1.Text = "Descrição (Opcional)";
-            // 
-            // boxModoUsar
-            // 
-            boxModoUsar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            boxModoUsar.BackColor = Color.FromArgb(255, 255, 255);
-            boxModoUsar.BorderStyle = BorderStyle.None;
-            boxModoUsar.Depth = 0;
-            boxModoUsar.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            boxModoUsar.ForeColor = Color.FromArgb(222, 0, 0, 0);
-            boxModoUsar.Hint = "Descrição";
-            boxModoUsar.Location = new Point(6, 300);
-            boxModoUsar.MouseState = MaterialSkin.MouseState.HOVER;
-            boxModoUsar.Name = "boxModoUsar";
-            boxModoUsar.Size = new Size(476, 76);
-            boxModoUsar.TabIndex = 4;
-            boxModoUsar.Text = "";
-            // 
-            // boxComposicao
-            // 
-            boxComposicao.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            boxComposicao.BackColor = Color.FromArgb(255, 255, 255);
-            boxComposicao.BorderStyle = BorderStyle.None;
-            boxComposicao.Depth = 0;
-            boxComposicao.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            boxComposicao.ForeColor = Color.FromArgb(222, 0, 0, 0);
-            boxComposicao.Hint = "Descrição";
-            boxComposicao.Location = new Point(6, 199);
-            boxComposicao.MouseState = MaterialSkin.MouseState.HOVER;
-            boxComposicao.Name = "boxComposicao";
-            boxComposicao.Size = new Size(476, 76);
-            boxComposicao.TabIndex = 3;
-            boxComposicao.Text = "";
-            // 
-            // boxDescricao
-            // 
-            boxDescricao.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            boxDescricao.BackColor = Color.FromArgb(255, 255, 255);
-            boxDescricao.BorderStyle = BorderStyle.None;
-            boxDescricao.Depth = 0;
-            boxDescricao.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            boxDescricao.ForeColor = Color.FromArgb(222, 0, 0, 0);
-            boxDescricao.Hint = "Descrição";
-            boxDescricao.Location = new Point(6, 96);
-            boxDescricao.MouseState = MaterialSkin.MouseState.HOVER;
-            boxDescricao.Name = "boxDescricao";
-            boxDescricao.Size = new Size(476, 76);
-            boxDescricao.TabIndex = 2;
-            boxDescricao.Text = "";
-            // 
-            // boxNomeProduto
-            // 
-            boxNomeProduto.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            boxNomeProduto.AnimateReadOnly = false;
-            boxNomeProduto.BorderStyle = BorderStyle.None;
-            boxNomeProduto.Depth = 0;
-            boxNomeProduto.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            boxNomeProduto.Hint = "Nome do Produto";
-            boxNomeProduto.LeadingIcon = null;
-            boxNomeProduto.Location = new Point(6, 22);
-            boxNomeProduto.Margin = new Padding(2);
-            boxNomeProduto.MaxLength = 50;
-            boxNomeProduto.MouseState = MaterialSkin.MouseState.OUT;
-            boxNomeProduto.Multiline = false;
-            boxNomeProduto.Name = "boxNomeProduto";
-            boxNomeProduto.Size = new Size(1149, 50);
-            boxNomeProduto.TabIndex = 1;
-            boxNomeProduto.Tag = "";
-            boxNomeProduto.Text = "";
-            boxNomeProduto.TrailingIcon = null;
-            // 
-            // groupInfoFisica
-            // 
-            groupInfoFisica.Controls.Add(boxPeso);
-            groupInfoFisica.Controls.Add(btBuscaUnidadePrimaria);
-            groupInfoFisica.Controls.Add(boxUnidadePrimaria);
-            groupInfoFisica.Location = new Point(6, 382);
-            groupInfoFisica.Name = "groupInfoFisica";
-            groupInfoFisica.Size = new Size(476, 132);
-            groupInfoFisica.TabIndex = 13;
-            groupInfoFisica.TabStop = false;
-            groupInfoFisica.Text = "Informaçõs Físicas";
-            // 
-            // boxPeso
-            // 
-            boxPeso.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            boxPeso.AnimateReadOnly = false;
-            boxPeso.BorderStyle = BorderStyle.None;
-            boxPeso.Depth = 0;
-            boxPeso.Font = new Font("Microsoft Sans Serif", 12F);
-            boxPeso.Hint = "Peso";
-            boxPeso.LeadingIcon = null;
-            boxPeso.Location = new Point(6, 20);
-            boxPeso.Margin = new Padding(2);
-            boxPeso.MaxLength = 10;
-            boxPeso.MouseState = MaterialSkin.MouseState.OUT;
-            boxPeso.Multiline = false;
-            boxPeso.Name = "boxPeso";
-            boxPeso.ShortcutsEnabled = false;
-            boxPeso.Size = new Size(464, 50);
-            boxPeso.TabIndex = 5;
-            boxPeso.Tag = "";
-            boxPeso.Text = "0,000";
-            boxPeso.TrailingIcon = null;
-            boxPeso.TextChanged += BoxPeso_TextChanged;
-            boxPeso.KeyPress += BoxPeso_KeyPress;
-            // 
-            // btBuscaUnidadePrimaria
-            // 
-            btBuscaUnidadePrimaria.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btBuscaUnidadePrimaria.BackColor = Color.FromArgb(199, 199, 199);
-            btBuscaUnidadePrimaria.FlatAppearance.BorderSize = 0;
-            btBuscaUnidadePrimaria.FlatStyle = FlatStyle.Flat;
-            btBuscaUnidadePrimaria.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlassArrowRight;
-            btBuscaUnidadePrimaria.IconColor = Color.White;
-            btBuscaUnidadePrimaria.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btBuscaUnidadePrimaria.IconSize = 35;
-            btBuscaUnidadePrimaria.Location = new Point(421, 76);
-            btBuscaUnidadePrimaria.Name = "btBuscaUnidadePrimaria";
-            btBuscaUnidadePrimaria.Size = new Size(49, 49);
-            btBuscaUnidadePrimaria.TabIndex = 6;
-            btBuscaUnidadePrimaria.TextImageRelation = TextImageRelation.TextAboveImage;
-            btBuscaUnidadePrimaria.UseVisualStyleBackColor = false;
-            // 
-            // boxUnidadePrimaria
-            // 
-            boxUnidadePrimaria.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            boxUnidadePrimaria.AnimateReadOnly = false;
-            boxUnidadePrimaria.BorderStyle = BorderStyle.None;
-            boxUnidadePrimaria.Depth = 0;
-            boxUnidadePrimaria.Enabled = false;
-            boxUnidadePrimaria.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            boxUnidadePrimaria.Hint = "Unidade Primária";
-            boxUnidadePrimaria.LeadingIcon = null;
-            boxUnidadePrimaria.Location = new Point(6, 76);
-            boxUnidadePrimaria.Margin = new Padding(2);
-            boxUnidadePrimaria.MaxLength = 50;
-            boxUnidadePrimaria.MouseState = MaterialSkin.MouseState.OUT;
-            boxUnidadePrimaria.Multiline = false;
-            boxUnidadePrimaria.Name = "boxUnidadePrimaria";
-            boxUnidadePrimaria.Size = new Size(410, 50);
-            boxUnidadePrimaria.TabIndex = 13;
-            boxUnidadePrimaria.Tag = "Estado";
-            boxUnidadePrimaria.Text = "";
-            boxUnidadePrimaria.TrailingIcon = null;
-            // 
             // groupTabPrecos
             // 
             groupTabPrecos.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
@@ -255,7 +101,7 @@
             groupTabPrecos.Controls.Add(boxPrecoCusto02);
             groupTabPrecos.Controls.Add(boxPrecoVenda01);
             groupTabPrecos.Controls.Add(boxPrecoCusto01);
-            groupTabPrecos.Location = new Point(6, 541);
+            groupTabPrecos.Location = new Point(17, 741);
             groupTabPrecos.Name = "groupTabPrecos";
             groupTabPrecos.Size = new Size(476, 132);
             groupTabPrecos.TabIndex = 14;
@@ -359,16 +205,178 @@
             boxPrecoCusto01.TextChanged += BoxPreco_TextChanged;
             boxPrecoCusto01.KeyPress += BoxPreco_KeyPress;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(3, 180);
+            label2.Name = "label2";
+            label2.Size = new Size(134, 15);
+            label2.TabIndex = 8;
+            label2.Text = "Composição (Opcional)";
+            // 
+            // groupInfoFisica
+            // 
+            groupInfoFisica.Controls.Add(boxPeso);
+            groupInfoFisica.Controls.Add(btBuscaUnidadePrimaria);
+            groupInfoFisica.Controls.Add(boxUnidadePrimaria);
+            groupInfoFisica.Location = new Point(6, 386);
+            groupInfoFisica.Name = "groupInfoFisica";
+            groupInfoFisica.Size = new Size(476, 132);
+            groupInfoFisica.TabIndex = 13;
+            groupInfoFisica.TabStop = false;
+            groupInfoFisica.Text = "Informaçõs Físicas";
+            // 
+            // boxPeso
+            // 
+            boxPeso.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxPeso.AnimateReadOnly = false;
+            boxPeso.BorderStyle = BorderStyle.None;
+            boxPeso.Depth = 0;
+            boxPeso.Font = new Font("Microsoft Sans Serif", 12F);
+            boxPeso.Hint = "Peso";
+            boxPeso.LeadingIcon = null;
+            boxPeso.Location = new Point(6, 20);
+            boxPeso.Margin = new Padding(2);
+            boxPeso.MaxLength = 10;
+            boxPeso.MouseState = MaterialSkin.MouseState.OUT;
+            boxPeso.Multiline = false;
+            boxPeso.Name = "boxPeso";
+            boxPeso.ShortcutsEnabled = false;
+            boxPeso.Size = new Size(464, 50);
+            boxPeso.TabIndex = 5;
+            boxPeso.Tag = "";
+            boxPeso.Text = "0,000";
+            boxPeso.TrailingIcon = null;
+            boxPeso.TextChanged += BoxPeso_TextChanged;
+            boxPeso.KeyPress += BoxPeso_KeyPress;
+            // 
+            // btBuscaUnidadePrimaria
+            // 
+            btBuscaUnidadePrimaria.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btBuscaUnidadePrimaria.BackColor = Color.FromArgb(199, 199, 199);
+            btBuscaUnidadePrimaria.FlatAppearance.BorderSize = 0;
+            btBuscaUnidadePrimaria.FlatStyle = FlatStyle.Flat;
+            btBuscaUnidadePrimaria.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlassArrowRight;
+            btBuscaUnidadePrimaria.IconColor = Color.White;
+            btBuscaUnidadePrimaria.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btBuscaUnidadePrimaria.IconSize = 35;
+            btBuscaUnidadePrimaria.Location = new Point(421, 76);
+            btBuscaUnidadePrimaria.Name = "btBuscaUnidadePrimaria";
+            btBuscaUnidadePrimaria.Size = new Size(49, 49);
+            btBuscaUnidadePrimaria.TabIndex = 6;
+            btBuscaUnidadePrimaria.TextImageRelation = TextImageRelation.TextAboveImage;
+            btBuscaUnidadePrimaria.UseVisualStyleBackColor = false;
+            // 
+            // boxUnidadePrimaria
+            // 
+            boxUnidadePrimaria.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxUnidadePrimaria.AnimateReadOnly = false;
+            boxUnidadePrimaria.BorderStyle = BorderStyle.None;
+            boxUnidadePrimaria.Depth = 0;
+            boxUnidadePrimaria.Enabled = false;
+            boxUnidadePrimaria.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxUnidadePrimaria.Hint = "Unidade Primária";
+            boxUnidadePrimaria.LeadingIcon = null;
+            boxUnidadePrimaria.Location = new Point(6, 76);
+            boxUnidadePrimaria.Margin = new Padding(2);
+            boxUnidadePrimaria.MaxLength = 50;
+            boxUnidadePrimaria.MouseState = MaterialSkin.MouseState.OUT;
+            boxUnidadePrimaria.Multiline = false;
+            boxUnidadePrimaria.Name = "boxUnidadePrimaria";
+            boxUnidadePrimaria.Size = new Size(410, 50);
+            boxUnidadePrimaria.TabIndex = 13;
+            boxUnidadePrimaria.Tag = "Estado";
+            boxUnidadePrimaria.Text = "";
+            boxUnidadePrimaria.TrailingIcon = null;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(3, 76);
+            label1.Name = "label1";
+            label1.Size = new Size(119, 15);
+            label1.TabIndex = 7;
+            label1.Text = "Descrição (Opcional)";
+            // 
+            // boxModoUsar
+            // 
+            boxModoUsar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxModoUsar.BackColor = Color.FromArgb(255, 255, 255);
+            boxModoUsar.BorderStyle = BorderStyle.None;
+            boxModoUsar.Depth = 0;
+            boxModoUsar.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxModoUsar.ForeColor = Color.FromArgb(222, 0, 0, 0);
+            boxModoUsar.Hint = "Descrição";
+            boxModoUsar.Location = new Point(6, 300);
+            boxModoUsar.MouseState = MaterialSkin.MouseState.HOVER;
+            boxModoUsar.Name = "boxModoUsar";
+            boxModoUsar.Size = new Size(476, 76);
+            boxModoUsar.TabIndex = 4;
+            boxModoUsar.Text = "";
+            // 
+            // boxComposicao
+            // 
+            boxComposicao.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxComposicao.BackColor = Color.FromArgb(255, 255, 255);
+            boxComposicao.BorderStyle = BorderStyle.None;
+            boxComposicao.Depth = 0;
+            boxComposicao.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxComposicao.ForeColor = Color.FromArgb(222, 0, 0, 0);
+            boxComposicao.Hint = "Descrição";
+            boxComposicao.Location = new Point(6, 199);
+            boxComposicao.MouseState = MaterialSkin.MouseState.HOVER;
+            boxComposicao.Name = "boxComposicao";
+            boxComposicao.Size = new Size(476, 76);
+            boxComposicao.TabIndex = 3;
+            boxComposicao.Text = "";
+            // 
+            // boxDescricao
+            // 
+            boxDescricao.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxDescricao.BackColor = Color.FromArgb(255, 255, 255);
+            boxDescricao.BorderStyle = BorderStyle.None;
+            boxDescricao.Depth = 0;
+            boxDescricao.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxDescricao.ForeColor = Color.FromArgb(222, 0, 0, 0);
+            boxDescricao.Hint = "Descrição";
+            boxDescricao.Location = new Point(6, 96);
+            boxDescricao.MouseState = MaterialSkin.MouseState.HOVER;
+            boxDescricao.Name = "boxDescricao";
+            boxDescricao.Size = new Size(476, 76);
+            boxDescricao.TabIndex = 2;
+            boxDescricao.Text = "";
+            // 
+            // boxNomeProduto
+            // 
+            boxNomeProduto.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxNomeProduto.AnimateReadOnly = false;
+            boxNomeProduto.BorderStyle = BorderStyle.None;
+            boxNomeProduto.Depth = 0;
+            boxNomeProduto.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxNomeProduto.Hint = "Nome do Produto";
+            boxNomeProduto.LeadingIcon = null;
+            boxNomeProduto.Location = new Point(6, 22);
+            boxNomeProduto.Margin = new Padding(2);
+            boxNomeProduto.MaxLength = 50;
+            boxNomeProduto.MouseState = MaterialSkin.MouseState.OUT;
+            boxNomeProduto.Multiline = false;
+            boxNomeProduto.Name = "boxNomeProduto";
+            boxNomeProduto.Size = new Size(1149, 50);
+            boxNomeProduto.TabIndex = 1;
+            boxNomeProduto.Tag = "";
+            boxNomeProduto.Text = "";
+            boxNomeProduto.TrailingIcon = null;
+            // 
             // groupBox4
             // 
             groupBox4.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             groupBox4.Controls.Add(btCancelar);
             groupBox4.Controls.Add(btSalvar);
             groupBox4.Controls.Add(btSalvarMais);
-            groupBox4.Location = new Point(834, 741);
+            groupBox4.Location = new Point(6, 666);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(332, 59);
-            groupBox4.TabIndex = 25;
+            groupBox4.Size = new Size(476, 59);
+            groupBox4.TabIndex = 26;
             groupBox4.TabStop = false;
             groupBox4.Text = "Ações";
             // 
@@ -427,21 +435,13 @@
             btSalvarMais.TextImageRelation = TextImageRelation.ImageBeforeText;
             btSalvarMais.UseVisualStyleBackColor = false;
             // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(488, 96);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(667, 629);
-            dataGridView1.TabIndex = 15;
-            // 
             // ProdutosDetalhes
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1172, 805);
-            Controls.Add(groupBox4);
             Controls.Add(groupInfoBasica);
+            Controls.Add(groupTabPrecos);
             Font = new Font("Montserrat", 8.249999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             MaximizeBox = false;
             Name = "ProdutosDetalhes";
@@ -450,10 +450,10 @@
             Text = "Detalhes do Produto";
             groupInfoBasica.ResumeLayout(false);
             groupInfoBasica.PerformLayout();
-            groupInfoFisica.ResumeLayout(false);
-            groupTabPrecos.ResumeLayout(false);
-            groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            groupTabPrecos.ResumeLayout(false);
+            groupInfoFisica.ResumeLayout(false);
+            groupBox4.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -470,10 +470,6 @@
         private GroupBox groupTabPrecos;
         private MaterialSkin.Controls.MaterialTextBox boxPrecoVenda01;
         private MaterialSkin.Controls.MaterialTextBox boxPrecoCusto01;
-        private GroupBox groupBox4;
-        private FontAwesome.Sharp.IconButton btCancelar;
-        private FontAwesome.Sharp.IconButton btSalvar;
-        private FontAwesome.Sharp.IconButton btSalvarMais;
         private Label label1;
         private Label label3;
         private Label label2;
@@ -481,5 +477,9 @@
         private MaterialSkin.Controls.MaterialTextBox boxPrecoVenda02;
         private MaterialSkin.Controls.MaterialTextBox boxPrecoCusto02;
         private DataGridView dataGridView1;
+        private GroupBox groupBox4;
+        private FontAwesome.Sharp.IconButton btCancelar;
+        private FontAwesome.Sharp.IconButton btSalvar;
+        private FontAwesome.Sharp.IconButton btSalvarMais;
     }
 }
