@@ -11,12 +11,12 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
         #region Variaveis
 
         private bool bloqueiaAlteracaoCampo = false;
-        
-        private Produto?          novoProduto        = null;
+
+        private Produto? novoProduto = null;
         private List<TabelaPreco> listaTabelasPrecos = [];
-        private UnidadePrimaria?  unidadePrimaria    = null;
-        private static Action?    action             = null;
-       
+        private UnidadePrimaria? unidadePrimaria = null;
+        private static Action? action = null;
+
         #endregion
 
         #region Construtores
@@ -36,39 +36,39 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
         {
             try
             {
-                if (string.IsNullOrEmpty(boxNomeProduto.Text))                
+                if (string.IsNullOrEmpty(boxNomeProduto.Text))
                     throw new Exception("Preencha o nome do produto");
 
                 if (string.IsNullOrEmpty(boxUnidadePrimaria.Text))
                     throw new Exception("Preencha a unidade primária");
-                              
+
                 if (unidadePrimaria is not null)
                 {
                     novoProduto = new Produto()
                     {
-                        Nome              = boxNomeProduto.Text.ToUpper().Trim(),
-                        Descricao         = string.IsNullOrEmpty(boxDescricao.Text)  ? "" : boxDescricao.Text.ToUpper().Trim(),
-                        Composicao        = string.IsNullOrEmpty(boxComposicao.Text) ? "" : boxComposicao.Text.ToUpper().Trim(),
-                        Peso              = Convert.ToDecimal(boxPeso.Text),
+                        Nome = boxNomeProduto.Text.ToUpper().Trim(),
+                        Descricao = string.IsNullOrEmpty(boxDescricao.Text) ? "" : boxDescricao.Text.ToUpper().Trim(),
+                        Composicao = string.IsNullOrEmpty(boxComposicao.Text) ? "" : boxComposicao.Text.ToUpper().Trim(),
+                        Peso = Convert.ToDecimal(boxPeso.Text),
                         UnidadePrimariaId = unidadePrimaria.Id
                     };
                 }
                 else
                     throw new Exception("Problemas ao obter dados informados da unidade primária.");
 
-                listaTabelasPrecos.Add(new TabelaPreco()
-                {
-                    Ordem = 1,
-                    PrecoCusto = Convert.ToDecimal(boxPrecoCusto01.Text),
-                    PrecoVenda = Convert.ToDecimal(boxPrecoVenda01.Text),
-                });
+                //listaTabelasPrecos.Add(new TabelaPreco()
+                //{
+                //    Ordem = 1,
+                //    PrecoCusto = Convert.ToDecimal(boxPrecoCusto01.Text),
+                //    PrecoVenda = Convert.ToDecimal(boxPrecoVenda01.Text),
+                //});
 
-                listaTabelasPrecos.Add(new TabelaPreco()
-                {
-                    Ordem = 2,
-                    PrecoCusto = Convert.ToDecimal(boxPrecoCusto02.Text),
-                    PrecoVenda = Convert.ToDecimal(boxPrecoVenda02.Text),
-                });
+                //listaTabelasPrecos.Add(new TabelaPreco()
+                //{
+                //    Ordem = 2,
+                //    PrecoCusto = Convert.ToDecimal(boxPrecoCusto02.Text),
+                //    PrecoVenda = Convert.ToDecimal(boxPrecoVenda02.Text),
+                //});
 
                 AdicionaPoduto();
             }
@@ -80,9 +80,9 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
         private void DelegaEventos()
         {
-            btSalvarMais.Click           += BtSalvarMais_Click;
-            btSalvar.Click               += BtSalvar_Click;
-            btCancelar.Click             += BtCancelar_Click;
+            btSalvarMais.Click += BtSalvarMais_Click;
+            btSalvar.Click += BtSalvar_Click;
+            btCancelar.Click += BtCancelar_Click;
             btBuscaUnidadePrimaria.Click += BtUnidadePrimaria_Click;
         }
 
@@ -90,8 +90,7 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
         {
             LimpaCampos(groupInfoBasica);
             LimpaCampos(groupInfoFisica);
-            LimpaCampos(groupTabPrecos);
-
+            
             boxNomeProduto.Focus();
         }
 
@@ -109,7 +108,7 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
         private void SetPropriedades(UnidadePrimaria unidade)
         {
-            this.unidadePrimaria    = unidade;
+            this.unidadePrimaria = unidade;
 
             boxUnidadePrimaria.Text = unidade.Nome;
         }
@@ -117,14 +116,14 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
         private string DecimalPesoParaString(decimal valor)
         {
             string strValor = valor.ToString();
-            string sobra    = string.Empty;
+            string sobra = string.Empty;
 
             if (strValor.Split(',').Length > 1)
                 sobra = strValor.Split(',')[1];
 
             if (sobra.Length < 3)
             {
-                sobra    = sobra.PadRight(3, '0');
+                sobra = sobra.PadRight(3, '0');
                 strValor = strValor.Split(',')[0] + "," + sobra;
             }
 
@@ -133,9 +132,9 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
         private string DecimalDInheiroParaString(decimal valor)
         {
-            string strValor     = valor.ToString();
-            string sobra        = string.Empty;
-            string valorCheio   = string.Empty;
+            string strValor = valor.ToString();
+            string sobra = string.Empty;
+            string valorCheio = string.Empty;
             string antesVirgula = string.Empty;
 
             if (strValor.Split(',').Length > 1)
@@ -143,7 +142,7 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
             if (sobra.Length < 2)
             {
-                sobra    = sobra.PadRight(2, '0');
+                sobra = sobra.PadRight(2, '0');
                 strValor = strValor.Split(',')[0] + "," + sobra;
             }
 
@@ -320,11 +319,11 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
         }
 
         private void BtUnidadePrimaria_Click(object? sender, EventArgs e)
-        {            
+        {
             BuscaUnidadesPrimarias buscaUnidades = new(SetPropriedades);
             buscaUnidades.ShowDialog();
 
-            boxUnidadePrimaria.Focus();            
+            boxUnidadePrimaria.Focus();
         }
 
         private void BoxPeso_TextChanged(object sender, EventArgs e)
@@ -386,5 +385,6 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
         }
 
         #endregion
+
     }
 }
