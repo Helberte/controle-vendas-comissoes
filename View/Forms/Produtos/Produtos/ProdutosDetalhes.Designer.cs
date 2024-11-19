@@ -28,12 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            groupInfoBasica = new GroupBox();
-            groupBox4 = new GroupBox();
+            groupInfoProduto = new GroupBox();
+            label4 = new Label();
+            boxIdProduto = new MaterialSkin.Controls.MaterialTextBox();
+            groupAcoes = new GroupBox();
+            btNovo = new FontAwesome.Sharp.IconButton();
             btCancelar = new FontAwesome.Sharp.IconButton();
             btSalvar = new FontAwesome.Sharp.IconButton();
-            btSalvarMais = new FontAwesome.Sharp.IconButton();
-            dataGridView1 = new DataGridView();
+            dataGridEstadosPreco = new DataGridView();
             label3 = new Label();
             label2 = new Label();
             groupInfoFisica = new GroupBox();
@@ -45,44 +47,95 @@
             boxComposicao = new MaterialSkin.Controls.MaterialMultiLineTextBox();
             boxDescricao = new MaterialSkin.Controls.MaterialMultiLineTextBox();
             boxNomeProduto = new MaterialSkin.Controls.MaterialTextBox();
-            groupInfoBasica.SuspendLayout();
-            groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            groupInfoProduto.SuspendLayout();
+            groupAcoes.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridEstadosPreco).BeginInit();
             groupInfoFisica.SuspendLayout();
             SuspendLayout();
             // 
-            // groupInfoBasica
+            // groupInfoProduto
             // 
-            groupInfoBasica.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            groupInfoBasica.Controls.Add(groupBox4);
-            groupInfoBasica.Controls.Add(dataGridView1);
-            groupInfoBasica.Controls.Add(label3);
-            groupInfoBasica.Controls.Add(label2);
-            groupInfoBasica.Controls.Add(groupInfoFisica);
-            groupInfoBasica.Controls.Add(label1);
-            groupInfoBasica.Controls.Add(boxModoUsar);
-            groupInfoBasica.Controls.Add(boxComposicao);
-            groupInfoBasica.Controls.Add(boxDescricao);
-            groupInfoBasica.Controls.Add(boxNomeProduto);
-            groupInfoBasica.Location = new Point(5, 4);
-            groupInfoBasica.Name = "groupInfoBasica";
-            groupInfoBasica.Size = new Size(1162, 674);
-            groupInfoBasica.TabIndex = 0;
-            groupInfoBasica.TabStop = false;
-            groupInfoBasica.Text = "Informações do Produto";
+            groupInfoProduto.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            groupInfoProduto.Controls.Add(label4);
+            groupInfoProduto.Controls.Add(boxIdProduto);
+            groupInfoProduto.Controls.Add(groupAcoes);
+            groupInfoProduto.Controls.Add(dataGridEstadosPreco);
+            groupInfoProduto.Controls.Add(label3);
+            groupInfoProduto.Controls.Add(label2);
+            groupInfoProduto.Controls.Add(groupInfoFisica);
+            groupInfoProduto.Controls.Add(label1);
+            groupInfoProduto.Controls.Add(boxModoUsar);
+            groupInfoProduto.Controls.Add(boxComposicao);
+            groupInfoProduto.Controls.Add(boxDescricao);
+            groupInfoProduto.Controls.Add(boxNomeProduto);
+            groupInfoProduto.Location = new Point(5, 4);
+            groupInfoProduto.Name = "groupInfoProduto";
+            groupInfoProduto.Size = new Size(1162, 674);
+            groupInfoProduto.TabIndex = 0;
+            groupInfoProduto.TabStop = false;
+            groupInfoProduto.Text = "Informações do Produto";
             // 
-            // groupBox4
+            // label4
             // 
-            groupBox4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            groupBox4.Controls.Add(btCancelar);
-            groupBox4.Controls.Add(btSalvar);
-            groupBox4.Controls.Add(btSalvarMais);
-            groupBox4.Location = new Point(6, 609);
-            groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(477, 59);
-            groupBox4.TabIndex = 26;
-            groupBox4.TabStop = false;
-            groupBox4.Text = "Ações";
+            label4.AutoSize = true;
+            label4.Location = new Point(486, 76);
+            label4.Name = "label4";
+            label4.Size = new Size(196, 15);
+            label4.TabIndex = 28;
+            label4.Text = "Preços do produto em cada estado";
+            // 
+            // boxIdProduto
+            // 
+            boxIdProduto.AnimateReadOnly = false;
+            boxIdProduto.BorderStyle = BorderStyle.None;
+            boxIdProduto.Depth = 0;
+            boxIdProduto.Enabled = false;
+            boxIdProduto.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxIdProduto.Hint = "Id";
+            boxIdProduto.LeadingIcon = null;
+            boxIdProduto.Location = new Point(6, 22);
+            boxIdProduto.Margin = new Padding(2);
+            boxIdProduto.MaxLength = 50;
+            boxIdProduto.MouseState = MaterialSkin.MouseState.OUT;
+            boxIdProduto.Multiline = false;
+            boxIdProduto.Name = "boxIdProduto";
+            boxIdProduto.Size = new Size(79, 50);
+            boxIdProduto.TabIndex = 27;
+            boxIdProduto.Tag = "boxIdProduto";
+            boxIdProduto.Text = "";
+            boxIdProduto.TrailingIcon = null;
+            // 
+            // groupAcoes
+            // 
+            groupAcoes.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            groupAcoes.Controls.Add(btNovo);
+            groupAcoes.Controls.Add(btCancelar);
+            groupAcoes.Controls.Add(btSalvar);
+            groupAcoes.Location = new Point(6, 609);
+            groupAcoes.Name = "groupAcoes";
+            groupAcoes.Size = new Size(477, 59);
+            groupAcoes.TabIndex = 26;
+            groupAcoes.TabStop = false;
+            groupAcoes.Text = "Ações";
+            // 
+            // btNovo
+            // 
+            btNovo.BackColor = Color.FromArgb(199, 199, 199);
+            btNovo.FlatAppearance.BorderSize = 0;
+            btNovo.FlatStyle = FlatStyle.Flat;
+            btNovo.Font = new Font("Montserrat ExtraBold", 8.249999F, FontStyle.Bold);
+            btNovo.ForeColor = Color.White;
+            btNovo.IconChar = FontAwesome.Sharp.IconChar.PlusSquare;
+            btNovo.IconColor = Color.White;
+            btNovo.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btNovo.IconSize = 20;
+            btNovo.Location = new Point(167, 18);
+            btNovo.Name = "btNovo";
+            btNovo.Size = new Size(140, 33);
+            btNovo.TabIndex = 12;
+            btNovo.Text = "NOVO";
+            btNovo.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btNovo.UseVisualStyleBackColor = false;
             // 
             // btCancelar
             // 
@@ -114,40 +167,23 @@
             btSalvar.IconChar = FontAwesome.Sharp.IconChar.None;
             btSalvar.IconColor = Color.Black;
             btSalvar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btSalvar.Location = new Point(168, 18);
+            btSalvar.Location = new Point(6, 18);
             btSalvar.Name = "btSalvar";
             btSalvar.Size = new Size(140, 33);
             btSalvar.TabIndex = 10;
             btSalvar.Text = "SALVAR";
             btSalvar.UseVisualStyleBackColor = false;
             // 
-            // btSalvarMais
+            // dataGridEstadosPreco
             // 
-            btSalvarMais.BackColor = Color.FromArgb(199, 199, 199);
-            btSalvarMais.FlatAppearance.BorderSize = 0;
-            btSalvarMais.FlatStyle = FlatStyle.Flat;
-            btSalvarMais.Font = new Font("Montserrat ExtraBold", 8.249999F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btSalvarMais.ForeColor = Color.White;
-            btSalvarMais.IconChar = FontAwesome.Sharp.IconChar.PlusSquare;
-            btSalvarMais.IconColor = Color.White;
-            btSalvarMais.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btSalvarMais.IconSize = 15;
-            btSalvarMais.Location = new Point(9, 18);
-            btSalvarMais.Name = "btSalvarMais";
-            btSalvarMais.Size = new Size(140, 33);
-            btSalvarMais.TabIndex = 9;
-            btSalvarMais.Text = "SALVAR";
-            btSalvarMais.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btSalvarMais.UseVisualStyleBackColor = false;
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(489, 96);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(667, 572);
-            dataGridView1.TabIndex = 15;
+            dataGridEstadosPreco.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridEstadosPreco.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridEstadosPreco.Location = new Point(489, 96);
+            dataGridEstadosPreco.Name = "dataGridEstadosPreco";
+            dataGridEstadosPreco.Size = new Size(667, 572);
+            dataGridEstadosPreco.TabIndex = 15;
+            dataGridEstadosPreco.CellValueChanged += DataGridEstadosPreco_CellValueChanged;
+            dataGridEstadosPreco.EditingControlShowing += DataGridEstadosPreco_EditingControlShowing;
             // 
             // label3
             // 
@@ -169,7 +205,6 @@
             // 
             // groupInfoFisica
             // 
-            groupInfoFisica.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupInfoFisica.Controls.Add(boxPeso);
             groupInfoFisica.Controls.Add(btBuscaUnidadePrimaria);
             groupInfoFisica.Controls.Add(boxUnidadePrimaria);
@@ -254,11 +289,10 @@
             // 
             // boxModoUsar
             // 
-            boxModoUsar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             boxModoUsar.BackColor = Color.FromArgb(255, 255, 255);
             boxModoUsar.BorderStyle = BorderStyle.None;
             boxModoUsar.Depth = 0;
-            boxModoUsar.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxModoUsar.Font = new Font("Montserrat", 12F);
             boxModoUsar.ForeColor = Color.FromArgb(222, 0, 0, 0);
             boxModoUsar.Hint = "Descrição";
             boxModoUsar.Location = new Point(6, 300);
@@ -270,11 +304,10 @@
             // 
             // boxComposicao
             // 
-            boxComposicao.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             boxComposicao.BackColor = Color.FromArgb(255, 255, 255);
             boxComposicao.BorderStyle = BorderStyle.None;
             boxComposicao.Depth = 0;
-            boxComposicao.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxComposicao.Font = new Font("Montserrat", 12F);
             boxComposicao.ForeColor = Color.FromArgb(222, 0, 0, 0);
             boxComposicao.Hint = "Descrição";
             boxComposicao.Location = new Point(6, 199);
@@ -286,11 +319,10 @@
             // 
             // boxDescricao
             // 
-            boxDescricao.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             boxDescricao.BackColor = Color.FromArgb(255, 255, 255);
             boxDescricao.BorderStyle = BorderStyle.None;
             boxDescricao.Depth = 0;
-            boxDescricao.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxDescricao.Font = new Font("Montserrat", 12F);
             boxDescricao.ForeColor = Color.FromArgb(222, 0, 0, 0);
             boxDescricao.Hint = "Descrição";
             boxDescricao.Location = new Point(6, 96);
@@ -309,13 +341,13 @@
             boxNomeProduto.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
             boxNomeProduto.Hint = "Nome do Produto";
             boxNomeProduto.LeadingIcon = null;
-            boxNomeProduto.Location = new Point(6, 22);
+            boxNomeProduto.Location = new Point(89, 22);
             boxNomeProduto.Margin = new Padding(2);
             boxNomeProduto.MaxLength = 50;
             boxNomeProduto.MouseState = MaterialSkin.MouseState.OUT;
             boxNomeProduto.Multiline = false;
             boxNomeProduto.Name = "boxNomeProduto";
-            boxNomeProduto.Size = new Size(1150, 50);
+            boxNomeProduto.Size = new Size(1067, 50);
             boxNomeProduto.TabIndex = 1;
             boxNomeProduto.Tag = "";
             boxNomeProduto.Text = "";
@@ -326,7 +358,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1173, 684);
-            Controls.Add(groupInfoBasica);
+            Controls.Add(groupInfoProduto);
             Font = new Font("Montserrat", 8.249999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             MaximizeBox = false;
             MaximumSize = new Size(1561, 899);
@@ -335,17 +367,18 @@
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Detalhes do Produto";
-            groupInfoBasica.ResumeLayout(false);
-            groupInfoBasica.PerformLayout();
-            groupBox4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            Load += ProdutosDetalhes_Load;
+            groupInfoProduto.ResumeLayout(false);
+            groupInfoProduto.PerformLayout();
+            groupAcoes.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridEstadosPreco).EndInit();
             groupInfoFisica.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
-        private GroupBox groupInfoBasica;
+        private GroupBox groupInfoProduto;
         private MaterialSkin.Controls.MaterialTextBox boxNomeProduto;
         private MaterialSkin.Controls.MaterialMultiLineTextBox boxDescricao;
         private MaterialSkin.Controls.MaterialMultiLineTextBox boxComposicao;
@@ -357,10 +390,12 @@
         private Label label3;
         private Label label2;
         private MaterialSkin.Controls.MaterialTextBox boxPeso;
-        private DataGridView dataGridView1;
-        private GroupBox groupBox4;
+        private DataGridView dataGridEstadosPreco;
+        private GroupBox groupAcoes;
         private FontAwesome.Sharp.IconButton btCancelar;
         private FontAwesome.Sharp.IconButton btSalvar;
-        private FontAwesome.Sharp.IconButton btSalvarMais;
+        private FontAwesome.Sharp.IconButton btNovo;
+        private MaterialSkin.Controls.MaterialTextBox boxIdProduto;
+        private Label label4;
     }
 }
