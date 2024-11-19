@@ -472,28 +472,24 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
         private void DataGridEstadosPreco_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            decimal custo = 0, venda = 0;
-            int estadoId = Convert.ToInt32(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["Id"].Index].Value);
-            int ordem;
+            int     estadoId = Convert.ToInt32(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["Id"].Index].Value);
+            int     ordem;
+            decimal custo;
+            decimal venda;
 
-            if (dataGridEstadosPreco.Columns["PrecoCusto1"].Index == e.ColumnIndex)
+            if (dataGridEstadosPreco.Columns["PrecoCusto1"].Index == e.ColumnIndex ||
+                dataGridEstadosPreco.Columns["PrecoVenda1"].Index == e.ColumnIndex)
             {
                 ordem = 1;
                 custo = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoCusto1"].Index].Value);
-            }
-            else if (dataGridEstadosPreco.Columns["PrecoVenda1"].Index == e.ColumnIndex)
-            {
-                ordem = 1;
                 venda = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoVenda1"].Index].Value);
             }
-            else if (dataGridEstadosPreco.Columns["PrecoCusto2"].Index == e.ColumnIndex)
+            else
+            if (dataGridEstadosPreco.Columns["PrecoCusto2"].Index == e.ColumnIndex ||
+                dataGridEstadosPreco.Columns["PrecoVenda2"].Index == e.ColumnIndex)
             {
                 ordem = 2;
                 custo = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoCusto2"].Index].Value);
-            }
-            else if (dataGridEstadosPreco.Columns["PrecoVenda2"].Index == e.ColumnIndex)
-            {
-                ordem = 2;
                 venda = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoVenda2"].Index].Value);
             }
             else
@@ -501,10 +497,10 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
             AdicionaPrecoProduto(new()
             {
-                EstadoId = estadoId,
-                Ordem = ordem,
-                PrecoCusto = custo,
-                PrecoVenda = venda
+                EstadoId    = estadoId,
+                Ordem       = ordem,
+                PrecoCusto  = custo,
+                PrecoVenda  = venda
             });
         }
 

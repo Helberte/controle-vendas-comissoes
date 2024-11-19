@@ -48,8 +48,8 @@ namespace controle_vendas_comissoes
 
         public static void SendComissoesConfiguracao()
         {
-            ComissoesConfiguracao rotina = new();
-            rotina.ShowDialog();
+            //ComissoesConfiguracao rotina = new();
+            //rotina.ShowDialog();
         }
     }
 }
