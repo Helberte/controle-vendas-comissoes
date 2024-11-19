@@ -123,7 +123,7 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos
             return promise;
         }
 
-        public static IPromise<Produto> AdicionaProduto(Produto produto, List<TabelaPreco> tabelasPrecos)
+        public static IPromise<Produto> AdicionaProduto(Produto produto)
         {
             Promise<Produto> promise = new();
 
@@ -134,14 +134,10 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos
                     using AppDbContext          context     = new();
                     using IDbContextTransaction transaction = context.Database.BeginTransaction();
 
-                    if (   context.Produtos            is not null 
-                        && context.ProdutoTabelaPrecos is not null 
-                        && context.TabelaPrecos        is not null
-                        && context.UnidadesPrimarias   is not null)
+                    if (context.Produtos is not null && context.UnidadesPrimarias is not null)
                     {
-                        Produto?                 novoProduto           = null;                       
-                        List<ProdutoTabelaPreco> produtosTabelasPrecos = [];
-                        Produto?                 produtoExiste         = context.Produtos.Where(e => (e.Nome.Equals(produto.Nome))).FirstOrDefault();
+                        Produto? novoProduto   = null;           
+                        Produto? produtoExiste = context.Produtos.Where(e => e.Nome.Equals(produto.Nome)).FirstOrDefault();
 
                         if (produtoExiste is not null)                       
                             if (produtoExiste.Nome.Equals(produto.Nome))
@@ -156,25 +152,7 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos
                         novoProduto = context.Produtos.Add(produto).Entity;
 
                         context.SaveChanges();
-
-                        // insere as tabelas de preços
-                        context.TabelaPrecos.AddRange(tabelasPrecos);
-
-                        context.SaveChanges();
-
-                        foreach (TabelaPreco item in tabelasPrecos)
-                        {
-                            if (item is null || item.Id <= 0)
-                                throw new Exception("Existe uma inconsistência ao gravar o produto.");
-
-                            produtosTabelasPrecos.Add(new ProdutoTabelaPreco() { ProdutoId = produto.Id, TabelaPrecoId = item.Id });
-                        }
-
-                        // insere o relacionamento do produto com a tabela de preço
-                        context.ProdutoTabelaPrecos.AddRange(produtosTabelasPrecos);
-
-                        context.SaveChanges();
-
+                        
                         transaction.Commit();
 
                         promise.Resolve(novoProduto);
@@ -190,5 +168,127 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos
 
             return promise;
         }
+         
+        public static IPromise<List<ModelProdutoPreco>> AdicionaPrecoProduto(int produtoId, TabelaPreco tabelaPreco)
+        {
+            Promise<List<ModelProdutoPreco>> promise = new();
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    using AppDbContext context = new();
+                    using IDbContextTransaction transaction = context.Database.BeginTransaction();
+
+                    string sql = string.Format(@"
+                        SELECT TabelaPrecoId        = tabela_preco.id
+                             , ProdutoTabelaPrecoId = produto_tabela_preco.id
+                             , Ordem                = tabela_preco.ordem
+                             , PrecoCusto           = ISNULL(tabela_preco.preco_custo, 0)
+                             , PrecoVenda           = ISNULL(tabela_preco.preco_venda, 0)
+                         
+                          FROM produto_tabela_preco
+                         
+                         INNER
+                          JOIN produto
+                            ON produto.deleted_at IS NULL
+                           AND produto.id = produto_tabela_preco.produto_id
+                         
+                         INNER
+                          JOIN tabela_preco
+                            ON tabela_preco.deleted_at IS NULL
+                           AND tabela_preco.id = produto_tabela_preco.tabela_preco_id
+                         
+                         INNER
+                          JOIN estado
+                            ON estado.deleted_at IS NULL
+                           AND estado.id = tabela_preco.estado_id
+                           AND estado.id = {0}
+                         
+                         WHERE produto_tabela_preco.deleted_at IS NULL
+                           AND produto_tabela_preco.produto_id = {1}
+                         
+                         GROUP
+                            BY tabela_preco.id
+                             , produto_tabela_preco.id
+                             , tabela_preco.ordem
+                             , tabela_preco.preco_custo
+                             , tabela_preco.preco_venda;", tabelaPreco.EstadoId, produtoId);
+
+                    List<ModelProdutoPreco>? resultado = context.Database.SqlQuery<ModelProdutoPreco>(FormattableStringFactory.Create(sql)).ToList();
+
+                    if (    context.ProdutoTabelaPrecos is not null 
+                        &&  context.TabelaPrecos is not null 
+                        &&  context.Estados is not null
+                        &&  context.Produtos is not null )
+                    {
+                        // se não existir nenhuma tabela de preços ou se a ordem não existir
+                        if (resultado.Count == 0 || resultado.FindAll(o => o.Ordem == tabelaPreco.Ordem).Count() <= 0)
+                        {
+                            Estado? estado = context.Estados.Where(e => e.Id.Equals(tabelaPreco.EstadoId)).FirstOrDefault();
+
+                            if (estado == null)
+                                throw new Exception("O Estado informado não existe");
+
+                            TabelaPreco novaTabPreco = context.TabelaPrecos.Add(new TabelaPreco()
+                            {
+                                PrecoCusto  = tabelaPreco.PrecoCusto,
+                                PrecoVenda  = tabelaPreco.PrecoVenda,
+                                EstadoId    = tabelaPreco.EstadoId,
+                                Ordem       = tabelaPreco.Ordem
+                            }).Entity;
+
+                            context.SaveChanges();
+
+                            context.ProdutoTabelaPrecos.Add(new ProdutoTabelaPreco()
+                            {
+                                ProdutoId     = produtoId,
+                                TabelaPrecoId = novaTabPreco.Id,
+                            });
+
+                            context.SaveChanges();
+                        }
+                        else
+                        {
+                            List<ModelProdutoPreco>? tabelaExistente = resultado.FindAll(t => t.Ordem == tabelaPreco.Ordem);
+
+                            if (tabelaExistente is null || tabelaExistente.Count > 1)
+                                throw new Exception("Inconsistencia ao buscar a tabela de preços");
+
+                            TabelaPreco?        tabela        = context.TabelaPrecos.Where(t => t.Id == tabelaExistente[0].TabelaPrecoId).FirstOrDefault();
+                            ProdutoTabelaPreco? produtoTabela = context.ProdutoTabelaPrecos.Where(t => t.Id == tabelaExistente[0].ProdutoTabelaPrecoId).FirstOrDefault();
+
+                            if (tabela is null || produtoTabela is null)
+                                throw new Exception("Inconsistencia ao buscar a tabela de preços especificada");
+
+                            if (tabela.PrecoCusto != tabelaPreco.PrecoCusto)
+                            {
+                                tabela.PrecoCusto = tabelaPreco.PrecoCusto;
+                                tabela.UpdatedAt  = DateTime.Now;
+                            }
+
+                            if (tabela.PrecoVenda != tabelaPreco.PrecoVenda)
+                            {
+                                tabela.PrecoVenda = tabelaPreco.PrecoVenda;
+                                tabela.UpdatedAt  = DateTime.Now;
+                            }
+
+                            context.SaveChanges();
+                        }
+                    }
+
+                    transaction.Commit();
+
+                    promise.Resolve(resultado);
+                }
+                catch (Exception ex)
+                {
+                    promise.Reject(ex);
+                }
+            });
+
+            return promise;
+        }
+
     }
 }

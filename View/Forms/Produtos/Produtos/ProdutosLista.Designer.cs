@@ -149,7 +149,7 @@
             dataGridProdutos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridProdutos.Location = new Point(0, 94);
             dataGridProdutos.Name = "dataGridProdutos";
-            dataGridProdutos.Size = new Size(915, 568);
+            dataGridProdutos.Size = new Size(743, 568);
             dataGridProdutos.TabIndex = 5;
             dataGridProdutos.SelectionChanged += dataGridProdutos_SelectionChanged;
             // 
@@ -157,9 +157,9 @@
             // 
             dataGridEstadosPreco.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridEstadosPreco.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridEstadosPreco.Location = new Point(918, 94);
+            dataGridEstadosPreco.Location = new Point(749, 94);
             dataGridEstadosPreco.Name = "dataGridEstadosPreco";
-            dataGridEstadosPreco.Size = new Size(289, 568);
+            dataGridEstadosPreco.Size = new Size(458, 568);
             dataGridEstadosPreco.TabIndex = 6;
             // 
             // ProdutosLista

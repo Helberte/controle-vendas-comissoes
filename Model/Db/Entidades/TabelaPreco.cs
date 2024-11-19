@@ -16,5 +16,8 @@ namespace controle_vendas_comissoes.Model.Db.Entidades
         public decimal PrecoVenda { get; set; }
 
         public int Ordem { get; set; }
+
+        [Column("estado_id")]
+        public int EstadoId { get; set; }
     }
 }

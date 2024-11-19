@@ -1,8 +1,10 @@
 ﻿using controle_vendas_comissoes.Controller.Utils;
 using controle_vendas_comissoes.Model.Db.Entidades;
 using controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos;
+using controle_vendas_comissoes.View.Extensions;
 using controle_vendas_comissoes.View.Forms.Modais;
 using MaterialSkin.Controls;
+using System.Windows.Forms;
 
 namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 {
@@ -12,10 +14,12 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
         private bool bloqueiaAlteracaoCampo = false;
 
-        private Produto? novoProduto = null;
-        private List<TabelaPreco> listaTabelasPrecos = [];
-        private UnidadePrimaria? unidadePrimaria = null;
-        private static Action? action = null;
+        private Produto?            novoProduto = null;
+        private static Action?      action = null;
+        private List<TabelaPreco>   listaTabelasPrecos = [];
+        private UnidadePrimaria?    unidadePrimaria = null;
+        KeyPressEventHandler?       keyPressEventHandler;
+        EventHandler?               eventHandler;
 
         #endregion
 
@@ -80,7 +84,7 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
         private void DelegaEventos()
         {
-            btSalvarMais.Click += BtSalvarMais_Click;
+            btNovo.Click += BtNovo_Click;
             btSalvar.Click += BtSalvar_Click;
             btCancelar.Click += BtCancelar_Click;
             btBuscaUnidadePrimaria.Click += BtUnidadePrimaria_Click;
@@ -88,9 +92,9 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
         private void LimpaCampos()
         {
-            LimpaCampos(groupInfoBasica);
+            LimpaCampos(groupInfoProduto);
             LimpaCampos(groupInfoFisica);
-            
+
             boxNomeProduto.Focus();
         }
 
@@ -103,6 +107,37 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
 
                 if (controle is MaterialMultiLineTextBox mt)
                     mt.Text = string.Empty;
+            }
+        }
+
+        private static void DesativaControles(GroupBox Group)
+        {
+            foreach (Control controle in Group.Controls)
+            {
+                if (controle is MaterialTextBox box)
+                    box.Enabled = false;
+
+                if (controle is MaterialMultiLineTextBox mt)
+                    mt.Enabled = false;
+
+                if (controle is FontAwesome.Sharp.IconButton icon)
+                    icon.Enabled = false;
+            }
+        }
+
+        private static void AtivaControles(GroupBox Group)
+        {
+            foreach (Control controle in Group.Controls)
+            {
+                if (controle is MaterialTextBox box)
+                    if (box.Tag?.ToString() != "boxIdProduto" && box.Tag?.ToString() != "Estado")
+                        box.Enabled = true;
+
+                if (controle is MaterialMultiLineTextBox mt)
+                    mt.Enabled = true;
+
+                if (controle is FontAwesome.Sharp.IconButton icon)
+                    icon.Enabled = true;
             }
         }
 
@@ -289,22 +324,73 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
             }
         }
 
+        private void FormataCampoDinheiro(System.Windows.Forms.TextBox box, decimal valorMaximo = 0)
+        {
+            try
+            {
+                if (bloqueiaAlteracaoCampo) return;
+
+                bloqueiaAlteracaoCampo = true;
+
+                decimal valor = 0m;
+
+                if (!string.IsNullOrEmpty(box.Text))
+                {
+                    valor = Convert.ToDecimal(box.Text.Replace(".", "").Replace(",", "."));
+                    valor /= 100;
+                }
+
+                if (valor > 0)
+                {
+                    // se existir um valor máximo, considera ele
+                    if (valorMaximo > 0 && valor > valorMaximo)
+                        valor = valorMaximo;
+
+                    box.Text = DecimalDInheiroParaString(valor);
+                }
+                else
+                    box.Text = "0,00";
+
+                box.Select(box.Text.Length, 0);
+
+                bloqueiaAlteracaoCampo = false;
+            }
+            catch (Exception)
+            {
+                box.Text = "0,00";
+                box.Select(box.Text.Length, 0);
+
+                bloqueiaAlteracaoCampo = false;
+            }
+        }
+
+
         #endregion
 
         #region Eventos e Cliques Keypress
 
-        private void BtSalvarMais_Click(object? sender, EventArgs e)
+        private void ProdutosDetalhes_Load(object sender, EventArgs e)
         {
-            ValidaCampos();
+            boxIdProduto.Text = string.Empty;
+            ObterPrecosProdutoEstados();
+            
+            DesativaControles(groupInfoProduto);
+            DesativaControles(groupInfoFisica);
 
-            action = LimpaCampos;
+            dataGridEstadosPreco.SetStyleDataGridView();
         }
 
         private void BtSalvar_Click(object? sender, EventArgs e)
         {
             ValidaCampos();
 
-            action = this.Close;
+            action = () =>
+            {
+                DesativaControles(groupInfoProduto);
+                DesativaControles(groupInfoFisica);
+
+                ObterPrecosProdutoEstados();
+            };
         }
 
         private void BtCancelar_Click(object? sender, EventArgs e)
@@ -312,7 +398,8 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
             if (MessageBox.Show("Deseja cancelar a edição atual?", "Cancelar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
                 == DialogResult.Yes)
             {
-                this.Close();
+                DesativaControles(groupInfoProduto);
+                DesativaControles(groupInfoFisica);
             }
             else
                 boxNomeProduto.Focus();
@@ -348,6 +435,91 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
             FormataCampoDinheiro((MaterialTextBox)sender);
         }
 
+        private void BtNovo_Click(object? sender, EventArgs e)
+        {
+            LimpaCampos(groupInfoProduto);
+
+            AtivaControles(groupInfoProduto);
+            AtivaControles(groupInfoFisica);
+
+            boxNomeProduto.Focus();
+            dataGridEstadosPreco.Rows.Clear();
+        }
+
+        private void DataGridEstadosPreco_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            e.Control.KeyPress -= keyPressEventHandler;
+            e.Control.TextChanged -= eventHandler;
+
+            if (dataGridEstadosPreco.CurrentCell.ColumnIndex == dataGridEstadosPreco.Columns["PrecoCusto1"].Index
+                || dataGridEstadosPreco.CurrentCell.ColumnIndex == dataGridEstadosPreco.Columns["PrecoVenda1"].Index
+                || dataGridEstadosPreco.CurrentCell.ColumnIndex == dataGridEstadosPreco.Columns["PrecoCusto2"].Index
+                || dataGridEstadosPreco.CurrentCell.ColumnIndex == dataGridEstadosPreco.Columns["PrecoVenda2"].Index)
+            {
+                if (e.Control is System.Windows.Forms.TextBox tb)
+                {
+                    if (tb != null)
+                    {
+                        keyPressEventHandler = new KeyPressEventHandler(CelulaComissao_KeyPress);
+                        eventHandler = new EventHandler(CelulaGrid_TextChanged);
+
+                        tb.KeyPress += keyPressEventHandler;
+                        tb.TextChanged += eventHandler;
+                    }
+                }
+            }
+        }
+
+        private void DataGridEstadosPreco_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            decimal custo = 0, venda = 0;
+            int estadoId = Convert.ToInt32(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["Id"].Index].Value);
+            int ordem;
+
+            if (dataGridEstadosPreco.Columns["PrecoCusto1"].Index == e.ColumnIndex)
+            {
+                ordem = 1;
+                custo = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoCusto1"].Index].Value);
+            }
+            else if (dataGridEstadosPreco.Columns["PrecoVenda1"].Index == e.ColumnIndex)
+            {
+                ordem = 1;
+                venda = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoVenda1"].Index].Value);
+            }
+            else if (dataGridEstadosPreco.Columns["PrecoCusto2"].Index == e.ColumnIndex)
+            {
+                ordem = 2;
+                custo = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoCusto2"].Index].Value);
+            }
+            else if (dataGridEstadosPreco.Columns["PrecoVenda2"].Index == e.ColumnIndex)
+            {
+                ordem = 2;
+                venda = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoVenda2"].Index].Value);
+            }
+            else
+                return;
+
+            AdicionaPrecoProduto(new()
+            {
+                EstadoId = estadoId,
+                Ordem = ordem,
+                PrecoCusto = custo,
+                PrecoVenda = venda
+            });
+        }
+
+        private void CelulaGrid_TextChanged(object? sender, EventArgs e)
+        {
+            if (sender is not null)
+                FormataCampoDinheiro((System.Windows.Forms.TextBox)sender);
+        }
+
+        private void CelulaComissao_KeyPress(object? sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',') && (e.KeyChar != '.'))
+                e.Handled = true;
+        }
+
         #endregion
 
         #region Requisições
@@ -359,13 +531,12 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
                 if (novoProduto is null)
                     throw new Exception("O objeto de inserção é inválido");
 
-                if (listaTabelasPrecos.Count == 0)
-                    throw new Exception("O objeto de inserção da listagem de tabelas de preços é inválido");
-
-                HelperProdutos.AdicionaProduto(novoProduto, listaTabelasPrecos).Then(produto =>
+                HelperProdutos.AdicionaProduto(novoProduto).Then(produto =>
                 {
                     Utils.RunOnUiThread(this, () =>
                     {
+                        boxIdProduto.Text = produto.Id.ToString();
+
                         MessageBox.Show("Produto inserido com sucesso!");
 
                         action?.Invoke();
@@ -384,7 +555,52 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.Produtos
             }
         }
 
-        #endregion
+        private void ObterPrecosProdutoEstados()
+        {
+            if (string.IsNullOrEmpty(boxIdProduto.Text.Trim())) return;
 
+            HelperProdutos.ObtemPrecosProduto(Convert.ToInt32(boxIdProduto.Text.Trim()), 0).Then(estadosPreco =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    dataGridEstadosPreco.DataSource          = estadosPreco;
+                    dataGridEstadosPreco.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                    dataGridEstadosPreco.Columns["id"].Width = 60;
+
+                    dataGridEstadosPreco.ReadOnly = false;
+
+                    dataGridEstadosPreco.Columns["Id"].ReadOnly     = true;
+                    dataGridEstadosPreco.Columns["Nome"].ReadOnly   = true;
+                    dataGridEstadosPreco.Columns["UF"].ReadOnly     = true;                       
+                    dataGridEstadosPreco.Columns["PrecoCusto1"].ReadOnly = false;
+                    dataGridEstadosPreco.Columns["PrecoVenda1"].ReadOnly = false;
+                    dataGridEstadosPreco.Columns["PrecoCusto2"].ReadOnly = false;
+                    dataGridEstadosPreco.Columns["PrecoVenda2"].ReadOnly = false;
+                });
+            }).Catch(erro =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    MessageBox.Show(erro.Message);
+                });
+            });
+        }
+
+        private void AdicionaPrecoProduto(TabelaPreco tabelaPreco)
+        {
+            if (string.IsNullOrEmpty(boxIdProduto.Text.Trim())) return;
+
+            HelperProdutos.AdicionaPrecoProduto(Convert.ToInt32(boxIdProduto.Text.Trim()), tabelaPreco)
+            .Then (preco => { })
+            .Catch(erro  =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    MessageBox.Show(erro.Message);
+                });
+            });
+        }
+
+        #endregion       
     }
 }
