@@ -13,6 +13,8 @@
     <RepositoryUrl>https://github.com/Helberte/controle-vendas-comissoes</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <ApplicationIcon>View\Imagens\Icons\icons8_chart_94.ico</ApplicationIcon>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
