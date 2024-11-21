@@ -29,8 +29,7 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 
             DelegaEventos();
 
-            ListarProdutos();
-            ListarEstados();
+            ListarProdutos();           
         }
 
         #endregion
@@ -46,6 +45,7 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 
                 produtoId = Convert.ToInt32(((DataGridView)sender).SelectedRows[0].Cells["Id"].Value);
 
+                ObterPrecosProdutoEstados();
                 ObtemComissoesProduto();
             }
         }
@@ -320,26 +320,15 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
             });
         }
 
-        private void ListarEstados()
+        private void ObterPrecosProdutoEstados()
         {
-            HelperEstado.ObtemEstados().Then(listaEstados =>
+            HelperProdutos.ObtemPrecosProduto(produtoId).Then(estadosPreco =>
             {
                 Utils.RunOnUiThread(this, () =>
                 {
-                    dataGridEstados.DataSource = listaEstados;
-
-                    dataGridEstados.Columns["createdAt"].Visible = false;
-                    dataGridEstados.Columns["updatedAt"].Visible = false;
-                    dataGridEstados.Columns["deletedAt"].Visible = false;
-                    dataGridEstados.Columns["createdBy"].Visible = false;
-                    dataGridEstados.Columns["updatedBy"].Visible = false;
-                    dataGridEstados.Columns["deletedBy"].Visible = false;
-
-                    dataGridEstados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
+                    dataGridEstados.DataSource          = estadosPreco;
+                    dataGridEstados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                     dataGridEstados.Columns["id"].Width = 60;
-                    dataGridEstados.Columns["uf"].Width = 100;
-
                 });
             }).Catch(erro =>
             {

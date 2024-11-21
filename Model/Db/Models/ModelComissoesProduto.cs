@@ -11,6 +11,10 @@ namespace controle_vendas_comissoes.Model.Db.Models
 
         public int ClassificacaoId { get; set; }
 
+        public int Ordem { get; set; }
+         
+        public int ProdutoTabelaPrecoId { get; set; }
+
         public decimal ValorReal
         {
             set
