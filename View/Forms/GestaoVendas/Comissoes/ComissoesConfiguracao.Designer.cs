@@ -47,6 +47,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.Controls.Add(boxInformacoesProduto);
             groupBox1.Location = new Point(6, 7);
             groupBox1.Name = "groupBox1";
@@ -76,26 +77,27 @@
             // 
             // dataGridProdutos
             // 
-            dataGridProdutos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            dataGridProdutos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridProdutos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridProdutos.Location = new Point(6, 92);
             dataGridProdutos.Name = "dataGridProdutos";
-            dataGridProdutos.Size = new Size(546, 689);
+            dataGridProdutos.Size = new Size(546, 654);
             dataGridProdutos.TabIndex = 1;
             dataGridProdutos.SelectionChanged += DataGridProdutos_SelectionChanged;
             // 
             // dataGridEstados
             // 
-            dataGridEstados.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridEstados.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             dataGridEstados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridEstados.Location = new Point(558, 92);
             dataGridEstados.Name = "dataGridEstados";
-            dataGridEstados.Size = new Size(476, 354);
+            dataGridEstados.Size = new Size(704, 354);
             dataGridEstados.TabIndex = 4;
             dataGridEstados.SelectionChanged += DataGridEstados_SelectionChanged;
             // 
             // label3
             // 
+            label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label3.AutoSize = true;
             label3.Location = new Point(555, 72);
             label3.Name = "label3";
@@ -105,17 +107,18 @@
             // 
             // dataGridComissoes
             // 
-            dataGridComissoes.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridComissoes.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             dataGridComissoes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridComissoes.Location = new Point(558, 467);
             dataGridComissoes.Name = "dataGridComissoes";
-            dataGridComissoes.Size = new Size(476, 297);
+            dataGridComissoes.Size = new Size(704, 262);
             dataGridComissoes.TabIndex = 15;
             dataGridComissoes.CellValueChanged += DataGridComissoes_CellValueChanged;
             dataGridComissoes.EditingControlShowing += DataGridComissoes_EditingControlShowing;
             // 
             // label4
             // 
+            label4.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             label4.AutoSize = true;
             label4.Location = new Point(555, 449);
             label4.Name = "label4";
@@ -125,12 +128,12 @@
             // 
             // groupBox2
             // 
-            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             groupBox2.Controls.Add(lblIdProduto);
             groupBox2.Controls.Add(lblDescricaoProduto);
             groupBox2.Location = new Point(558, 7);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(476, 63);
+            groupBox2.Size = new Size(704, 63);
             groupBox2.TabIndex = 17;
             groupBox2.TabStop = false;
             groupBox2.Text = "Produto que será alterado";
@@ -160,7 +163,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1041, 787);
+            ClientSize = new Size(1269, 752);
             Controls.Add(groupBox2);
             Controls.Add(label4);
             Controls.Add(dataGridComissoes);
@@ -169,9 +172,7 @@
             Controls.Add(dataGridProdutos);
             Controls.Add(groupBox1);
             Font = new Font("Montserrat", 8.249999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            MaximizeBox = false;
-            MaximumSize = new Size(1250, 826);
-            MinimumSize = new Size(1057, 826);
+            MinimumSize = new Size(1079, 755);
             Name = "ComissoesConfiguracao";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
