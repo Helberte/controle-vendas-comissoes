@@ -351,17 +351,63 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
             {
                 Utils.RunOnUiThread(this, () =>
                 {
-                    dataGridComissoes.DataSource = comissoes;
-                    string json = JsonSerializer.Serialize(comissoes);
+                    dataGridComissoes.ColumnCount     = 6;
+                    List<string[]> rows = [];
+                    dataGridComissoes.Rows.Clear();
 
+                    dataGridComissoes.Columns[0].Name = "Id";
+                    dataGridComissoes.Columns[1].Name = "Classificação";
+                    dataGridComissoes.Columns[2].Name = "Valor 1";
+                    dataGridComissoes.Columns[3].Name = "% - 1";
+                    dataGridComissoes.Columns[4].Name = "Valor 2";
+                    dataGridComissoes.Columns[5].Name = "% - 2";
+
+                    string json   = JsonSerializer.Serialize(comissoes);
                     comissaoAtual = JsonSerializer.Deserialize<List<ModelComissoesProduto>>(json);
 
-                    dataGridComissoes.Columns["ClassificacaoId"].Visible = false;
-                    dataGridComissoes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    int[] idsClassificacoes = new int[comissoes.Count];
+                    
+                    for (int i = 0; i < comissoes.Count; i++)                    
+                        idsClassificacoes[i] = comissoes[i].ClassificacaoId;
 
-                    dataGridComissoes.Columns["ClassificacaoNome"].ReadOnly = true;
-                    dataGridComissoes.Columns["Porcentagem"].ReadOnly = true;
-                    dataGridComissoes.Columns["ValorReal"].ReadOnly = false;
+                    IEnumerable<int> ids = idsClassificacoes.Distinct().ToList();
+
+                    foreach (int item in ids)
+                    {
+                        List<ModelComissoesProduto> lista = comissoes.FindAll(c => c.ClassificacaoId == item).ToList();
+
+                        ModelComissoesProduto? valor1 = lista.Find(r => r.Ordem.Equals(1));
+                        ModelComissoesProduto? valor2 = lista.Find(r => r.Ordem.Equals(2));
+
+                        decimal vReal1       = valor1?.ValorReal   ?? 0m;
+                        decimal porcentagem1 = valor1?.Porcentagem ?? 0m;
+
+                        decimal vReal2       = valor2?.ValorReal   ?? 0m;
+                        decimal porcentagem2 = valor2?.Porcentagem ?? 0m;
+
+                        rows.Add([ 
+                            item.ToString(), 
+                            lista[0].ClassificacaoNome, 
+                            vReal1.ToString(),
+                            porcentagem1.ToString(),
+                            vReal2.ToString(),
+                            porcentagem2.ToString() 
+                        ]);
+                    }
+
+                    foreach (string[] item in rows)                    
+                        dataGridComissoes.Rows.Add(item);
+                    
+                    dataGridComissoes.Columns["Id"].Visible = false;
+                    dataGridComissoes.AutoSizeColumnsMode   = DataGridViewAutoSizeColumnsMode.Fill;
+
+                    dataGridComissoes.Columns["Classificação"].ReadOnly     = true;
+                    dataGridComissoes.Columns["Classificação"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
+                    dataGridComissoes.Columns["Valor 1"].ReadOnly   = false;
+                    dataGridComissoes.Columns["% - 1"].ReadOnly     = true;
+                    dataGridComissoes.Columns["Valor 2"].ReadOnly   = false;
+                    dataGridComissoes.Columns["% - 2"].ReadOnly     = true;
 
                     enviandoRequisicao = false;
                 });
