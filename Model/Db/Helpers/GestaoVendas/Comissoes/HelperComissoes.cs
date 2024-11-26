@@ -100,6 +100,7 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes
             int classificacaoId,
             decimal porcentagem,
             decimal valorReal,
+            int ordem,
             decimal valorRealAnterior,
             decimal porcentagemAnterior
             )
@@ -141,12 +142,24 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes
                                       on estado_comissao.deleted_at is null
                                      and estado_comissao.comissao_id = comissao.id
                                      and estado_comissao.estado_id   = {1}
+
+                                   inner
+                                    join produto_tabela_preco
+                                      on produto_tabela_preco.deleted_at is null
+                                     and produto_tabela_preco.id         = comissao.produto_tabela_preco_id
+                                     and produto_tabela_preco.produto_id = {2}
+
+                                   inner
+                                    join tabela_preco
+                                      on tabela_preco.deleted_at is null
+                                     and tabela_preco.id        = produto_tabela_preco.tabela_preco_id
+                                     and tabela_preco.ordem     = {3}
                                ) as TB2
                             inner
                              join comissao_item
                                on comissao_item.deleted_at is null
                               and comissao_item.comissao_id = comissaoId
-                              and comissao_item.produto_id  = {2}; ", classificacaoId, estadoId, produtoId);
+                              and comissao_item.produto_id  = {2}; ", classificacaoId, estadoId, produtoId, ordem);
 
                         List<ModelProdutoComissao>? resultado = context.Database.SqlQuery<ModelProdutoComissao>(FormattableStringFactory.Create(sql)).ToList();
 

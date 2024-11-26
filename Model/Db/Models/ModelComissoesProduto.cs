@@ -7,9 +7,9 @@ namespace controle_vendas_comissoes.Model.Db.Models
         private decimal valorReal   = 0m;
         private decimal porcentagem = 0m;
 
-        public string ClassificacaoNome { get; set; } = string.Empty;
-
         public int ClassificacaoId { get; set; }
+
+        public string ClassificacaoNome { get; set; } = string.Empty;
 
         public int Ordem { get; set; }
          
