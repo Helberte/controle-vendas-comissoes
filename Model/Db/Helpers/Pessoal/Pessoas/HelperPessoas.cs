@@ -21,34 +21,70 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Pessoal.Pessoas
 
                     string sql = string.Format(@"
                         SELECT TOP 20
-                               [Id]				        = pessoa.id
-                             , [Nome]			        = pessoa.nome
-                             , [Sobrenome]
-                             , [Cpf]
-                             , [Rg]
-                             , [DataNascimento]         = data_nascimento
-                             , [CreatedAt]              = pessoa.created_at
-                             , [EnderecoId]             = endereco_id
-                        	 , [ClassificacaoId]        = classificacao.id
-                        	 , [ClassificacaoDescricao] = ISNULL(classificacao.nome, '')
+                               [Id]                     = TB.id
+                             , [Nome]                   = TB.nome
+                             , [Sobrenome]              = sobrenome
+                             , [Cpf]                    = cpf
+                             , [Rg]                     = rg
+                             , [DataNascimento]         = dataNascimento
+                             , [ClassificacaoId]        = ISNULL(classificacaoId,    0)
+                             , [ClassificacaoDescricao] = ISNULL(classificacaoNome, '')
+                             , [CreatedAt]              = pessoaCreatedAt
+                             , [EnderecoId]             = ISNULL(enderecoId ,  0)
+                             , [EstadoNome]             = ISNULL(estado.nome , '')
+                             , [EstadoUF]               = ISNULL(estado.UF , '')
+                             , [CidadeNome]             = ISNULL(cidade.nome , '')
+                             , [CidadeSigla]            = ISNULL(cidade.sigla , '')
+                             , [CEP]                    = ISNULL(cep , '')
+                             , [Rua]                    = ISNULL(rua , '')
+                             , [Numero]                 = ISNULL(numero , '')
+                             , [bairro]                 = ISNULL(bairro , '')
                         
-                          FROM pessoa
+                          FROM (
+                                SELECT id   = pessoa.id
+                                     , nome = pessoa.nome
+                                     , sobrenome
+                                     , cpf
+                                     , rg
+                                     , dataNascimento    = data_nascimento
+                                     , pessoaCreatedAt   = pessoa.created_at
+                                     , enderecoId        = endereco_id
+                                     , classificacaoId   = classificacao.id
+                                     , classificacaoNome = classificacao.nome
                         
-                          LEFT 
-                          JOIN classificacao
-                            ON classificacao.deleted_at IS NULL
-                           AND classificacao.id = pessoa.classificacao_id
+                                  FROM pessoa
                         
-                         WHERE pessoa.deleted_at IS NULL
-                           AND CONCAT( pessoa.nome + ' '
-                        			 , sobrenome   + ' '
-                        			 , pessoa.id   + ' '
-                        			 , cpf         + ' '
-                        			 , rg          + ' '
-                        			 , CONVERT(VARCHAR, data_nascimento, 103)) LIKE '%{0}%'
+                                  LEFT
+                                  JOIN classificacao
+                                    ON classificacao.deleted_at IS NULL
+                                   AND classificacao.id = pessoa.classificacao_id
                         
-                         ORDER 
-                            BY pessoa.created_at DESC ", textoFind);
+                                 WHERE pessoa.deleted_at IS NULL
+                                   AND CONCAT( pessoa.nome + ' '
+                                             , sobrenome   + ' '
+                                             , pessoa.id   + ' '
+                                             , cpf         + ' '
+                                             , rg          + ' '
+                                             , CONVERT(VARCHAR, data_nascimento, 103)) LIKE '%{0}%'
+                               ) AS TB
+                        
+                               LEFT
+                               JOIN endereco
+                                 ON endereco.deleted_at IS NULL
+                                AND endereco.id = enderecoId
+                        
+                               LEFT
+                               JOIN estado
+                                 ON estado.deleted_at IS NULL
+                                AND estado.id = endereco.estado_id
+                        
+                               LEFT
+                               JOIN cidade
+                                 ON cidade.deleted_at IS NULL
+                                AND cidade.id = endereco.cidade_id
+                        
+                              ORDER
+                                 BY CreatedAt DESC; ", textoFind);
 
                     List<ModelPessoasLista>? resultado = context.Database.SqlQuery<ModelPessoasLista>(FormattableStringFactory.Create(sql)).ToList();
 
