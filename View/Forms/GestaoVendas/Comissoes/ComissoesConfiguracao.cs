@@ -16,6 +16,7 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
         private static bool enviandoRequisicao = false;
         private bool bloqueiaAlteracaoCampo = false;
         private List<ModelComissoesProduto>? comissaoAtual = [];
+        private ModelComissoesProduto? comissaoAlterada;
         KeyPressEventHandler? keyPressEventHandler;
         EventHandler?         eventHandler;
 
@@ -144,12 +145,15 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
                 decimal porcentagem   = (valorComissao * 100) / precoVenda;
 
                 dataGridComissoes.CurrentRow.Cells[dataGridComissoes.Columns[colunaPorcentagem].Index].Value = porcentagem;
-
+                                
                 int     produtoId           = Convert.ToInt32(dataGridProdutos.CurrentRow.Cells[dataGridProdutos.Columns["Id"].Index].Value);
                 int     estadoId            = Convert.ToInt32(dataGridEstados.CurrentRow.Cells[dataGridEstados.Columns["Id"].Index].Value);
                 int     classificacaoId     = Convert.ToInt32(dataGridComissoes.CurrentRow.Cells[dataGridComissoes.Columns["Id"].Index].Value);
-                decimal valorRealAnterior   = comissaoAtual?.Find(c => c.ClassificacaoId.Equals(classificacaoId) && c.Ordem.Equals(ordem))?.ValorReal   ?? 0m;
-                decimal porcentagemAnterior = comissaoAtual?.Find(c => c.ClassificacaoId.Equals(classificacaoId) && c.Ordem.Equals(ordem))?.Porcentagem ?? 0m;
+
+                comissaoAlterada = comissaoAtual?.Find(c => c.ClassificacaoId.Equals(classificacaoId) && c.Ordem.Equals(ordem));
+
+                decimal valorRealAnterior   = comissaoAlterada?.ValorReal   ?? 0m;
+                decimal porcentagemAnterior = comissaoAlterada?.Porcentagem ?? 0m;
 
                 InserirComissao(
                     produtoId,
@@ -159,7 +163,8 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
                     valorComissao,
                     valorRealAnterior,
                     porcentagemAnterior,
-                    ordem);
+                    ordem
+                );
 
                 bloqueiaAlteracaoCampo = false;
             }
@@ -396,7 +401,7 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
             {
                 Utils.RunOnUiThread(this, () =>
                 {
-                    dataGridComissoes.ColumnCount     = 6;
+                    dataGridComissoes.ColumnCount = 6;
                     List<string[]> rows = [];
                     dataGridComissoes.Rows.Clear();
 
@@ -486,14 +491,21 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
                 ordem,
                 valorRealAnterior,
                 porcentagemAnterior
-                ).Then(listaEstados => { })
-                .Catch(erro =>
+            ).Then(comissaoItem => 
+            { 
+                if (comissaoAlterada is not null)
                 {
-                    Utils.RunOnUiThread(this, () =>
-                    {
-                        MessageBox.Show(erro.Message);
-                    });
+                    comissaoAlterada.ValorReal   = comissaoItem.ValorReal;
+                    comissaoAlterada.Porcentagem = comissaoItem.Porcentagem;
+                }
+            })
+            .Catch(erro =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    MessageBox.Show(erro.Message);
                 });
+            });
         }
 
         #endregion               
