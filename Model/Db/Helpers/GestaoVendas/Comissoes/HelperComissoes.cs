@@ -175,10 +175,10 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes
 
                             ModelProdutoComissao comissao = resultado[0];
 
-                            if (!comissao.ValorReal.Equals(valorRealAnterior))
+                            if (valorRealAnterior   > 0 && !comissao.ValorReal.Equals(valorRealAnterior))
                                 throw new Exception("O valor foi alterado por outra pessoa, atualize a grid e tente novamente.");
 
-                            if (!comissao.Porcentagem.Equals(porcentagemAnterior))
+                            if (porcentagemAnterior > 0 && !comissao.Porcentagem.Equals(porcentagemAnterior))
                                 throw new Exception("A porcentagem foi alterado por outra pessoa, atualize a grid e tente novamente.");
 
                             comissaoItem = context.ComissaoItem.Where(c => c.Id.Equals(comissao.ComissaoItemId)).FirstOrDefault();
