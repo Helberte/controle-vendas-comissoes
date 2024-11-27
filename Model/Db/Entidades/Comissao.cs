@@ -11,5 +11,8 @@ namespace controle_vendas_comissoes.Model.Db.Entidades
 
         [Column("classificacao_id")]
         public int ClassificacaoId { get; set; }
+
+        [Column("produto_tabela_preco_id")]
+        public int ProdutoTabelaPrecoId { get; set; }
     }
 }

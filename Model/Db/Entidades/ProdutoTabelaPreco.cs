@@ -15,5 +15,6 @@ namespace controle_vendas_comissoes.Model.Db.Entidades
         [Column("tabela_preco_id")]
         public int? TabelaPrecoId { get; set; }
 
+        public TabelaPreco? TabelaPreco { get; set; }
     }
 }
