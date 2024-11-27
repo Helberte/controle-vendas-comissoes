@@ -116,50 +116,54 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes
 
                     ComissaoItem? comissaoItem;
 
-                    if (context.Comissao is not null && context.EstadoComissao is not null && context.ComissaoItem is not null)
+                    if (   context.Comissao            is not null 
+                        && context.EstadoComissao      is not null 
+                        && context.ComissaoItem        is not null
+                        && context.ProdutoTabelaPrecos is not null
+                        && context.TabelaPrecos        is not null)
                     {
                         string sql = string.Format(@"
-                        select ValorReal      = ISNULL(valor_real,  0)
-                             , Porcentagem    = ISNULL(porcentagem, 0)
-                             , ComissaoItemId = comissao_item.id
-                         
-                          from (
-                                select comissaoId = comissao.id
-                                  from (
-                                        select classificacaoId   = classificacao.id
-                                          from classificacao
-                                         where classificacao.deleted_at is null
-                                           and classificacao.id = {0}
-                                       ) as TB
-                         
-                                   inner
-                                    join comissao
-                                      on comissao.deleted_at is null
-                                     and comissao.classificacao_id = TB.classificacaoId
-                         
-                                   inner
-                                    join estado_comissao
-                                      on estado_comissao.deleted_at is null
-                                     and estado_comissao.comissao_id = comissao.id
-                                     and estado_comissao.estado_id   = {1}
+                            select ValorReal      = ISNULL(valor_real,  0)
+                                 , Porcentagem    = ISNULL(porcentagem, 0)
+                                 , ComissaoItemId = comissao_item.id
 
-                                   inner
-                                    join produto_tabela_preco
-                                      on produto_tabela_preco.deleted_at is null
-                                     and produto_tabela_preco.id         = comissao.produto_tabela_preco_id
-                                     and produto_tabela_preco.produto_id = {2}
-
-                                   inner
-                                    join tabela_preco
-                                      on tabela_preco.deleted_at is null
-                                     and tabela_preco.id        = produto_tabela_preco.tabela_preco_id
-                                     and tabela_preco.ordem     = {3}
-                               ) as TB2
-                            inner
-                             join comissao_item
-                               on comissao_item.deleted_at is null
-                              and comissao_item.comissao_id = comissaoId
-                              and comissao_item.produto_id  = {2}; ", classificacaoId, estadoId, produtoId, ordem);
+                              from (
+                                    select comissaoId    = comissao.id
+                                      from (
+                                            select classificacaoId  = classificacao.id
+                                              from classificacao
+                                             where classificacao.deleted_at is null
+                                               and classificacao.id = {0}
+                                           ) as TB
+                             
+                                       inner
+                                        join comissao
+                                          on comissao.deleted_at is null
+                                         and comissao.classificacao_id = TB.classificacaoId
+                             
+                                       inner
+                                        join estado_comissao
+                                          on estado_comissao.deleted_at is null
+                                         and estado_comissao.comissao_id = comissao.id
+                                         and estado_comissao.estado_id   = {1}
+                             
+                                       inner
+                                        join produto_tabela_preco
+                                          on produto_tabela_preco.deleted_at is null
+                                         and produto_tabela_preco.id         = comissao.produto_tabela_preco_id
+                                         and produto_tabela_preco.produto_id = {2}
+                             
+                                       inner
+                                        join tabela_preco
+                                          on tabela_preco.deleted_at is null
+                                         and tabela_preco.id        = produto_tabela_preco.tabela_preco_id
+                                         and tabela_preco.ordem     = {3}
+                                   ) as TB2
+                                inner
+                                 join comissao_item
+                                   on comissao_item.deleted_at is null
+                                  and comissao_item.comissao_id = comissaoId
+                                  and comissao_item.produto_id  = {2};", classificacaoId, estadoId, produtoId, ordem);
 
                         List<ModelProdutoComissao>? resultado = context.Database.SqlQuery<ModelProdutoComissao>(FormattableStringFactory.Create(sql)).ToList();
 
@@ -187,12 +191,26 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes
                             comissaoItem.Porcentagem = porcentagem;
 
                             context.SaveChanges();
-                        } 
+                        }
                         else
                         {
+                            List<ProdutoTabelaPreco>? produtoTabelaPrecos = (from p 
+                                                                               in context.ProdutoTabelaPrecos
+                                                                             join t 
+                                                                               in context.TabelaPrecos 
+                                                                               on p.TabelaPrecoId equals t.Id 
+                                                                            where    t.Ordem.Equals(ordem) 
+                                                                                  && t.EstadoId.Equals(estadoId) 
+                                                                                  && p.ProdutoId.Equals(produtoId) 
+                                                                           select p).ToList();
+
+                            if (produtoTabelaPrecos is null || produtoTabelaPrecos.Count <= 0 || produtoTabelaPrecos.Count > 1)
+                                throw new Exception("Inconsistência ao procurar pelo registro de ProdutoTabelaPreco.");
+
                             Comissao comissao = new()
                             {
-                                ClassificacaoId = classificacaoId
+                                ClassificacaoId      = classificacaoId,
+                                ProdutoTabelaPrecoId = produtoTabelaPrecos[0].Id
                             };
 
                             Comissao novaComissao = context.Comissao.Add(comissao).Entity;

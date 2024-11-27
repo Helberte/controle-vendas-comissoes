@@ -62,12 +62,19 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 
         private void DataGridComissoes_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            decimal precoVenda = Convert.ToDecimal(dataGridProdutos.CurrentRow.Cells[dataGridProdutos.Columns["PrecoVenda1"].Index].Value);
+            decimal precoVenda = 0m;
+
+            if (dataGridComissoes.CurrentCell.ColumnIndex.Equals(dataGridComissoes.Columns["Valor 1"].Index))
+                precoVenda = Convert.ToDecimal(dataGridEstados.CurrentRow.Cells[dataGridEstados.Columns["PrecoVenda1"].Index].Value);
+            else 
+            if (dataGridComissoes.CurrentCell.ColumnIndex.Equals(dataGridComissoes.Columns["Valor 2"].Index))
+                precoVenda = Convert.ToDecimal(dataGridEstados.CurrentRow.Cells[dataGridEstados.Columns["PrecoVenda2"].Index].Value);
 
             e.Control.KeyPress    -= keyPressEventHandler;
             e.Control.TextChanged -= eventHandler;
 
-            if (dataGridComissoes.CurrentCell.ColumnIndex == dataGridComissoes.Columns["ValorReal"].Index) //Desired Column
+            if (dataGridComissoes.CurrentCell.ColumnIndex == dataGridComissoes.Columns["Valor 1"].Index ||
+                dataGridComissoes.CurrentCell.ColumnIndex == dataGridComissoes.Columns["Valor 2"].Index)
             {
                 if (e.Control is System.Windows.Forms.TextBox tb)
                 {
@@ -100,20 +107,49 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 
         private void DataGridComissoes_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (dataGridComissoes.Columns["ValorReal"].Index == e.ColumnIndex)
+            try
             {
-                decimal precoVenda    = Convert.ToDecimal(dataGridProdutos.CurrentRow.Cells[dataGridProdutos.Columns["PrecoVenda1"].Index].Value);
+                if (bloqueiaAlteracaoCampo) return;
+
+                bloqueiaAlteracaoCampo    = true;
+
+                string  colunaPorcentagem = string.Empty;
+                decimal precoVenda        = 0m;
+                int     ordem             = 0;
+
+                if (dataGridComissoes.Columns["Valor 1"].Index == e.ColumnIndex)
+                {
+                    precoVenda        = Convert.ToDecimal(dataGridEstados.CurrentRow.Cells[dataGridEstados.Columns["PrecoVenda1"].Index].Value);
+                    colunaPorcentagem = "% - 1";
+                    ordem             = 1;
+                }
+                else if (dataGridComissoes.Columns["Valor 2"].Index == e.ColumnIndex)
+                {
+                    precoVenda        = Convert.ToDecimal(dataGridEstados.CurrentRow.Cells[dataGridEstados.Columns["PrecoVenda2"].Index].Value);
+                    colunaPorcentagem = "% - 2";
+                    ordem             = 2;
+                }
+                else                
+                    throw new Exception("Inconsistência ao alterar comissões do produto.");                
+
+                if (precoVenda <= 0)
+                {
+                    dataGridComissoes.CurrentCell.Value = 0;
+
+                    throw new Exception("O produto está sem o preço de venda para o preço " + ordem + ", adicione o " +
+                        "preço do produto no cadastro e depois tente adicionar comissão.");
+                }
+                        
                 decimal valorComissao = Convert.ToDecimal(dataGridComissoes.CurrentCell.Value);
+                decimal porcentagem   = (valorComissao * 100) / precoVenda;
 
-                decimal porcentagem = (valorComissao * 100) / precoVenda;
-
-                dataGridComissoes.CurrentRow.Cells[dataGridComissoes.Columns["Porcentagem"].Index].Value = porcentagem;
+                dataGridComissoes.CurrentRow.Cells[dataGridComissoes.Columns[colunaPorcentagem].Index].Value = porcentagem;
 
                 int     produtoId           = Convert.ToInt32(dataGridProdutos.CurrentRow.Cells[dataGridProdutos.Columns["Id"].Index].Value);
                 int     estadoId            = Convert.ToInt32(dataGridEstados.CurrentRow.Cells[dataGridEstados.Columns["Id"].Index].Value);
-                int     classificacaoId     = Convert.ToInt32(dataGridComissoes.CurrentRow.Cells[dataGridComissoes.Columns["ClassificacaoId"].Index].Value);
-                decimal valorRealAnterior   = comissaoAtual?.Find(c => c.ClassificacaoId.Equals(classificacaoId))?.ValorReal   ?? 0m;
-                decimal porcentagemAnterior = comissaoAtual?.Find(c => c.ClassificacaoId.Equals(classificacaoId))?.Porcentagem ?? 0m;
+                int     classificacaoId     = Convert.ToInt32(dataGridComissoes.CurrentRow.Cells[dataGridComissoes.Columns["Id"].Index].Value);
+                decimal valorRealAnterior   = comissaoAtual?.Find(c => c.ClassificacaoId.Equals(classificacaoId) && c.Ordem.Equals(ordem))?.ValorReal   ?? 0m;
+                decimal porcentagemAnterior = comissaoAtual?.Find(c => c.ClassificacaoId.Equals(classificacaoId) && c.Ordem.Equals(ordem))?.Porcentagem ?? 0m;
 
                 InserirComissao(
                     produtoId,
@@ -122,7 +158,16 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
                     porcentagem,
                     valorComissao,
                     valorRealAnterior,
-                    porcentagemAnterior);
+                    porcentagemAnterior,
+                    ordem);
+
+                bloqueiaAlteracaoCampo = false;
+            }
+            catch (Exception ex)
+            {
+                bloqueiaAlteracaoCampo = false;
+
+                MessageBox.Show(ex.Message.ToString());
             }
         }
 
@@ -429,30 +474,26 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
             decimal porcentagem,
             decimal valorReal,
             decimal valorRealAnterior,
-            decimal porcentagemAnterior )
+            decimal porcentagemAnterior,
+            int     ordem)
         {
-            HelperComissoes.AdicionaComissao (
+            HelperComissoes.AdicionaComissao(
                 produtoId,
                 estadoId,
                 classificacaoId,
                 porcentagem,
                 valorReal,
+                ordem,
                 valorRealAnterior,
                 porcentagemAnterior
-                ).Then(listaEstados => 
+                ).Then(listaEstados => { })
+                .Catch(erro =>
                 {
                     Utils.RunOnUiThread(this, () =>
                     {
-                        // sucesso
-                    }
-                );
-            }).Catch(erro =>
-            {
-                Utils.RunOnUiThread(this, () =>
-                {
-                    MessageBox.Show(erro.Message);
+                        MessageBox.Show(erro.Message);
+                    });
                 });
-            });
         }
 
         #endregion               
