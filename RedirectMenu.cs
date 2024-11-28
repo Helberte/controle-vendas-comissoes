@@ -5,6 +5,7 @@ using controle_vendas_comissoes.View.Forms.Pessoal.Pessoas;
 using controle_vendas_comissoes.View.Forms.Produtos.UnidadesDeProdutos;
 using controle_vendas_comissoes.View.Forms.Produtos.Produtos;
 using controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes;
+using controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas;
 
 namespace controle_vendas_comissoes
 {
@@ -50,6 +51,12 @@ namespace controle_vendas_comissoes
         {
             ComissoesConfiguracao rotina = new();
             rotina.ShowDialog();
+        }
+
+        public static void SendPedidoVendas()
+        {
+            PedidoVendas rotina = new();
+            rotina.Show();
         }
     }
 }
