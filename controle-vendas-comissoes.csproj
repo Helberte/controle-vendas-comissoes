@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <Folder Include="Model\Db\Helpers\Vendas\" />
-    <Folder Include="View\Forms\Vendas\PedidoDeVendas\" />
   </ItemGroup>
 
   <ItemGroup>
