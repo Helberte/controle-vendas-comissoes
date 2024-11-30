@@ -53,11 +53,11 @@ namespace controle_vendas_comissoes
             rotina.ShowDialog();
         }
 
-        //public static void SendPedidoVendas()
-        //{
-        //    PedidoVendas rotina = new();
-        //    rotina.Show();
-        //}
+        public static void SendPedidoVendas()
+        {
+            PedidoVendas rotina = new();
+            rotina.Show();
+        }
     }
 }
  
