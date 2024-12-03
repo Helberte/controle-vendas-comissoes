@@ -34,6 +34,8 @@
             dateTimeDataPedido = new DateTimePicker();
             lblStatus = new Label();
             groupBox1 = new GroupBox();
+            boxIdPessoa02 = new MaterialSkin.Controls.MaterialTextBox();
+            boxIdPessoa01 = new MaterialSkin.Controls.MaterialTextBox();
             btBuscaPessoa02 = new FontAwesome.Sharp.IconButton();
             btBuscaPessoa01 = new FontAwesome.Sharp.IconButton();
             boxPessoa02 = new MaterialSkin.Controls.MaterialTextBox();
@@ -63,7 +65,7 @@
             label1.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.Location = new Point(8, 18);
             label1.Name = "label1";
-            label1.Size = new Size(72, 18);
+            label1.Size = new Size(73, 20);
             label1.TabIndex = 0;
             label1.Text = "ID Pedido";
             // 
@@ -84,7 +86,7 @@
             label3.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.Location = new Point(125, 18);
             label3.Name = "label3";
-            label3.Size = new Size(89, 18);
+            label3.Size = new Size(90, 20);
             label3.TabIndex = 2;
             label3.Text = "Data Pedido";
             // 
@@ -114,6 +116,8 @@
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(boxIdPessoa02);
+            groupBox1.Controls.Add(boxIdPessoa01);
             groupBox1.Controls.Add(btBuscaPessoa02);
             groupBox1.Controls.Add(btBuscaPessoa01);
             groupBox1.Controls.Add(boxPessoa02);
@@ -126,6 +130,46 @@
             groupBox1.TabIndex = 5;
             groupBox1.TabStop = false;
             groupBox1.Text = "Responsáveis pela Venda";
+            // 
+            // boxIdPessoa02
+            // 
+            boxIdPessoa02.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxIdPessoa02.AnimateReadOnly = false;
+            boxIdPessoa02.BorderStyle = BorderStyle.None;
+            boxIdPessoa02.Depth = 0;
+            boxIdPessoa02.Enabled = false;
+            boxIdPessoa02.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxIdPessoa02.Hint = "ID";
+            boxIdPessoa02.LeadingIcon = null;
+            boxIdPessoa02.Location = new Point(203, 72);
+            boxIdPessoa02.MaxLength = 50;
+            boxIdPessoa02.MouseState = MaterialSkin.MouseState.OUT;
+            boxIdPessoa02.Multiline = false;
+            boxIdPessoa02.Name = "boxIdPessoa02";
+            boxIdPessoa02.Size = new Size(62, 50);
+            boxIdPessoa02.TabIndex = 16;
+            boxIdPessoa02.Text = "";
+            boxIdPessoa02.TrailingIcon = null;
+            // 
+            // boxIdPessoa01
+            // 
+            boxIdPessoa01.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxIdPessoa01.AnimateReadOnly = false;
+            boxIdPessoa01.BorderStyle = BorderStyle.None;
+            boxIdPessoa01.Depth = 0;
+            boxIdPessoa01.Enabled = false;
+            boxIdPessoa01.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxIdPessoa01.Hint = "ID";
+            boxIdPessoa01.LeadingIcon = null;
+            boxIdPessoa01.Location = new Point(203, 17);
+            boxIdPessoa01.MaxLength = 50;
+            boxIdPessoa01.MouseState = MaterialSkin.MouseState.OUT;
+            boxIdPessoa01.Multiline = false;
+            boxIdPessoa01.Name = "boxIdPessoa01";
+            boxIdPessoa01.Size = new Size(62, 50);
+            boxIdPessoa01.TabIndex = 15;
+            boxIdPessoa01.Text = "";
+            boxIdPessoa01.TrailingIcon = null;
             // 
             // btBuscaPessoa02
             // 
@@ -143,6 +187,7 @@
             btBuscaPessoa02.TabIndex = 14;
             btBuscaPessoa02.TextImageRelation = TextImageRelation.TextAboveImage;
             btBuscaPessoa02.UseVisualStyleBackColor = false;
+            btBuscaPessoa02.Click += BtBuscaPessoa02_Click;
             // 
             // btBuscaPessoa01
             // 
@@ -160,6 +205,7 @@
             btBuscaPessoa01.TabIndex = 13;
             btBuscaPessoa01.TextImageRelation = TextImageRelation.TextAboveImage;
             btBuscaPessoa01.UseVisualStyleBackColor = false;
+            btBuscaPessoa01.Click += BtBuscaPessoa01_Click;
             // 
             // boxPessoa02
             // 
@@ -170,12 +216,12 @@
             boxPessoa02.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
             boxPessoa02.Hint = "Escolha uma pessoa";
             boxPessoa02.LeadingIcon = null;
-            boxPessoa02.Location = new Point(203, 72);
+            boxPessoa02.Location = new Point(271, 72);
             boxPessoa02.MaxLength = 50;
             boxPessoa02.MouseState = MaterialSkin.MouseState.OUT;
             boxPessoa02.Multiline = false;
             boxPessoa02.Name = "boxPessoa02";
-            boxPessoa02.Size = new Size(702, 50);
+            boxPessoa02.Size = new Size(634, 50);
             boxPessoa02.TabIndex = 5;
             boxPessoa02.Text = "";
             boxPessoa02.TrailingIcon = null;
@@ -189,12 +235,12 @@
             boxPessoa01.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
             boxPessoa01.Hint = "Escolha uma pessoa";
             boxPessoa01.LeadingIcon = null;
-            boxPessoa01.Location = new Point(203, 17);
+            boxPessoa01.Location = new Point(271, 17);
             boxPessoa01.MaxLength = 50;
             boxPessoa01.MouseState = MaterialSkin.MouseState.OUT;
             boxPessoa01.Multiline = false;
             boxPessoa01.Name = "boxPessoa01";
-            boxPessoa01.Size = new Size(702, 50);
+            boxPessoa01.Size = new Size(634, 50);
             boxPessoa01.TabIndex = 4;
             boxPessoa01.Text = "";
             boxPessoa01.TrailingIcon = null;
@@ -209,7 +255,7 @@
             lblClassificacao02.Name = "lblClassificacao02";
             lblClassificacao02.Size = new Size(187, 42);
             lblClassificacao02.TabIndex = 3;
-            lblClassificacao02.Text = "REPRESENTANTE";
+            lblClassificacao02.Text = "CLASSIFICAÇÃO";
             lblClassificacao02.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblClassificacao01
@@ -222,7 +268,7 @@
             lblClassificacao01.Name = "lblClassificacao01";
             lblClassificacao01.Size = new Size(187, 42);
             lblClassificacao01.TabIndex = 2;
-            lblClassificacao01.Text = "GESTORA";
+            lblClassificacao01.Text = "CLASSIFICAÇÃO";
             lblClassificacao01.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // dataGridProdutos
@@ -241,7 +287,7 @@
             label7.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label7.Location = new Point(8, 520);
             label7.Name = "label7";
-            label7.Size = new Size(145, 18);
+            label7.Size = new Size(146, 20);
             label7.TabIndex = 7;
             label7.Text = "Quantidade de Itens:";
             // 
@@ -252,7 +298,7 @@
             lblQtdItens.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblQtdItens.Location = new Point(151, 518);
             lblQtdItens.Name = "lblQtdItens";
-            lblQtdItens.Size = new Size(25, 22);
+            lblQtdItens.Size = new Size(27, 25);
             lblQtdItens.TabIndex = 8;
             lblQtdItens.Text = "15";
             // 
@@ -263,7 +309,7 @@
             label9.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label9.Location = new Point(215, 520);
             label9.Name = "label9";
-            label9.Size = new Size(172, 18);
+            label9.Size = new Size(173, 20);
             label9.TabIndex = 9;
             label9.Text = "Quantidade de Produtos:";
             // 
@@ -274,7 +320,7 @@
             lblQtdProdutos.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblQtdProdutos.Location = new Point(384, 518);
             lblQtdProdutos.Name = "lblQtdProdutos";
-            lblQtdProdutos.Size = new Size(25, 22);
+            lblQtdProdutos.Size = new Size(27, 25);
             lblQtdProdutos.TabIndex = 10;
             lblQtdProdutos.Text = "15";
             // 
@@ -285,7 +331,7 @@
             label11.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label11.Location = new Point(450, 520);
             label11.Name = "label11";
-            label11.Size = new Size(97, 18);
+            label11.Size = new Size(98, 20);
             label11.TabIndex = 11;
             label11.Text = "Total Geral R$:";
             // 
@@ -296,7 +342,7 @@
             lblTotalGeral.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblTotalGeral.Location = new Point(543, 518);
             lblTotalGeral.Name = "lblTotalGeral";
-            lblTotalGeral.Size = new Size(25, 22);
+            lblTotalGeral.Size = new Size(27, 25);
             lblTotalGeral.TabIndex = 12;
             lblTotalGeral.Text = "15";
             // 
@@ -307,7 +353,7 @@
             label13.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label13.Location = new Point(606, 520);
             label13.Name = "label13";
-            label13.Size = new Size(180, 18);
+            label13.Size = new Size(181, 20);
             label13.TabIndex = 13;
             label13.Text = "Porcentagem Desconto %:";
             // 
@@ -318,7 +364,7 @@
             lblPorcentagemDesconto.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblPorcentagemDesconto.Location = new Point(782, 518);
             lblPorcentagemDesconto.Name = "lblPorcentagemDesconto";
-            lblPorcentagemDesconto.Size = new Size(25, 22);
+            lblPorcentagemDesconto.Size = new Size(27, 25);
             lblPorcentagemDesconto.TabIndex = 14;
             lblPorcentagemDesconto.Text = "15";
             // 
@@ -329,7 +375,7 @@
             label15.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label15.Location = new Point(835, 520);
             label15.Name = "label15";
-            label15.Size = new Size(128, 18);
+            label15.Size = new Size(129, 20);
             label15.TabIndex = 15;
             label15.Text = "Valor Desconto R$:";
             // 
@@ -340,7 +386,7 @@
             lblValorDesconto.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblValorDesconto.Location = new Point(958, 518);
             lblValorDesconto.Name = "lblValorDesconto";
-            lblValorDesconto.Size = new Size(25, 22);
+            lblValorDesconto.Size = new Size(27, 25);
             lblValorDesconto.TabIndex = 16;
             lblValorDesconto.Text = "15";
             // 
@@ -370,13 +416,13 @@
             label17.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label17.Location = new Point(302, 225);
             label17.Name = "label17";
-            label17.Size = new Size(132, 18);
+            label17.Size = new Size(133, 20);
             label17.TabIndex = 18;
             label17.Text = "Produtos da Venda";
             // 
             // PedidoVendas
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(991, 553);
             Controls.Add(label17);
@@ -406,6 +452,7 @@
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Pedido de Vendas";
+            Load += PedidoVendas_Load;
             groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridProdutos).EndInit();
             ResumeLayout(false);
@@ -439,5 +486,7 @@
         private Label lblValorDesconto;
         private FontAwesome.Sharp.IconButton btAdicionaProduto;
         private Label label17;
+        private MaterialSkin.Controls.MaterialTextBox boxIdPessoa01;
+        private MaterialSkin.Controls.MaterialTextBox boxIdPessoa02;
     }
 }

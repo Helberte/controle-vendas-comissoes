@@ -52,7 +52,7 @@
             boxTextoPesquisa.AnimateReadOnly = false;
             boxTextoPesquisa.BorderStyle = BorderStyle.None;
             boxTextoPesquisa.Depth = 0;
-            boxTextoPesquisa.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxTextoPesquisa.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
             boxTextoPesquisa.Hint = "Texto Pesquisa";
             boxTextoPesquisa.LeadingIcon = null;
             boxTextoPesquisa.Location = new Point(7, 18);
@@ -74,6 +74,7 @@
             dataGridPessoas.Name = "dataGridPessoas";
             dataGridPessoas.Size = new Size(800, 369);
             dataGridPessoas.TabIndex = 5;
+            dataGridPessoas.CellDoubleClick += DataGridPessoas_CellDoubleClick;
             // 
             // BuscaPessoas
             // 
