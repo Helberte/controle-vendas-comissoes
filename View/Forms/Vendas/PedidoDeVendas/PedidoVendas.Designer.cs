@@ -29,18 +29,32 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            label2 = new Label();
+            lblPedidoId = new Label();
             label3 = new Label();
-            dateTimePicker1 = new DateTimePicker();
-            label4 = new Label();
+            dateTimeDataPedido = new DateTimePicker();
+            lblStatus = new Label();
             groupBox1 = new GroupBox();
-            iconButton1 = new FontAwesome.Sharp.IconButton();
-            btBuscaUnidadePrimaria = new FontAwesome.Sharp.IconButton();
-            materialTextBox2 = new MaterialSkin.Controls.MaterialTextBox();
-            materialTextBox1 = new MaterialSkin.Controls.MaterialTextBox();
-            label6 = new Label();
-            label5 = new Label();
+            btBuscaPessoa02 = new FontAwesome.Sharp.IconButton();
+            btBuscaPessoa01 = new FontAwesome.Sharp.IconButton();
+            boxPessoa02 = new MaterialSkin.Controls.MaterialTextBox();
+            boxPessoa01 = new MaterialSkin.Controls.MaterialTextBox();
+            lblClassificacao02 = new Label();
+            lblClassificacao01 = new Label();
+            dataGridProdutos = new DataGridView();
+            label7 = new Label();
+            lblQtdItens = new Label();
+            label9 = new Label();
+            lblQtdProdutos = new Label();
+            label11 = new Label();
+            lblTotalGeral = new Label();
+            label13 = new Label();
+            lblPorcentagemDesconto = new Label();
+            label15 = new Label();
+            lblValorDesconto = new Label();
+            btAdicionaProduto = new FontAwesome.Sharp.IconButton();
+            label17 = new Label();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridProdutos).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -53,17 +67,16 @@
             label1.TabIndex = 0;
             label1.Text = "ID Pedido";
             // 
-            // label2
+            // lblPedidoId
             // 
-            label2.BackColor = Color.LightGray;
-            label2.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.ImageAlign = ContentAlignment.MiddleLeft;
-            label2.Location = new Point(12, 38);
-            label2.Name = "label2";
-            label2.Size = new Size(73, 29);
-            label2.TabIndex = 1;
-            label2.Text = "10";
-            label2.TextAlign = ContentAlignment.MiddleLeft;
+            lblPedidoId.BackColor = Color.LightGray;
+            lblPedidoId.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblPedidoId.ImageAlign = ContentAlignment.MiddleLeft;
+            lblPedidoId.Location = new Point(12, 38);
+            lblPedidoId.Name = "lblPedidoId";
+            lblPedidoId.Size = new Size(73, 29);
+            lblPedidoId.TabIndex = 1;
+            lblPedidoId.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label3
             // 
@@ -75,162 +88,326 @@
             label3.TabIndex = 2;
             label3.Text = "Data Pedido";
             // 
-            // dateTimePicker1
+            // dateTimeDataPedido
             // 
-            dateTimePicker1.Format = DateTimePickerFormat.Short;
-            dateTimePicker1.Location = new Point(129, 38);
-            dateTimePicker1.MinDate = new DateTime(2020, 1, 1, 0, 0, 0, 0);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(115, 21);
-            dateTimePicker1.TabIndex = 3;
+            dateTimeDataPedido.Format = DateTimePickerFormat.Short;
+            dateTimeDataPedido.Location = new Point(129, 38);
+            dateTimeDataPedido.MinDate = new DateTime(2020, 1, 1, 0, 0, 0, 0);
+            dateTimeDataPedido.Name = "dateTimeDataPedido";
+            dateTimeDataPedido.Size = new Size(115, 21);
+            dateTimeDataPedido.TabIndex = 3;
             // 
-            // label4
+            // lblStatus
             // 
-            label4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            label4.BackColor = Color.FromArgb(164, 190, 240);
-            label4.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.ForeColor = Color.Transparent;
-            label4.ImageAlign = ContentAlignment.MiddleLeft;
-            label4.Location = new Point(975, 18);
-            label4.Name = "label4";
-            label4.Size = new Size(234, 49);
-            label4.TabIndex = 4;
-            label4.Text = "PENDENTE";
-            label4.TextAlign = ContentAlignment.MiddleCenter;
+            lblStatus.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblStatus.BackColor = Color.FromArgb(164, 190, 240);
+            lblStatus.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblStatus.ForeColor = Color.Transparent;
+            lblStatus.ImageAlign = ContentAlignment.MiddleLeft;
+            lblStatus.Location = new Point(746, 18);
+            lblStatus.Name = "lblStatus";
+            lblStatus.Size = new Size(234, 49);
+            lblStatus.TabIndex = 4;
+            lblStatus.Text = "PENDENTE";
+            lblStatus.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            groupBox1.Controls.Add(iconButton1);
-            groupBox1.Controls.Add(btBuscaUnidadePrimaria);
-            groupBox1.Controls.Add(materialTextBox2);
-            groupBox1.Controls.Add(materialTextBox1);
-            groupBox1.Controls.Add(label6);
-            groupBox1.Controls.Add(label5);
+            groupBox1.Controls.Add(btBuscaPessoa02);
+            groupBox1.Controls.Add(btBuscaPessoa01);
+            groupBox1.Controls.Add(boxPessoa02);
+            groupBox1.Controls.Add(boxPessoa01);
+            groupBox1.Controls.Add(lblClassificacao02);
+            groupBox1.Controls.Add(lblClassificacao01);
             groupBox1.Location = new Point(12, 77);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1197, 138);
+            groupBox1.Size = new Size(967, 129);
             groupBox1.TabIndex = 5;
             groupBox1.TabStop = false;
             groupBox1.Text = "Responsáveis pela Venda";
             // 
-            // iconButton1
+            // btBuscaPessoa02
             // 
-            iconButton1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            iconButton1.BackColor = Color.FromArgb(199, 199, 199);
-            iconButton1.FlatAppearance.BorderSize = 0;
-            iconButton1.FlatStyle = FlatStyle.Flat;
-            iconButton1.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlassArrowRight;
-            iconButton1.IconColor = Color.White;
-            iconButton1.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconButton1.IconSize = 35;
-            iconButton1.Location = new Point(1141, 78);
-            iconButton1.Name = "iconButton1";
-            iconButton1.Size = new Size(50, 50);
-            iconButton1.TabIndex = 14;
-            iconButton1.TextImageRelation = TextImageRelation.TextAboveImage;
-            iconButton1.UseVisualStyleBackColor = false;
+            btBuscaPessoa02.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btBuscaPessoa02.BackColor = Color.FromArgb(199, 199, 199);
+            btBuscaPessoa02.FlatAppearance.BorderSize = 0;
+            btBuscaPessoa02.FlatStyle = FlatStyle.Flat;
+            btBuscaPessoa02.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlassArrowRight;
+            btBuscaPessoa02.IconColor = Color.White;
+            btBuscaPessoa02.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btBuscaPessoa02.IconSize = 35;
+            btBuscaPessoa02.Location = new Point(911, 71);
+            btBuscaPessoa02.Name = "btBuscaPessoa02";
+            btBuscaPessoa02.Size = new Size(50, 50);
+            btBuscaPessoa02.TabIndex = 14;
+            btBuscaPessoa02.TextImageRelation = TextImageRelation.TextAboveImage;
+            btBuscaPessoa02.UseVisualStyleBackColor = false;
             // 
-            // btBuscaUnidadePrimaria
+            // btBuscaPessoa01
             // 
-            btBuscaUnidadePrimaria.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btBuscaUnidadePrimaria.BackColor = Color.FromArgb(199, 199, 199);
-            btBuscaUnidadePrimaria.FlatAppearance.BorderSize = 0;
-            btBuscaUnidadePrimaria.FlatStyle = FlatStyle.Flat;
-            btBuscaUnidadePrimaria.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlassArrowRight;
-            btBuscaUnidadePrimaria.IconColor = Color.White;
-            btBuscaUnidadePrimaria.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btBuscaUnidadePrimaria.IconSize = 35;
-            btBuscaUnidadePrimaria.Location = new Point(1141, 22);
-            btBuscaUnidadePrimaria.Name = "btBuscaUnidadePrimaria";
-            btBuscaUnidadePrimaria.Size = new Size(50, 50);
-            btBuscaUnidadePrimaria.TabIndex = 13;
-            btBuscaUnidadePrimaria.TextImageRelation = TextImageRelation.TextAboveImage;
-            btBuscaUnidadePrimaria.UseVisualStyleBackColor = false;
+            btBuscaPessoa01.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btBuscaPessoa01.BackColor = Color.FromArgb(199, 199, 199);
+            btBuscaPessoa01.FlatAppearance.BorderSize = 0;
+            btBuscaPessoa01.FlatStyle = FlatStyle.Flat;
+            btBuscaPessoa01.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlassArrowRight;
+            btBuscaPessoa01.IconColor = Color.White;
+            btBuscaPessoa01.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btBuscaPessoa01.IconSize = 35;
+            btBuscaPessoa01.Location = new Point(911, 16);
+            btBuscaPessoa01.Name = "btBuscaPessoa01";
+            btBuscaPessoa01.Size = new Size(50, 50);
+            btBuscaPessoa01.TabIndex = 13;
+            btBuscaPessoa01.TextImageRelation = TextImageRelation.TextAboveImage;
+            btBuscaPessoa01.UseVisualStyleBackColor = false;
             // 
-            // materialTextBox2
+            // boxPessoa02
             // 
-            materialTextBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            materialTextBox2.AnimateReadOnly = false;
-            materialTextBox2.BorderStyle = BorderStyle.None;
-            materialTextBox2.Depth = 0;
-            materialTextBox2.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            materialTextBox2.Hint = "Escolha uma pessoa";
-            materialTextBox2.LeadingIcon = null;
-            materialTextBox2.Location = new Point(203, 79);
-            materialTextBox2.MaxLength = 50;
-            materialTextBox2.MouseState = MaterialSkin.MouseState.OUT;
-            materialTextBox2.Multiline = false;
-            materialTextBox2.Name = "materialTextBox2";
-            materialTextBox2.Size = new Size(932, 50);
-            materialTextBox2.TabIndex = 5;
-            materialTextBox2.Text = "";
-            materialTextBox2.TrailingIcon = null;
+            boxPessoa02.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxPessoa02.AnimateReadOnly = false;
+            boxPessoa02.BorderStyle = BorderStyle.None;
+            boxPessoa02.Depth = 0;
+            boxPessoa02.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxPessoa02.Hint = "Escolha uma pessoa";
+            boxPessoa02.LeadingIcon = null;
+            boxPessoa02.Location = new Point(203, 72);
+            boxPessoa02.MaxLength = 50;
+            boxPessoa02.MouseState = MaterialSkin.MouseState.OUT;
+            boxPessoa02.Multiline = false;
+            boxPessoa02.Name = "boxPessoa02";
+            boxPessoa02.Size = new Size(702, 50);
+            boxPessoa02.TabIndex = 5;
+            boxPessoa02.Text = "";
+            boxPessoa02.TrailingIcon = null;
             // 
-            // materialTextBox1
+            // boxPessoa01
             // 
-            materialTextBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            materialTextBox1.AnimateReadOnly = false;
-            materialTextBox1.BorderStyle = BorderStyle.None;
-            materialTextBox1.Depth = 0;
-            materialTextBox1.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            materialTextBox1.Hint = "Escolha uma pessoa";
-            materialTextBox1.LeadingIcon = null;
-            materialTextBox1.Location = new Point(203, 23);
-            materialTextBox1.MaxLength = 50;
-            materialTextBox1.MouseState = MaterialSkin.MouseState.OUT;
-            materialTextBox1.Multiline = false;
-            materialTextBox1.Name = "materialTextBox1";
-            materialTextBox1.Size = new Size(932, 50);
-            materialTextBox1.TabIndex = 4;
-            materialTextBox1.Text = "";
-            materialTextBox1.TrailingIcon = null;
+            boxPessoa01.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            boxPessoa01.AnimateReadOnly = false;
+            boxPessoa01.BorderStyle = BorderStyle.None;
+            boxPessoa01.Depth = 0;
+            boxPessoa01.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            boxPessoa01.Hint = "Escolha uma pessoa";
+            boxPessoa01.LeadingIcon = null;
+            boxPessoa01.Location = new Point(203, 17);
+            boxPessoa01.MaxLength = 50;
+            boxPessoa01.MouseState = MaterialSkin.MouseState.OUT;
+            boxPessoa01.Multiline = false;
+            boxPessoa01.Name = "boxPessoa01";
+            boxPessoa01.Size = new Size(702, 50);
+            boxPessoa01.TabIndex = 4;
+            boxPessoa01.Text = "";
+            boxPessoa01.TrailingIcon = null;
             // 
-            // label6
+            // lblClassificacao02
             // 
-            label6.BackColor = Color.Silver;
-            label6.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.Transparent;
-            label6.ImageAlign = ContentAlignment.MiddleLeft;
-            label6.Location = new Point(10, 80);
-            label6.Name = "label6";
-            label6.Size = new Size(187, 42);
-            label6.TabIndex = 3;
-            label6.Text = "REPRESENTANTE";
-            label6.TextAlign = ContentAlignment.MiddleCenter;
+            lblClassificacao02.BackColor = Color.Silver;
+            lblClassificacao02.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblClassificacao02.ForeColor = Color.Transparent;
+            lblClassificacao02.ImageAlign = ContentAlignment.MiddleLeft;
+            lblClassificacao02.Location = new Point(10, 73);
+            lblClassificacao02.Name = "lblClassificacao02";
+            lblClassificacao02.Size = new Size(187, 42);
+            lblClassificacao02.TabIndex = 3;
+            lblClassificacao02.Text = "REPRESENTANTE";
+            lblClassificacao02.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // label5
+            // lblClassificacao01
             // 
-            label5.BackColor = Color.Silver;
-            label5.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.ForeColor = Color.Transparent;
-            label5.ImageAlign = ContentAlignment.MiddleLeft;
-            label5.Location = new Point(10, 26);
-            label5.Name = "label5";
-            label5.Size = new Size(187, 42);
-            label5.TabIndex = 2;
-            label5.Text = "GESTORA";
-            label5.TextAlign = ContentAlignment.MiddleCenter;
+            lblClassificacao01.BackColor = Color.Silver;
+            lblClassificacao01.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblClassificacao01.ForeColor = Color.Transparent;
+            lblClassificacao01.ImageAlign = ContentAlignment.MiddleLeft;
+            lblClassificacao01.Location = new Point(10, 20);
+            lblClassificacao01.Name = "lblClassificacao01";
+            lblClassificacao01.Size = new Size(187, 42);
+            lblClassificacao01.TabIndex = 2;
+            lblClassificacao01.Text = "GESTORA";
+            lblClassificacao01.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // dataGridProdutos
+            // 
+            dataGridProdutos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridProdutos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridProdutos.Location = new Point(0, 255);
+            dataGridProdutos.Name = "dataGridProdutos";
+            dataGridProdutos.Size = new Size(991, 246);
+            dataGridProdutos.TabIndex = 6;
+            // 
+            // label7
+            // 
+            label7.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            label7.AutoSize = true;
+            label7.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label7.Location = new Point(8, 520);
+            label7.Name = "label7";
+            label7.Size = new Size(145, 18);
+            label7.TabIndex = 7;
+            label7.Text = "Quantidade de Itens:";
+            // 
+            // lblQtdItens
+            // 
+            lblQtdItens.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            lblQtdItens.AutoSize = true;
+            lblQtdItens.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblQtdItens.Location = new Point(151, 518);
+            lblQtdItens.Name = "lblQtdItens";
+            lblQtdItens.Size = new Size(25, 22);
+            lblQtdItens.TabIndex = 8;
+            lblQtdItens.Text = "15";
+            // 
+            // label9
+            // 
+            label9.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            label9.AutoSize = true;
+            label9.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label9.Location = new Point(215, 520);
+            label9.Name = "label9";
+            label9.Size = new Size(172, 18);
+            label9.TabIndex = 9;
+            label9.Text = "Quantidade de Produtos:";
+            // 
+            // lblQtdProdutos
+            // 
+            lblQtdProdutos.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            lblQtdProdutos.AutoSize = true;
+            lblQtdProdutos.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblQtdProdutos.Location = new Point(384, 518);
+            lblQtdProdutos.Name = "lblQtdProdutos";
+            lblQtdProdutos.Size = new Size(25, 22);
+            lblQtdProdutos.TabIndex = 10;
+            lblQtdProdutos.Text = "15";
+            // 
+            // label11
+            // 
+            label11.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            label11.AutoSize = true;
+            label11.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label11.Location = new Point(450, 520);
+            label11.Name = "label11";
+            label11.Size = new Size(97, 18);
+            label11.TabIndex = 11;
+            label11.Text = "Total Geral R$:";
+            // 
+            // lblTotalGeral
+            // 
+            lblTotalGeral.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            lblTotalGeral.AutoSize = true;
+            lblTotalGeral.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblTotalGeral.Location = new Point(543, 518);
+            lblTotalGeral.Name = "lblTotalGeral";
+            lblTotalGeral.Size = new Size(25, 22);
+            lblTotalGeral.TabIndex = 12;
+            lblTotalGeral.Text = "15";
+            // 
+            // label13
+            // 
+            label13.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            label13.AutoSize = true;
+            label13.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label13.Location = new Point(606, 520);
+            label13.Name = "label13";
+            label13.Size = new Size(180, 18);
+            label13.TabIndex = 13;
+            label13.Text = "Porcentagem Desconto %:";
+            // 
+            // lblPorcentagemDesconto
+            // 
+            lblPorcentagemDesconto.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            lblPorcentagemDesconto.AutoSize = true;
+            lblPorcentagemDesconto.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblPorcentagemDesconto.Location = new Point(782, 518);
+            lblPorcentagemDesconto.Name = "lblPorcentagemDesconto";
+            lblPorcentagemDesconto.Size = new Size(25, 22);
+            lblPorcentagemDesconto.TabIndex = 14;
+            lblPorcentagemDesconto.Text = "15";
+            // 
+            // label15
+            // 
+            label15.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            label15.AutoSize = true;
+            label15.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label15.Location = new Point(835, 520);
+            label15.Name = "label15";
+            label15.Size = new Size(128, 18);
+            label15.TabIndex = 15;
+            label15.Text = "Valor Desconto R$:";
+            // 
+            // lblValorDesconto
+            // 
+            lblValorDesconto.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            lblValorDesconto.AutoSize = true;
+            lblValorDesconto.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblValorDesconto.Location = new Point(958, 518);
+            lblValorDesconto.Name = "lblValorDesconto";
+            lblValorDesconto.Size = new Size(25, 22);
+            lblValorDesconto.TabIndex = 16;
+            lblValorDesconto.Text = "15";
+            // 
+            // btAdicionaProduto
+            // 
+            btAdicionaProduto.BackColor = Color.FromArgb(199, 199, 199);
+            btAdicionaProduto.FlatAppearance.BorderSize = 0;
+            btAdicionaProduto.FlatStyle = FlatStyle.Flat;
+            btAdicionaProduto.Font = new Font("Montserrat SemiBold", 9F, FontStyle.Bold);
+            btAdicionaProduto.ForeColor = Color.DimGray;
+            btAdicionaProduto.IconChar = FontAwesome.Sharp.IconChar.PlusSquare;
+            btAdicionaProduto.IconColor = Color.White;
+            btAdicionaProduto.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btAdicionaProduto.IconSize = 20;
+            btAdicionaProduto.Location = new Point(12, 220);
+            btAdicionaProduto.Name = "btAdicionaProduto";
+            btAdicionaProduto.Size = new Size(279, 29);
+            btAdicionaProduto.TabIndex = 17;
+            btAdicionaProduto.Text = "Adicionar Produto";
+            btAdicionaProduto.TextAlign = ContentAlignment.MiddleRight;
+            btAdicionaProduto.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btAdicionaProduto.UseVisualStyleBackColor = false;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label17.Location = new Point(302, 225);
+            label17.Name = "label17";
+            label17.Size = new Size(132, 18);
+            label17.TabIndex = 18;
+            label17.Text = "Produtos da Venda";
             // 
             // PedidoVendas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1221, 510);
+            ClientSize = new Size(991, 553);
+            Controls.Add(label17);
+            Controls.Add(btAdicionaProduto);
+            Controls.Add(lblValorDesconto);
+            Controls.Add(label15);
+            Controls.Add(lblPorcentagemDesconto);
+            Controls.Add(label13);
+            Controls.Add(lblTotalGeral);
+            Controls.Add(label11);
+            Controls.Add(lblQtdProdutos);
+            Controls.Add(label9);
+            Controls.Add(lblQtdItens);
+            Controls.Add(label7);
+            Controls.Add(dataGridProdutos);
             Controls.Add(groupBox1);
-            Controls.Add(label4);
-            Controls.Add(dateTimePicker1);
+            Controls.Add(lblStatus);
+            Controls.Add(dateTimeDataPedido);
             Controls.Add(label3);
-            Controls.Add(label2);
+            Controls.Add(lblPedidoId);
             Controls.Add(label1);
             Font = new Font("Montserrat", 8.249999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             KeyPreview = true;
             Margin = new Padding(3, 4, 3, 4);
+            MinimumSize = new Size(1007, 592);
             Name = "PedidoVendas";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Pedido de Vendas";
             groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridProdutos).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -238,16 +415,29 @@
         #endregion
 
         private Label label1;
-        private Label label2;
+        private Label lblPedidoId;
         private Label label3;
-        private DateTimePicker dateTimePicker1;
-        private Label label4;
+        private DateTimePicker dateTimeDataPedido;
+        private Label lblStatus;
         private GroupBox groupBox1;
-        private Label label5;
-        private MaterialSkin.Controls.MaterialTextBox materialTextBox2;
-        private MaterialSkin.Controls.MaterialTextBox materialTextBox1;
-        private Label label6;
-        private FontAwesome.Sharp.IconButton iconButton1;
-        private FontAwesome.Sharp.IconButton btBuscaUnidadePrimaria;
+        private Label lblClassificacao01;
+        private MaterialSkin.Controls.MaterialTextBox boxPessoa02;
+        private MaterialSkin.Controls.MaterialTextBox boxPessoa01;
+        private Label lblClassificacao02;
+        private FontAwesome.Sharp.IconButton btBuscaPessoa02;
+        private FontAwesome.Sharp.IconButton btBuscaPessoa01;
+        private DataGridView dataGridProdutos;
+        private Label label7;
+        private Label lblQtdItens;
+        private Label label9;
+        private Label lblQtdProdutos;
+        private Label label11;
+        private Label lblTotalGeral;
+        private Label label13;
+        private Label lblPorcentagemDesconto;
+        private Label label15;
+        private Label lblValorDesconto;
+        private FontAwesome.Sharp.IconButton btAdicionaProduto;
+        private Label label17;
     }
 }
