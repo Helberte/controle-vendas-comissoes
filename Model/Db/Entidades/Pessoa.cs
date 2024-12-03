@@ -26,5 +26,6 @@ namespace controle_vendas_comissoes.Model.Db.Entidades
         [Column("endereco_id")]
         public int? EnderecoId { get; set; }
 
+        public Classificacao? Classificacao { get; set; }
     }
 }
