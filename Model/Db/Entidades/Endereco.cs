@@ -21,7 +21,10 @@ namespace controle_vendas_comissoes.Model.Db.Entidades
         public int CidadeId { get; set; }
 
         [Column("estado_id")]
-        public int EstadoId { get; set; } 
+        public int EstadoId { get; set; }
+         
+        public Cidade? Cidade { get; set; }
 
+        public Estado? Estado { get; set; }
     }
 }

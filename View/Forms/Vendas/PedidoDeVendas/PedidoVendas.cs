@@ -37,40 +37,32 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
 
         private void ValidaCampos()
         {
-            
+
         }
 
         private void DelegaEventos()
         {
-            
+
         }
 
         private void LimpaCampos()
         {
-            
+
         }
 
         private static void LimpaCampos(GroupBox Group)
         {
-           
+
         }
 
         private static void DesativaControles(GroupBox Group)
         {
-           
+
         }
 
         private static void AtivaControles(GroupBox Group)
         {
-            
-        }
 
-        private void SetPessoa(Pessoa pessoa, MaterialTextBox boxNome, Label lblClassificacao)
-        {
-            this.pessoas.Add(pessoa);
-
-            boxNome.Text          = pessoa.Nome + " " + pessoa.Sobrenome;
-            lblClassificacao.Text = string.IsNullOrEmpty(pessoa.Classificacao?.Nome) ? "N/A" : pessoa.Classificacao.Nome;
         }
 
         private string DecimalPesoParaString(decimal valor)
@@ -289,22 +281,51 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             }
         }
 
-
         #endregion
 
         #region Eventos e Cliques Keypress
 
-        private void ProdutosDetalhes_Load(object sender, EventArgs e)
-        {            
-            dataGridProdutos.SetStyleDataGridView();
+        private void BtBuscaPessoa01_Click(object sender, EventArgs e)
+        {
+            BuscaPessoas buscaPessoas = new((Pessoa pessoa) =>
+            {
+                int indexPessoa = this.pessoas.FindIndex(p => p.Id.Equals(pessoa.Id));
+
+                if (indexPessoa >= 0)
+                    this.pessoas.RemoveAt(indexPessoa);
+
+                this.pessoas.Add(pessoa);
+
+                boxPessoa01.Text        = pessoa.Nome + " " + pessoa.Sobrenome;
+                boxIdPessoa01.Text      = pessoa.Id.ToString();
+                lblClassificacao01.Text = pessoa.Classificacao?.Nome ?? "N/A";
+            });
+
+            buscaPessoas.ShowDialog();            
         }
 
-        private void BtUnidadePrimaria_Click(object? sender, EventArgs e)
+        private void BtBuscaPessoa02_Click(object sender, EventArgs e)
         {
-            BuscaUnidadesPrimarias buscaUnidades = new(SetPropriedades);
-            buscaUnidades.ShowDialog();
+            BuscaPessoas buscaPessoas = new((Pessoa pessoa) =>
+            {
+                int indexPessoa = this.pessoas.FindIndex(p => p.Id.Equals(pessoa.Id));
 
-            boxUnidadePrimaria.Focus();
+                if (indexPessoa >= 0)
+                    this.pessoas.RemoveAt(indexPessoa);
+
+                this.pessoas.Add(pessoa);
+
+                boxPessoa02.Text        = pessoa.Nome + " " + pessoa.Sobrenome;
+                boxIdPessoa02.Text      = pessoa.Id.ToString();
+                lblClassificacao02.Text = pessoa.Classificacao?.Nome ?? "N/A";
+            });
+
+            buscaPessoas.ShowDialog();
+        }
+
+        private void PedidoVendas_Load(object sender, EventArgs e)
+        {
+            dataGridProdutos.SetStyleDataGridView();
         }
 
         private void BoxPeso_TextChanged(object sender, EventArgs e)
@@ -329,74 +350,63 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             FormataCampoDinheiro((MaterialTextBox)sender);
         }
 
-        private void BtNovo_Click(object? sender, EventArgs e)
-        {
-            LimpaCampos(groupInfoProduto);
+        //private void DataGridEstadosPreco_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        //{
+        //    e.Control.KeyPress -= keyPressEventHandler;
+        //    e.Control.TextChanged -= eventHandler;
 
-            AtivaControles(groupInfoProduto);
-            AtivaControles(groupInfoFisica);
+        //    if (dataGridEstadosPreco.CurrentCell.ColumnIndex == dataGridEstadosPreco.Columns["PrecoCusto1"].Index
+        //        || dataGridEstadosPreco.CurrentCell.ColumnIndex == dataGridEstadosPreco.Columns["PrecoVenda1"].Index
+        //        || dataGridEstadosPreco.CurrentCell.ColumnIndex == dataGridEstadosPreco.Columns["PrecoCusto2"].Index
+        //        || dataGridEstadosPreco.CurrentCell.ColumnIndex == dataGridEstadosPreco.Columns["PrecoVenda2"].Index)
+        //    {
+        //        if (e.Control is System.Windows.Forms.TextBox tb)
+        //        {
+        //            if (tb != null)
+        //            {
+        //                keyPressEventHandler = new KeyPressEventHandler(CelulaComissao_KeyPress);
+        //                eventHandler = new EventHandler(CelulaGrid_TextChanged);
 
-            boxNomeProduto.Focus();
-            dataGridEstadosPreco.Rows.Clear();
-        }
+        //                tb.KeyPress += keyPressEventHandler;
+        //                tb.TextChanged += eventHandler;
+        //            }
+        //        }
+        //    }
+        //}
 
-        private void DataGridEstadosPreco_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
-        {
-            e.Control.KeyPress -= keyPressEventHandler;
-            e.Control.TextChanged -= eventHandler;
+        //private void DataGridEstadosPreco_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    int estadoId = Convert.ToInt32(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["Id"].Index].Value);
+        //    int ordem;
+        //    decimal custo;
+        //    decimal venda;
 
-            if (dataGridEstadosPreco.CurrentCell.ColumnIndex == dataGridEstadosPreco.Columns["PrecoCusto1"].Index
-                || dataGridEstadosPreco.CurrentCell.ColumnIndex == dataGridEstadosPreco.Columns["PrecoVenda1"].Index
-                || dataGridEstadosPreco.CurrentCell.ColumnIndex == dataGridEstadosPreco.Columns["PrecoCusto2"].Index
-                || dataGridEstadosPreco.CurrentCell.ColumnIndex == dataGridEstadosPreco.Columns["PrecoVenda2"].Index)
-            {
-                if (e.Control is System.Windows.Forms.TextBox tb)
-                {
-                    if (tb != null)
-                    {
-                        keyPressEventHandler = new KeyPressEventHandler(CelulaComissao_KeyPress);
-                        eventHandler = new EventHandler(CelulaGrid_TextChanged);
+        //    if (dataGridEstadosPreco.Columns["PrecoCusto1"].Index == e.ColumnIndex ||
+        //        dataGridEstadosPreco.Columns["PrecoVenda1"].Index == e.ColumnIndex)
+        //    {
+        //        ordem = 1;
+        //        custo = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoCusto1"].Index].Value);
+        //        venda = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoVenda1"].Index].Value);
+        //    }
+        //    else
+        //    if (dataGridEstadosPreco.Columns["PrecoCusto2"].Index == e.ColumnIndex ||
+        //        dataGridEstadosPreco.Columns["PrecoVenda2"].Index == e.ColumnIndex)
+        //    {
+        //        ordem = 2;
+        //        custo = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoCusto2"].Index].Value);
+        //        venda = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoVenda2"].Index].Value);
+        //    }
+        //    else
+        //        return;
 
-                        tb.KeyPress += keyPressEventHandler;
-                        tb.TextChanged += eventHandler;
-                    }
-                }
-            }
-        }
-
-        private void DataGridEstadosPreco_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            int estadoId = Convert.ToInt32(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["Id"].Index].Value);
-            int ordem;
-            decimal custo;
-            decimal venda;
-
-            if (dataGridEstadosPreco.Columns["PrecoCusto1"].Index == e.ColumnIndex ||
-                dataGridEstadosPreco.Columns["PrecoVenda1"].Index == e.ColumnIndex)
-            {
-                ordem = 1;
-                custo = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoCusto1"].Index].Value);
-                venda = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoVenda1"].Index].Value);
-            }
-            else
-            if (dataGridEstadosPreco.Columns["PrecoCusto2"].Index == e.ColumnIndex ||
-                dataGridEstadosPreco.Columns["PrecoVenda2"].Index == e.ColumnIndex)
-            {
-                ordem = 2;
-                custo = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoCusto2"].Index].Value);
-                venda = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoVenda2"].Index].Value);
-            }
-            else
-                return;
-
-            AdicionaPrecoProduto(new()
-            {
-                EstadoId = estadoId,
-                Ordem = ordem,
-                PrecoCusto = custo,
-                PrecoVenda = venda
-            });
-        }
+        //    AdicionaPrecoProduto(new()
+        //    {
+        //        EstadoId = estadoId,
+        //        Ordem = ordem,
+        //        PrecoCusto = custo,
+        //        PrecoVenda = venda
+        //    });
+        //}
 
         private void CelulaGrid_TextChanged(object? sender, EventArgs e)
         {
@@ -414,83 +424,6 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
 
         #region Requisições
 
-        private void AdicionaPoduto()
-        {
-            try
-            {
-                if (novoProduto is null)
-                    throw new Exception("O objeto de inserção é inválido");
-
-                HelperProdutos.AdicionaProduto(novoProduto).Then(produto =>
-                {
-                    Utils.RunOnUiThread(this, () =>
-                    {
-                        boxIdProduto.Text = produto.Id.ToString();
-
-                        MessageBox.Show("Produto inserido com sucesso!");
-
-                        action?.Invoke();
-                    });
-                }).Catch(erro =>
-                {
-                    Utils.RunOnUiThread(this, () =>
-                    {
-                        MessageBox.Show(erro.Message);
-                    });
-                });
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void ObterPrecosProdutoEstados()
-        {
-            if (string.IsNullOrEmpty(boxIdProduto.Text.Trim())) return;
-
-            HelperProdutos.ObtemPrecosProduto(Convert.ToInt32(boxIdProduto.Text.Trim()), 0).Then(estadosPreco =>
-            {
-                Utils.RunOnUiThread(this, () =>
-                {
-                    dataGridEstadosPreco.DataSource = estadosPreco;
-                    dataGridEstadosPreco.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-                    dataGridEstadosPreco.Columns["id"].Width = 60;
-
-                    dataGridEstadosPreco.ReadOnly = false;
-
-                    dataGridEstadosPreco.Columns["Id"].ReadOnly = true;
-                    dataGridEstadosPreco.Columns["Nome"].ReadOnly = true;
-                    dataGridEstadosPreco.Columns["UF"].ReadOnly = true;
-                    dataGridEstadosPreco.Columns["PrecoCusto1"].ReadOnly = false;
-                    dataGridEstadosPreco.Columns["PrecoVenda1"].ReadOnly = false;
-                    dataGridEstadosPreco.Columns["PrecoCusto2"].ReadOnly = false;
-                    dataGridEstadosPreco.Columns["PrecoVenda2"].ReadOnly = false;
-                });
-            }).Catch(erro =>
-            {
-                Utils.RunOnUiThread(this, () =>
-                {
-                    MessageBox.Show(erro.Message);
-                });
-            });
-        }
-
-        private void AdicionaPrecoProduto(TabelaPreco tabelaPreco)
-        {
-            if (string.IsNullOrEmpty(boxIdProduto.Text.Trim())) return;
-
-            HelperProdutos.AdicionaPrecoProduto(Convert.ToInt32(boxIdProduto.Text.Trim()), tabelaPreco)
-            .Then(preco => { })
-            .Catch(erro =>
-            {
-                Utils.RunOnUiThread(this, () =>
-                {
-                    MessageBox.Show(erro.Message);
-                });
-            });
-        }
-
-        #endregion       
+        #endregion               
     }
 }
