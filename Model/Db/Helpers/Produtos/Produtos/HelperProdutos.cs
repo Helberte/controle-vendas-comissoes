@@ -290,5 +290,100 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos
             return promise;
         }
 
+        public static IPromise<List<ModelPrecosPorEstado>> ObtemPrecosPorEstado(int estadoId, string textoPesquisa = "")
+        {
+            Promise<List<ModelPrecosPorEstado>> promise = new();
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    using AppDbContext context = new();
+
+                    string sql = string.Format(@"
+                    SELECT ProdutoId           = produtoId
+                         , ProdutoNome         = produtoNome
+                         , UnidadePrimariaNome = unidadePrimariaNome
+                         , PrecoCusto1         = ISNULL(PRECO1.custo, 0)
+                         , PrecoVenda1         = ISNULL(PRECO1.venda, 0)
+                         , PrecoCusto2         = ISNULL(PRECO2.custo, 0)
+                         , PrecoVenda2         = ISNULL(PRECO2.venda, 0)
+                     
+                      FROM (
+                            SELECT TOP 20
+                                   produtoId           = produto.id
+                                 , produtoNome         = produto.nome
+                                 , unidadePrimariaNome = unidade_primaria.nome
+                     
+                              FROM produto
+                     
+                             INNER
+                              JOIN unidade_primaria
+                                ON unidade_primaria.deleted_at IS NULL
+                               AND unidade_primaria.id = produto.unidade_primaria_id
+                     
+                             WHERE produto.deleted_at IS NULL
+                               AND CONCAT(  produto.nome           + ' '
+                                          , produto.descricao      + ' '
+                                          , produto.id             + ' '
+                                          , produto.composicao     + ' '
+                                          , produto.modo_usar      + ' '
+                                          , unidade_primaria.nome  + ' '
+                                          , produto.peso ) LIKE '%{0}%'
+                           ) AS TB
+                     
+                     OUTER
+                     APPLY (
+                              SELECT custo = CAST(tabela_preco.preco_custo AS DECIMAL(10,4))
+                                   , venda = CAST(tabela_preco.preco_venda AS DECIMAL(10,4))
+                     
+                                FROM produto_tabela_preco
+                     
+                               INNER
+                                JOIN tabela_preco
+                                  ON tabela_preco.deleted_at IS NULL
+                                 AND tabela_preco.id        = produto_tabela_preco.tabela_preco_id
+                                 AND tabela_preco.ordem     = 1
+                                 AND tabela_preco.estado_id = {1}
+                     
+                               WHERE produto_tabela_preco.deleted_at IS NULL
+                                 AND produto_tabela_preco.produto_id = produtoId
+                         )
+                        AS PRECO1
+                     
+                     OUTER
+                     APPLY (
+                              SELECT custo = CAST(tabela_preco.preco_custo AS DECIMAL(10,4))
+                                   , venda = CAST(tabela_preco.preco_venda AS DECIMAL(10,4))
+                     
+                                FROM produto_tabela_preco
+                     
+                               INNER
+                                JOIN tabela_preco
+                                  ON tabela_preco.deleted_at IS NULL
+                                 AND tabela_preco.id        = produto_tabela_preco.tabela_preco_id
+                                 AND tabela_preco.ordem     = 2
+                                 AND tabela_preco.estado_id = {1}
+                     
+                               WHERE produto_tabela_preco.deleted_at IS NULL
+                                 AND produto_tabela_preco.produto_id = produtoId
+                         )
+                        AS PRECO2
+                     
+                     ORDER
+                        BY ProdutoNome;", textoPesquisa, estadoId);
+
+                    List<ModelPrecosPorEstado>? resultado = context.Database.SqlQuery<ModelPrecosPorEstado>(FormattableStringFactory.Create(sql)).ToList();
+
+                    promise.Resolve(resultado);
+                }
+                catch (Exception ex)
+                {
+                    promise.Reject(ex);
+                }
+            });
+
+            return promise;
+        }
     }
 }

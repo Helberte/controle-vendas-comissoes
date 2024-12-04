@@ -397,7 +397,7 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 
             enviandoRequisicao = true;
 
-            HelperComissoes.ObtemComissoesProduto(produtoId, estadoId).Then(comissoes =>
+            HelperComissoes.ObtemComissoesProduto(produtoId, estadoId, []).Then(comissoes =>
             {
                 Utils.RunOnUiThread(this, () =>
                 {

@@ -9,7 +9,7 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes
 {
     public class HelperComissoes
     {
-        public static IPromise<List<ModelComissoesProduto>> ObtemComissoesProduto(int produtoId, int estadoId)
+        public static IPromise<List<ModelComissoesProduto>> ObtemComissoesProduto(int produtoId, int estadoId, int[] classificacoes)
         {
             Promise<List<ModelComissoesProduto>> promise = new();
 
@@ -31,6 +31,11 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes
                                       , classificacaoNome = classificacao.nome
                                    FROM classificacao
                                   WHERE classificacao.deleted_at IS NULL
+
+                                 " + (classificacoes.Length <= 0 ? "" : 
+
+                                   "AND classificacao.id IN ({0})" ) + @"
+
                                  ) AS TB
                          
                                  LEFT
@@ -46,7 +51,7 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes
                                          join produto
                                            on produto.deleted_at is null
                                           and produto.id = comissao_item.produto_id
-                                          and produto.id = {0}
+                                          and produto.id = {1}
                          
                                         inner
                                          join comissao
@@ -67,7 +72,7 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes
                                          join estado_comissao
                                            on estado_comissao.deleted_at is null
                                           and estado_comissao.Comissao_id = comissao.id
-                                          and estado_comissao.estado_id   = {1}
+                                          and estado_comissao.estado_id   = {2}
                          
                                         WHERE comissao_item.deleted_at is null
                          
@@ -79,7 +84,11 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes
                                             , produto_tabela_preco.id
                                )
                                AS TB2
-                               ON TB.classificacaoId = TB2.classificacaoId; ", produtoId, estadoId);
+                               ON TB.classificacaoId = TB2.classificacaoId; ", string.Join(",", classificacoes), produtoId, estadoId);
+
+                    #if DEBUG
+                    System.Diagnostics.Debug.WriteLine(sql);
+                    #endif
 
                     List<ModelComissoesProduto>? resultado = context.Database.SqlQuery<ModelComissoesProduto>(FormattableStringFactory.Create(sql)).ToList();
 

@@ -33,10 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Model\Db\Helpers\Vendas\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="C:\Users\64429-helberte\Downloads\icons8_chart_94.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
