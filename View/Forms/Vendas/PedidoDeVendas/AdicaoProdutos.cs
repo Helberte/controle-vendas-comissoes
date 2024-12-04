@@ -1,38 +1,40 @@
-﻿using controle_vendas_comissoes.Model.Db.Entidades;
+﻿using controle_vendas_comissoes.Controller.Utils;
+using controle_vendas_comissoes.Model.Db.Entidades;
 using controle_vendas_comissoes.View.Extensions;
-using controle_vendas_comissoes.View.Forms.Modais;
 using MaterialSkin.Controls;
 
 namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
 {
-    public partial class PedidoVendas : Form
+    public partial class AdicaoProdutos : Form
     {
         #region Variaveis
 
         private bool bloqueiaAlteracaoCampo = false;
 
-        private static Action? action = null;
-        private List<TabelaPreco> listaTabelasPrecos = [];
-        private List<Pessoa> pessoas = [];
-
-        private UnidadePrimaria? unidadePrimaria = null;
-        KeyPressEventHandler? keyPressEventHandler;
-        EventHandler? eventHandler;
+        private readonly Estado? estado;
 
         #endregion
 
         #region Construtores
 
-        public PedidoVendas()
+        public AdicaoProdutos(Estado estado)
         {
             InitializeComponent();
 
+            this.estado = estado;
+
             DelegaEventos();
+            CarregaEstadoTela();
         }
 
         #endregion
 
         #region Métodos
+
+        private void CarregaEstadoTela()
+        {
+            lblNomeEstado.Text = this.estado?.Nome ?? "N/A";
+        }
 
         private void ValidaCampos()
         {
@@ -206,40 +208,6 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             }
         }
 
-        private void FormataCampoPeso(MaterialTextBox box)
-        {
-            try
-            {
-                if (bloqueiaAlteracaoCampo) return;
-
-                bloqueiaAlteracaoCampo = true;
-
-                decimal valor = 0m;
-
-                if (!string.IsNullOrEmpty(box.Text))
-                {
-                    valor = Convert.ToDecimal(box.Text.Replace(",", "").Replace(".", ""));
-                    valor /= 1000;
-                }
-
-                if (valor > 0)
-                    box.Text = DecimalPesoParaString(valor);
-                else
-                    box.Text = "0,000";
-
-                box.Select(box.Text.Length, 0);
-
-                bloqueiaAlteracaoCampo = false;
-            }
-            catch (Exception)
-            {
-                box.Text = "0,000";
-                box.Select(box.Text.Length, 0);
-
-                bloqueiaAlteracaoCampo = false;
-            }
-        }
-
         private void FormataCampoDinheiro(System.Windows.Forms.TextBox box, decimal valorMaximo = 0)
         {
             try
@@ -284,90 +252,21 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
 
         #region Eventos e Cliques Keypress
 
-        private void BtBuscaPessoa01_Click(object sender, EventArgs e)
-        {
-            BuscaPessoas buscaPessoas = new((Pessoa pessoa) =>
+        private void AdicaoProdutos_Load(object sender, EventArgs e)
+        {            
+            Task.Run(() =>
             {
-                int indexPessoa = this.pessoas.FindIndex(p => p.Id.Equals(pessoa.Id));
+                // deixa a thread principal dar aquela descansada
+                Thread.Sleep(100);
 
-                if (indexPessoa >= 0)
-                    this.pessoas.RemoveAt(indexPessoa);
-
-                this.pessoas.Add(pessoa);
-
-                boxPessoa01.Text        = pessoa.Nome + " " + pessoa.Sobrenome;
-                boxIdPessoa01.Text      = pessoa.Id.ToString();
-                lblClassificacao01.Text = pessoa.Classificacao?.Nome ?? "N/A";
-
-                comboClassificacoEndereco.Items.Clear();
-
-                foreach (Pessoa item in this.pessoas)                
-                    comboClassificacoEndereco.Items.Add(item.Classificacao?.Nome ?? "N/A");                
-            });
-
-            buscaPessoas.ShowDialog();
-        }
-
-        private void BtBuscaPessoa02_Click(object sender, EventArgs e)
-        {
-            BuscaPessoas buscaPessoas = new((Pessoa pessoa) =>
-            {
-                int indexPessoa = this.pessoas.FindIndex(p => p.Id.Equals(pessoa.Id));
-
-                if (indexPessoa >= 0)
-                    this.pessoas.RemoveAt(indexPessoa);
-
-                this.pessoas.Add(pessoa);
-
-                boxPessoa02.Text        = pessoa.Nome + " " + pessoa.Sobrenome;
-                boxIdPessoa02.Text      = pessoa.Id.ToString();
-                lblClassificacao02.Text = pessoa.Classificacao?.Nome ?? "N/A";
-
-                comboClassificacoEndereco.Items.Clear();
-
-                foreach (Pessoa item in this.pessoas)
+                Utils.RunOnUiThread(this, () =>
                 {
-                    comboClassificacoEndereco.Items.Add(item.Classificacao?.Nome ?? "N/A");
-                }
-            });
-
-            buscaPessoas.ShowDialog();
-        }
-
-        private void btAdicionaProduto_Click(object sender, EventArgs e)
-        {
-            Classificacao? classificacao = pessoas.Find(p => (p.Classificacao?.Nome ?? "").Equals(comboClassificacoEndereco.SelectedItem?.ToString() ?? ""))?.Classificacao;
-            
-            if (classificacao is null || classificacao.Id <= 0)            
-                MessageBox.Show("É preciso informar uma classificação para que seja possível obter o estado da pessoa que será considerado para os preços.");
-            else
-            {
-                Estado? estado = pessoas.Find(e => (e.Classificacao?.Id).Equals(classificacao.Id))?.Endereco?.Estado;
-
-                if (estado is null || estado.Id <= 0)                
-                    MessageBox.Show("Não foi possível obter o estado da pessoa.");
-                else
-                {
-                    AdicaoProdutos adicaoProdutos = new (estado);
-                    adicaoProdutos.ShowDialog();
-                }                
-            }
-        }
-
-        private void PedidoVendas_Load(object sender, EventArgs e)
-        {
-            dataGridProdutos.SetStyleDataGridView();
-        }
-
-        private void BoxPeso_TextChanged(object sender, EventArgs e)
-        {
-            FormataCampoPeso((MaterialTextBox)sender);
-        }
-
-        private void BoxPeso_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ','))
-                e.Handled = true;
+                    dataGridProdutos.SetStyleDataGridView();
+                    dataGridProdutosVenda.SetStyleDataGridView();
+                    dataGridComissaoClassificacao.SetStyleDataGridView();
+                    dataGridTotaisVenda.SetStyleDataGridView();
+                });                
+            });            
         }
 
         private void BoxPreco_KeyPress(object sender, KeyPressEventArgs e)
@@ -455,6 +354,6 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
 
         #region Requisições
 
-        #endregion
+        #endregion      
     }
 }

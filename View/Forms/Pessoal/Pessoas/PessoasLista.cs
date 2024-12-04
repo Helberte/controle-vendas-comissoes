@@ -80,6 +80,7 @@ namespace controle_vendas_comissoes.View.Forms.Pessoal.Pessoas
                     dataGridPessoas.Columns["CreatedAt"].Visible = false;
                     dataGridPessoas.Columns["ClassificacaoId"].Visible = false;
                     dataGridPessoas.Columns["EnderecoId"].Visible = false;
+                    dataGridPessoas.Columns["EstadoId"].Visible   = false;
 
                     dataGridPessoas.Columns["ClassificacaoDescricao"].HeaderText = "Classificação";
                     dataGridPessoas.Columns["DataNascimento"].HeaderText = "Nascimento";

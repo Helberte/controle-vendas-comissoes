@@ -23,6 +23,8 @@ namespace controle_vendas_comissoes.Model.Db.Models
 
         public int? EnderecoId { get; set; }
 
+        public int? EstadoId { get; set; }
+
         public string EstadoNome  { get; set; }  = string.Empty;
 
         public string EstadoUF    { get; set; }  = string.Empty;
