@@ -32,6 +32,7 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Pessoal.Pessoas
                              , [CreatedAt]              = pessoaCreatedAt
                              , [EnderecoId]             = ISNULL(enderecoId ,  0)
                              , [EstadoNome]             = ISNULL(estado.nome , '')
+                             , [EstadoId]               = ISNULL(estado.id , 0)
                              , [EstadoUF]               = ISNULL(estado.UF , '')
                              , [CidadeNome]             = ISNULL(cidade.nome , '')
                              , [CidadeSigla]            = ISNULL(cidade.sigla , '')

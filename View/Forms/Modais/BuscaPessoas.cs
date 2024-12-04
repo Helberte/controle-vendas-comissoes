@@ -42,6 +42,7 @@ namespace controle_vendas_comissoes.View.Forms.Modais
 
                 Estado estado = new()
                 {
+                    Id   = Convert.ToInt32(grid.Rows[e.RowIndex].Cells["EstadoId"].Value.ToString() ?? "0"),
                     Nome = grid.Rows[e.RowIndex].Cells["EstadoNome"].Value.ToString() ?? "",
                     UF   = grid.Rows[e.RowIndex].Cells["EstadoUF"].Value.ToString()   ?? ""
                 };
@@ -106,6 +107,7 @@ namespace controle_vendas_comissoes.View.Forms.Modais
                     dataGridPessoas.Columns["CreatedAt"].Visible       = false;
                     dataGridPessoas.Columns["ClassificacaoId"].Visible = false;
                     dataGridPessoas.Columns["EnderecoId"].Visible      = false;
+                    dataGridPessoas.Columns["EstadoId"].Visible = false;
 
                     dataGridPessoas.Columns["ClassificacaoDescricao"].HeaderText = "Classificação";
                     dataGridPessoas.Columns["DataNascimento"].HeaderText         = "Nascimento";

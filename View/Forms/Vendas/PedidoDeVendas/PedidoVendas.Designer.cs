@@ -55,6 +55,7 @@
             lblValorDesconto = new Label();
             btAdicionaProduto = new FontAwesome.Sharp.IconButton();
             label17 = new Label();
+            comboClassificacoEndereco = new MaterialSkin.Controls.MaterialComboBox();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridProdutos).BeginInit();
             SuspendLayout();
@@ -65,7 +66,7 @@
             label1.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.Location = new Point(8, 18);
             label1.Name = "label1";
-            label1.Size = new Size(73, 20);
+            label1.Size = new Size(72, 18);
             label1.TabIndex = 0;
             label1.Text = "ID Pedido";
             // 
@@ -86,7 +87,7 @@
             label3.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.Location = new Point(125, 18);
             label3.Name = "label3";
-            label3.Size = new Size(90, 20);
+            label3.Size = new Size(89, 18);
             label3.TabIndex = 2;
             label3.Text = "Data Pedido";
             // 
@@ -133,7 +134,6 @@
             // 
             // boxIdPessoa02
             // 
-            boxIdPessoa02.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             boxIdPessoa02.AnimateReadOnly = false;
             boxIdPessoa02.BorderStyle = BorderStyle.None;
             boxIdPessoa02.Depth = 0;
@@ -153,7 +153,6 @@
             // 
             // boxIdPessoa01
             // 
-            boxIdPessoa01.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             boxIdPessoa01.AnimateReadOnly = false;
             boxIdPessoa01.BorderStyle = BorderStyle.None;
             boxIdPessoa01.Depth = 0;
@@ -275,9 +274,9 @@
             // 
             dataGridProdutos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridProdutos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridProdutos.Location = new Point(0, 255);
+            dataGridProdutos.Location = new Point(0, 260);
             dataGridProdutos.Name = "dataGridProdutos";
-            dataGridProdutos.Size = new Size(991, 246);
+            dataGridProdutos.Size = new Size(991, 241);
             dataGridProdutos.TabIndex = 6;
             // 
             // label7
@@ -287,7 +286,7 @@
             label7.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label7.Location = new Point(8, 520);
             label7.Name = "label7";
-            label7.Size = new Size(146, 20);
+            label7.Size = new Size(145, 18);
             label7.TabIndex = 7;
             label7.Text = "Quantidade de Itens:";
             // 
@@ -298,7 +297,7 @@
             lblQtdItens.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblQtdItens.Location = new Point(151, 518);
             lblQtdItens.Name = "lblQtdItens";
-            lblQtdItens.Size = new Size(27, 25);
+            lblQtdItens.Size = new Size(25, 22);
             lblQtdItens.TabIndex = 8;
             lblQtdItens.Text = "15";
             // 
@@ -309,7 +308,7 @@
             label9.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label9.Location = new Point(215, 520);
             label9.Name = "label9";
-            label9.Size = new Size(173, 20);
+            label9.Size = new Size(172, 18);
             label9.TabIndex = 9;
             label9.Text = "Quantidade de Produtos:";
             // 
@@ -320,7 +319,7 @@
             lblQtdProdutos.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblQtdProdutos.Location = new Point(384, 518);
             lblQtdProdutos.Name = "lblQtdProdutos";
-            lblQtdProdutos.Size = new Size(27, 25);
+            lblQtdProdutos.Size = new Size(25, 22);
             lblQtdProdutos.TabIndex = 10;
             lblQtdProdutos.Text = "15";
             // 
@@ -331,7 +330,7 @@
             label11.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label11.Location = new Point(450, 520);
             label11.Name = "label11";
-            label11.Size = new Size(98, 20);
+            label11.Size = new Size(97, 18);
             label11.TabIndex = 11;
             label11.Text = "Total Geral R$:";
             // 
@@ -342,7 +341,7 @@
             lblTotalGeral.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblTotalGeral.Location = new Point(543, 518);
             lblTotalGeral.Name = "lblTotalGeral";
-            lblTotalGeral.Size = new Size(27, 25);
+            lblTotalGeral.Size = new Size(25, 22);
             lblTotalGeral.TabIndex = 12;
             lblTotalGeral.Text = "15";
             // 
@@ -353,7 +352,7 @@
             label13.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label13.Location = new Point(606, 520);
             label13.Name = "label13";
-            label13.Size = new Size(181, 20);
+            label13.Size = new Size(180, 18);
             label13.TabIndex = 13;
             label13.Text = "Porcentagem Desconto %:";
             // 
@@ -364,7 +363,7 @@
             lblPorcentagemDesconto.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblPorcentagemDesconto.Location = new Point(782, 518);
             lblPorcentagemDesconto.Name = "lblPorcentagemDesconto";
-            lblPorcentagemDesconto.Size = new Size(27, 25);
+            lblPorcentagemDesconto.Size = new Size(25, 22);
             lblPorcentagemDesconto.TabIndex = 14;
             lblPorcentagemDesconto.Text = "15";
             // 
@@ -375,7 +374,7 @@
             label15.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label15.Location = new Point(835, 520);
             label15.Name = "label15";
-            label15.Size = new Size(129, 20);
+            label15.Size = new Size(128, 18);
             label15.TabIndex = 15;
             label15.Text = "Valor Desconto R$:";
             // 
@@ -386,7 +385,7 @@
             lblValorDesconto.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblValorDesconto.Location = new Point(958, 518);
             lblValorDesconto.Name = "lblValorDesconto";
-            lblValorDesconto.Size = new Size(27, 25);
+            lblValorDesconto.Size = new Size(25, 22);
             lblValorDesconto.TabIndex = 16;
             lblValorDesconto.Text = "15";
             // 
@@ -401,14 +400,15 @@
             btAdicionaProduto.IconColor = Color.White;
             btAdicionaProduto.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btAdicionaProduto.IconSize = 20;
-            btAdicionaProduto.Location = new Point(12, 220);
+            btAdicionaProduto.Location = new Point(12, 214);
             btAdicionaProduto.Name = "btAdicionaProduto";
-            btAdicionaProduto.Size = new Size(279, 29);
+            btAdicionaProduto.Size = new Size(279, 40);
             btAdicionaProduto.TabIndex = 17;
             btAdicionaProduto.Text = "Adicionar Produto";
             btAdicionaProduto.TextAlign = ContentAlignment.MiddleRight;
             btAdicionaProduto.TextImageRelation = TextImageRelation.ImageBeforeText;
             btAdicionaProduto.UseVisualStyleBackColor = false;
+            btAdicionaProduto.Click += btAdicionaProduto_Click;
             // 
             // label17
             // 
@@ -416,15 +416,40 @@
             label17.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label17.Location = new Point(302, 225);
             label17.Name = "label17";
-            label17.Size = new Size(133, 20);
+            label17.Size = new Size(132, 18);
             label17.TabIndex = 18;
             label17.Text = "Produtos da Venda";
             // 
+            // comboClassificacoEndereco
+            // 
+            comboClassificacoEndereco.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            comboClassificacoEndereco.AutoResize = false;
+            comboClassificacoEndereco.BackColor = Color.FromArgb(255, 255, 255);
+            comboClassificacoEndereco.Depth = 0;
+            comboClassificacoEndereco.DrawMode = DrawMode.OwnerDrawVariable;
+            comboClassificacoEndereco.DropDownHeight = 174;
+            comboClassificacoEndereco.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboClassificacoEndereco.DropDownWidth = 121;
+            comboClassificacoEndereco.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Pixel);
+            comboClassificacoEndereco.ForeColor = Color.FromArgb(222, 0, 0, 0);
+            comboClassificacoEndereco.FormattingEnabled = true;
+            comboClassificacoEndereco.Hint = "Endereço que será considerado";
+            comboClassificacoEndereco.IntegralHeight = false;
+            comboClassificacoEndereco.ItemHeight = 43;
+            comboClassificacoEndereco.Location = new Point(606, 209);
+            comboClassificacoEndereco.MaxDropDownItems = 4;
+            comboClassificacoEndereco.MouseState = MaterialSkin.MouseState.OUT;
+            comboClassificacoEndereco.Name = "comboClassificacoEndereco";
+            comboClassificacoEndereco.Size = new Size(374, 49);
+            comboClassificacoEndereco.StartIndex = 0;
+            comboClassificacoEndereco.TabIndex = 19;
+            // 
             // PedidoVendas
             // 
-            AutoScaleDimensions = new SizeF(7F, 17F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(991, 553);
+            Controls.Add(comboClassificacoEndereco);
             Controls.Add(label17);
             Controls.Add(btAdicionaProduto);
             Controls.Add(lblValorDesconto);
@@ -488,5 +513,6 @@
         private Label label17;
         private MaterialSkin.Controls.MaterialTextBox boxIdPessoa01;
         private MaterialSkin.Controls.MaterialTextBox boxIdPessoa02;
+        private MaterialSkin.Controls.MaterialComboBox comboClassificacoEndereco;
     }
 }
