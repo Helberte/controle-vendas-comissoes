@@ -56,7 +56,7 @@
             lblNomeEstado.Font = new Font("Montserrat", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblNomeEstado.Location = new Point(6, 9);
             lblNomeEstado.Name = "lblNomeEstado";
-            lblNomeEstado.Size = new Size(215, 29);
+            lblNomeEstado.Size = new Size(217, 33);
             lblNomeEstado.TabIndex = 0;
             lblNomeEstado.Text = "Mato Grosso do Sul";
             // 
@@ -79,6 +79,7 @@
             boxTextoPesquisa.TabIndex = 1;
             boxTextoPesquisa.Text = "";
             boxTextoPesquisa.TrailingIcon = null;
+            boxTextoPesquisa.KeyPress += BoxTextoPesquisa_KeyPress;
             // 
             // dataGridProdutos
             // 
@@ -88,6 +89,7 @@
             dataGridProdutos.Name = "dataGridProdutos";
             dataGridProdutos.Size = new Size(1085, 241);
             dataGridProdutos.TabIndex = 2;
+            dataGridProdutos.SelectionChanged += DataGridProdutos_SelectionChanged;
             // 
             // boxQuantidade
             // 
@@ -125,7 +127,7 @@
             lblProdutoSelecionado.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblProdutoSelecionado.Location = new Point(53, 20);
             lblProdutoSelecionado.Name = "lblProdutoSelecionado";
-            lblProdutoSelecionado.Size = new Size(272, 22);
+            lblProdutoSelecionado.Size = new Size(272, 25);
             lblProdutoSelecionado.TabIndex = 6;
             lblProdutoSelecionado.Text = "CURCUMA NOME DO PRODUTO";
             // 
@@ -135,7 +137,7 @@
             lblIdProdutoSelecionado.Font = new Font("Montserrat SemiBold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblIdProdutoSelecionado.Location = new Point(6, 17);
             lblIdProdutoSelecionado.Name = "lblIdProdutoSelecionado";
-            lblIdProdutoSelecionado.Size = new Size(41, 26);
+            lblIdProdutoSelecionado.Size = new Size(42, 30);
             lblIdProdutoSelecionado.TabIndex = 5;
             lblIdProdutoSelecionado.Text = "152";
             // 
@@ -182,7 +184,7 @@
             label4.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.Location = new Point(6, 688);
             label4.Name = "label4";
-            label4.Size = new Size(120, 22);
+            label4.Size = new Size(122, 25);
             label4.TabIndex = 10;
             label4.Text = "Total Geral R$:";
             // 
@@ -193,7 +195,7 @@
             lblTotalGeral.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTotalGeral.Location = new Point(124, 688);
             lblTotalGeral.Name = "lblTotalGeral";
-            lblTotalGeral.Size = new Size(36, 22);
+            lblTotalGeral.Size = new Size(38, 25);
             lblTotalGeral.TabIndex = 11;
             lblTotalGeral.Text = "150";
             // 
@@ -246,7 +248,7 @@
             // 
             // AdicaoProdutos
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1085, 719);
             Controls.Add(dataGridTotaisVenda);

@@ -288,21 +288,39 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
         {
             BuscaPessoas buscaPessoas = new((Pessoa pessoa) =>
             {
+                if (boxIdPessoa02.Text.Trim().Equals(pessoa.Id.ToString()))                
+                    return;                
+
+                // -----------------------------------------------------------------------------------------
+
+                // verifica se a pessoa é a mesma e remove
                 int indexPessoa = this.pessoas.FindIndex(p => p.Id.Equals(pessoa.Id));
 
                 if (indexPessoa >= 0)
                     this.pessoas.RemoveAt(indexPessoa);
 
+                // remove a pessoa que já estava selecionada
+                if (!string.IsNullOrEmpty(boxIdPessoa01.Text.Trim()))
+                {
+                    indexPessoa = this.pessoas.FindIndex(p => p.Id.Equals(Convert.ToInt32(boxIdPessoa01.Text)));
+
+                    if (indexPessoa >= 0)
+                        this.pessoas.RemoveAt(indexPessoa);
+                }
+
+                // -----------------------------------------------------------------------------------------
+
                 this.pessoas.Add(pessoa);
 
                 boxPessoa01.Text        = pessoa.Nome + " " + pessoa.Sobrenome;
                 boxIdPessoa01.Text      = pessoa.Id.ToString();
-                lblClassificacao01.Text = pessoa.Classificacao?.Nome ?? "N/A";
+                lblClassificacao01.Text = string.IsNullOrEmpty(pessoa.Classificacao?.Nome) ? "N/A" : pessoa.Classificacao.Nome;
 
                 comboClassificacoEndereco.Items.Clear();
 
                 foreach (Pessoa item in this.pessoas)                
-                    comboClassificacoEndereco.Items.Add(item.Classificacao?.Nome ?? "N/A");                
+                    if (!string.IsNullOrEmpty(item.Classificacao?.Nome))
+                        comboClassificacoEndereco.Items.Add(item.Classificacao.Nome);            
             });
 
             buscaPessoas.ShowDialog();
@@ -312,23 +330,39 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
         {
             BuscaPessoas buscaPessoas = new((Pessoa pessoa) =>
             {
+                if (boxIdPessoa01.Text.Trim().Equals(pessoa.Id.ToString()))                
+                    return;                
+
+                // -----------------------------------------------------------------------------------------
+
+                // verifica se a pessoa é a mesma e remove
                 int indexPessoa = this.pessoas.FindIndex(p => p.Id.Equals(pessoa.Id));
 
                 if (indexPessoa >= 0)
                     this.pessoas.RemoveAt(indexPessoa);
 
+                // remove a pessoa que já estava selecionada
+                if (!string.IsNullOrEmpty(boxIdPessoa02.Text.Trim()))
+                {
+                    indexPessoa = this.pessoas.FindIndex(p => p.Id.Equals(Convert.ToInt32(boxIdPessoa02.Text)));
+
+                    if (indexPessoa >= 0)
+                        this.pessoas.RemoveAt(indexPessoa);
+                }
+
+                // -----------------------------------------------------------------------------------------
+
                 this.pessoas.Add(pessoa);
 
                 boxPessoa02.Text        = pessoa.Nome + " " + pessoa.Sobrenome;
                 boxIdPessoa02.Text      = pessoa.Id.ToString();
-                lblClassificacao02.Text = pessoa.Classificacao?.Nome ?? "N/A";
+                lblClassificacao02.Text = string.IsNullOrEmpty(pessoa.Classificacao?.Nome) ? "N/A" : pessoa.Classificacao.Nome;
 
                 comboClassificacoEndereco.Items.Clear();
 
                 foreach (Pessoa item in this.pessoas)
-                {
-                    comboClassificacoEndereco.Items.Add(item.Classificacao?.Nome ?? "N/A");
-                }
+                    if (!string.IsNullOrEmpty(item.Classificacao?.Nome))
+                        comboClassificacoEndereco.Items.Add(item.Classificacao.Nome);
             });
 
             buscaPessoas.ShowDialog();
@@ -348,7 +382,21 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                     MessageBox.Show("Não foi possível obter o estado da pessoa.");
                 else
                 {
-                    AdicaoProdutos adicaoProdutos = new (estado);
+                    List<Classificacao?> pessoasClassificacoes  = pessoas.FindAll(p => p.Classificacao?.Id > 0).Select(x => x.Classificacao).ToList();
+                    int[]                arrayIdsClassificacoes = [];
+
+                    if (pessoasClassificacoes is not null && pessoasClassificacoes.Count > 0)
+                    {
+                        List<int> idsClassificacoes = [];
+
+                        foreach (Classificacao? item in pessoasClassificacoes)                        
+                            if (item is not null && item.Id > 0)                            
+                                idsClassificacoes.Add(item.Id);
+
+                        arrayIdsClassificacoes = [.. idsClassificacoes.Distinct()];
+                    }
+
+                    AdicaoProdutos adicaoProdutos = new (estado, arrayIdsClassificacoes);
                     adicaoProdutos.ShowDialog();
                 }                
             }
