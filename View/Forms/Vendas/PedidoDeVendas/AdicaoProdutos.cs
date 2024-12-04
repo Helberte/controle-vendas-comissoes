@@ -1,5 +1,8 @@
 ﻿using controle_vendas_comissoes.Controller.Utils;
 using controle_vendas_comissoes.Model.Db.Entidades;
+using controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes;
+using controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos;
+using controle_vendas_comissoes.Model.Db.Models;
 using controle_vendas_comissoes.View.Extensions;
 using MaterialSkin.Controls;
 
@@ -12,19 +15,24 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
         private bool bloqueiaAlteracaoCampo = false;
 
         private readonly Estado? estado;
+        private int produtoId = 0;
+        private int[] classificacoes = [];
 
         #endregion
 
         #region Construtores
 
-        public AdicaoProdutos(Estado estado)
+        public AdicaoProdutos(Estado estado, int[] classificacoes)
         {
             InitializeComponent();
 
-            this.estado = estado;
+            this.estado         = estado;
+            this.classificacoes = classificacoes;
 
             DelegaEventos();
             CarregaEstadoTela();
+
+            ListarProdutos();            
         }
 
         #endregion
@@ -253,20 +261,40 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
         #region Eventos e Cliques Keypress
 
         private void AdicaoProdutos_Load(object sender, EventArgs e)
-        {            
+        {
             Task.Run(() =>
             {
-                // deixa a thread principal dar aquela descansada
-                Thread.Sleep(100);
-
                 Utils.RunOnUiThread(this, () =>
                 {
                     dataGridProdutos.SetStyleDataGridView();
                     dataGridProdutosVenda.SetStyleDataGridView();
                     dataGridComissaoClassificacao.SetStyleDataGridView();
                     dataGridTotaisVenda.SetStyleDataGridView();
-                });                
-            });            
+                });
+            });
+        }
+
+        private void DataGridProdutos_SelectionChanged(object sender, EventArgs e)
+        {
+            if (((DataGridView)sender).SelectedRows.Count > 0)
+            {
+                lblIdProdutoSelecionado.Text = ((DataGridView)sender).SelectedRows[0].Cells["ProdutoId"].Value.ToString();
+                lblProdutoSelecionado.Text = ((DataGridView)sender).SelectedRows[0].Cells["ProdutoNome"].Value.ToString();
+
+                produtoId = Convert.ToInt32(((DataGridView)sender).SelectedRows[0].Cells["ProdutoId"].Value);
+
+                ObtemComissoesProduto();
+            }
+        }
+
+        private void BoxTextoPesquisa_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                string texto = ((MaterialTextBox)sender).Text.Trim();
+
+                ListarProdutos(texto);
+            }
         }
 
         private void BoxPreco_KeyPress(object sender, KeyPressEventArgs e)
@@ -354,6 +382,101 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
 
         #region Requisições
 
-        #endregion      
+        private void ListarProdutos(string textoPesquisa = "")
+        {
+            if (estado is null || estado.Id <= 0) return;
+
+            HelperProdutos.ObtemPrecosPorEstado(estado.Id, textoPesquisa).Then(listaProdutos =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    dataGridProdutos.DataSource = listaProdutos;
+
+                    dataGridProdutos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                    dataGridProdutos.Columns["ProdutoId"].Width = 60;
+                });
+            }).Catch(erro =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    MessageBox.Show(erro.Message);
+                });
+            });
+        }
+
+        private void ObtemComissoesProduto()
+        {            
+            if (produtoId <= 0 || estado is null || estado.Id <= 0) return;
+
+            HelperComissoes.ObtemComissoesProduto(produtoId, estado.Id, classificacoes).Then(comissoes =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    dataGridComissaoClassificacao.ColumnCount = 6;
+                    List<string[]> rows = [];
+                    dataGridComissaoClassificacao.Rows.Clear();
+
+                    dataGridComissaoClassificacao.Columns[0].Name = "Id";
+                    dataGridComissaoClassificacao.Columns[1].Name = "Classificação";
+                    dataGridComissaoClassificacao.Columns[2].Name = "Valor 1";
+                    dataGridComissaoClassificacao.Columns[3].Name = "% - 1";
+                    dataGridComissaoClassificacao.Columns[4].Name = "Valor 2";
+                    dataGridComissaoClassificacao.Columns[5].Name = "% - 2";
+                                        
+                    int[] idsClassificacoes = new int[comissoes.Count];
+
+                    for (int i = 0; i < comissoes.Count; i++)
+                        idsClassificacoes[i] = comissoes[i].ClassificacaoId;
+
+                    IEnumerable<int> ids = idsClassificacoes.Distinct().ToList();
+
+                    foreach (int item in ids)
+                    {
+                        List<ModelComissoesProduto> lista = comissoes.FindAll(c => c.ClassificacaoId == item).ToList();
+
+                        ModelComissoesProduto? valor1 = lista.Find(r => r.Ordem.Equals(1));
+                        ModelComissoesProduto? valor2 = lista.Find(r => r.Ordem.Equals(2));
+
+                        decimal vReal1       = valor1?.ValorReal   ?? 0m;
+                        decimal porcentagem1 = valor1?.Porcentagem ?? 0m;
+
+                        decimal vReal2       = valor2?.ValorReal   ?? 0m;
+                        decimal porcentagem2 = valor2?.Porcentagem ?? 0m;
+
+                        rows.Add([
+                            item.ToString(),
+                            lista[0].ClassificacaoNome,
+                            vReal1.ToString(),
+                            porcentagem1.ToString(),
+                            vReal2.ToString(),
+                            porcentagem2.ToString()
+                        ]);
+                    }
+
+                    foreach (string[] item in rows)
+                        dataGridComissaoClassificacao.Rows.Add(item);
+
+                    dataGridComissaoClassificacao.Columns["Id"].Visible = false;
+                    dataGridComissaoClassificacao.AutoSizeColumnsMode   = DataGridViewAutoSizeColumnsMode.Fill;
+
+                    dataGridComissaoClassificacao.Columns["Classificação"].ReadOnly     = true;
+                    dataGridComissaoClassificacao.Columns["Classificação"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
+                    dataGridComissaoClassificacao.Columns["Valor 1"].ReadOnly   = false;
+                    dataGridComissaoClassificacao.Columns["% - 1"].ReadOnly     = true;
+                    dataGridComissaoClassificacao.Columns["Valor 2"].ReadOnly   = false;
+                    dataGridComissaoClassificacao.Columns["% - 2"].ReadOnly     = true;
+
+                });
+            }).Catch(erro =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    MessageBox.Show(erro.Message);
+                });
+            });
+        }
+
+        #endregion       
     }
 }
