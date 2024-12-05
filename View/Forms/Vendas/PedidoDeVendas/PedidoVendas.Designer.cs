@@ -408,7 +408,7 @@
             btAdicionaProduto.TextAlign = ContentAlignment.MiddleRight;
             btAdicionaProduto.TextImageRelation = TextImageRelation.ImageBeforeText;
             btAdicionaProduto.UseVisualStyleBackColor = false;
-            btAdicionaProduto.Click += btAdicionaProduto_Click;
+            btAdicionaProduto.Click += BtAdicionaProduto_Click;
             // 
             // label17
             // 

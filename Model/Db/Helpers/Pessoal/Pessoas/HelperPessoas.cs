@@ -20,8 +20,7 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Pessoal.Pessoas
                     using AppDbContext context = new();
 
                     string sql = string.Format(@"
-                        SELECT TOP 20
-                               [Id]                     = TB.id
+                        SELECT [Id]                     = TB.id
                              , [Nome]                   = TB.nome
                              , [Sobrenome]              = sobrenome
                              , [Cpf]                    = cpf

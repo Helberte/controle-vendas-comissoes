@@ -76,18 +76,12 @@ namespace controle_vendas_comissoes.View.Forms.Localidades.Cidades
                 Utils.RunOnUiThread(this, () =>
                 {
                     dataGridCidades.DataSource = listaCidades;
-
-                    dataGridCidades.Columns["createdAt"].Visible = false;
-                    dataGridCidades.Columns["updatedAt"].Visible = false;
-                    dataGridCidades.Columns["deletedAt"].Visible = false;
-                    dataGridCidades.Columns["createdBy"].Visible = false;
-                    dataGridCidades.Columns["updatedBy"].Visible = false;
-                    dataGridCidades.Columns["deletedBy"].Visible = false;
+                    
                     dataGridCidades.Columns["estadoId"].Visible  = false;
 
                     dataGridCidades.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-                    dataGridCidades.Columns["id"].Width = 60;
+                    dataGridCidades.Columns["Id"].Width = 60;
 
                 });
             }).Catch(erro =>

@@ -368,7 +368,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             buscaPessoas.ShowDialog();
         }
 
-        private void btAdicionaProduto_Click(object sender, EventArgs e)
+        private void BtAdicionaProduto_Click(object sender, EventArgs e)
         {
             Classificacao? classificacao = pessoas.Find(p => (p.Classificacao?.Nome ?? "").Equals(comboClassificacoEndereco.SelectedItem?.ToString() ?? ""))?.Classificacao;
             
@@ -385,6 +385,20 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                     List<Classificacao?> pessoasClassificacoes  = pessoas.FindAll(p => p.Classificacao?.Id > 0).Select(x => x.Classificacao).ToList();
                     int[]                arrayIdsClassificacoes = [];
 
+                    PedidoVenda pedidoVenda;
+
+                    if (!string.IsNullOrEmpty(lblPedidoId.Text.Trim()) && Convert.ToInt32(lblPedidoId.Text.Trim()) > 0)                    
+                        pedidoVenda = new() { Id = Convert.ToInt32(lblPedidoId.Text.Trim()) };                    
+                    else
+                    {
+                        pedidoVenda = new()
+                        {
+                            Id     = 0,
+                            Data   = dateTimeDataPedido.Value,
+                            Status = "001", // pendente
+                        };
+                    }
+
                     if (pessoasClassificacoes is not null && pessoasClassificacoes.Count > 0)
                     {
                         List<int> idsClassificacoes = [];
@@ -396,7 +410,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                         arrayIdsClassificacoes = [.. idsClassificacoes.Distinct()];
                     }
 
-                    AdicaoProdutos adicaoProdutos = new (estado, arrayIdsClassificacoes);
+                    AdicaoProdutos adicaoProdutos = new (estado, pedidoVenda, arrayIdsClassificacoes, pessoas.Select(p => p.Id).Distinct().ToArray());
                     adicaoProdutos.ShowDialog();
                 }                
             }

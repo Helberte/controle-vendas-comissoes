@@ -19,7 +19,6 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Produtos.UnidadesDeProdutos
                         promise.Resolve([..
                             context.UnidadesPrimarias
                             .OrderByDescending(x => x.CreatedAt)
-                            .Take(20)
                             .Select(unidades => new UnidadePrimaria
                             {
                                 Id    = unidades.Id,

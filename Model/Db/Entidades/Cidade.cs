@@ -15,5 +15,7 @@ namespace controle_vendas_comissoes.Model.Db.Entidades
 
         [Column("estado_id")]
         public int EstadoId { get; set; }
+
+        public Estado? Estado { get; set; }
     }
 }

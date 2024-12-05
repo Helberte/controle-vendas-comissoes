@@ -1,17 +1,6 @@
 ﻿using controle_vendas_comissoes.Controller.Utils;
-using controle_vendas_comissoes.Model.Db.Helpers.Pessoal.Classificacoes;
 using controle_vendas_comissoes.Model.Db.Helpers.Produtos.UnidadesDeProdutos;
 using controle_vendas_comissoes.View.Extensions;
-using controle_vendas_comissoes.View.Forms.Pessoal.Classificacoes;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace controle_vendas_comissoes.View.Forms.Produtos.UnidadesDeProdutos
 {
@@ -78,6 +67,7 @@ namespace controle_vendas_comissoes.View.Forms.Produtos.UnidadesDeProdutos
                     dataGridUnidades.Columns["createdBy"].Visible = false;
                     dataGridUnidades.Columns["updatedBy"].Visible = false;
                     dataGridUnidades.Columns["deletedBy"].Visible = false;
+                    dataGridUnidades.Columns["produtos"].Visible  = false;
 
                     dataGridUnidades.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 

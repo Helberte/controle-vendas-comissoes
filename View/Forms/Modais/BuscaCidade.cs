@@ -79,13 +79,6 @@ namespace controle_vendas_comissoes.View.Forms.Modais
                 {
                     dataGridCidades.DataSource = listaCidades;
 
-                    dataGridCidades.Columns["createdAt"].Visible = false;
-                    dataGridCidades.Columns["updatedAt"].Visible = false;
-                    dataGridCidades.Columns["deletedAt"].Visible = false;
-                    dataGridCidades.Columns["createdBy"].Visible = false;
-                    dataGridCidades.Columns["updatedBy"].Visible = false;
-                    dataGridCidades.Columns["deletedBy"].Visible = false;
-
                     dataGridCidades.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
                     dataGridCidades.Columns["id"].Width = 60;

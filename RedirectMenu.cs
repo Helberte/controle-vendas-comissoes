@@ -52,7 +52,7 @@ namespace controle_vendas_comissoes
             ComissoesConfiguracao rotina = new();
             rotina.ShowDialog();
         }
-
+        
         public static void SendPedidoVendas()
         {
             PedidoVendas rotina = new();

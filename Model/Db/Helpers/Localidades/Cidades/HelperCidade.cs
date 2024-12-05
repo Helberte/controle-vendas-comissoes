@@ -1,14 +1,16 @@
 ﻿using controle_vendas_comissoes.Model.Db.Entidades;
+using controle_vendas_comissoes.Model.Db.Models;
 using Microsoft.EntityFrameworkCore;
 using RSG;
+using System.Runtime.CompilerServices;
 
 namespace controle_vendas_comissoes.Model.Db.Helpers.Localidades.Cidades
 {
     public class HelperCidade
     {
-        public static IPromise<List<Cidade>> ObtemCidades()
+        public static IPromise<List<ModelListaCidade>> ObtemCidades()
         {
-            Promise<List<Cidade>> promise = new();
+            Promise<List<ModelListaCidade>> promise = new();
 
             Task.Run(() =>
             {
@@ -16,19 +18,32 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Localidades.Cidades
                 {
                     using AppDbContext context = new();
 
-                    if (context.Cidades is not null)
-                        promise.Resolve([..
-                            context.Cidades
-                            .OrderByDescending(x => x.CreatedAt)
-                            .Take(20)
-                            .Select(estado => new Cidade
-                            {
-                                Id    = estado.Id,
-                                Nome  = estado.Nome,
-                                Sigla = estado.Sigla
-                            })]);
-                    else
-                        promise.Reject(new Exception("Ocorreu um erro ao buscar as Cidades"));
+                    string sql = string.Format(@"
+                        SELECT Id         = cidade.id
+                             , Nome       = cidade.nome
+                             , Sigla      = cidade.sigla
+                             , EstadoNome = estado.nome
+                             , EstadoId   = estado.id
+
+                          FROM cidade
+                         
+                         INNER
+                          JOIN estado
+                            ON estado.deleted_at IS NULL
+                           AND estado.id = cidade.estado_id
+                         
+                         WHERE cidade.deleted_at IS NULL
+                         
+                         ORDER
+                            BY cidade.id DESC ", "");
+
+                    #if DEBUG
+                    System.Diagnostics.Debug.WriteLine(sql);
+                    #endif
+
+                    List<ModelListaCidade>? resultado = context.Database.SqlQuery<ModelListaCidade>(FormattableStringFactory.Create(sql)).ToList();
+
+                    promise.Resolve(resultado);
                 }
                 catch (Exception ex)
                 {
@@ -54,7 +69,6 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Localidades.Cidades
                             context.Cidades
                             .Where(c => c.EstadoId == EstadoId)
                             .OrderByDescending(x => x.CreatedAt)
-                            .Take(20)
                             .Select(estado => new Cidade
                             {
                                 Id    = estado.Id,
