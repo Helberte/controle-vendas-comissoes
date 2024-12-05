@@ -20,7 +20,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
         private int[] classificacoes = [];
         private int[] pessoasIds = [];
         private PedidoVenda venda;
-         
+
         #endregion
 
         #region Construtores
@@ -29,10 +29,10 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
         {
             InitializeComponent();
 
-            this.estado         = estado;
+            this.estado = estado;
             this.classificacoes = classificacoes;
-            this.pessoasIds     = pessoasIds;
-            this.venda          = venda;
+            this.pessoasIds = pessoasIds;
+            this.venda = venda;
 
             DelegaEventos();
             CarregaEstadoTela();
@@ -77,23 +77,6 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
         private static void AtivaControles(GroupBox Group)
         {
 
-        }
-
-        private string DecimalPesoParaString(decimal valor)
-        {
-            string strValor = valor.ToString();
-            string sobra = string.Empty;
-
-            if (strValor.Split(',').Length > 1)
-                sobra = strValor.Split(',')[1];
-
-            if (sobra.Length < 3)
-            {
-                sobra = sobra.PadRight(3, '0');
-                strValor = strValor.Split(',')[0] + "," + sobra;
-            }
-
-            return strValor;
         }
 
         private string DecimalDInheiroParaString(decimal valor)
@@ -187,41 +170,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             return strValor;
         }
 
-        private void FormataCampoDinheiro(MaterialTextBox box)
-        {
-            try
-            {
-                if (bloqueiaAlteracaoCampo) return;
-
-                bloqueiaAlteracaoCampo = true;
-
-                decimal valor = 0m;
-
-                if (!string.IsNullOrEmpty(box.Text))
-                {
-                    valor = Convert.ToDecimal(box.Text.Replace(".", "").Replace(",", "."));
-                    valor /= 100;
-                }
-
-                if (valor > 0)
-                    box.Text = DecimalDInheiroParaString(valor);
-                else
-                    box.Text = "0,00";
-
-                box.Select(box.Text.Length, 0);
-
-                bloqueiaAlteracaoCampo = false;
-            }
-            catch (Exception)
-            {
-                box.Text = "0,00";
-                box.Select(box.Text.Length, 0);
-
-                bloqueiaAlteracaoCampo = false;
-            }
-        }
-
-        private void FormataCampoDinheiro(System.Windows.Forms.TextBox box, decimal valorMaximo = 0)
+        private void FormataCampoDinheiro(MaterialTextBox box, decimal valorMaximo = 0, Action<decimal>? action = null)
         {
             try
             {
@@ -251,6 +200,8 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                 box.Select(box.Text.Length, 0);
 
                 bloqueiaAlteracaoCampo = false;
+
+                action?.Invoke(valor);
             }
             catch (Exception)
             {
@@ -306,94 +257,83 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
         {
             if (!string.IsNullOrEmpty(boxQuantidade.Text.Trim()) && Convert.ToDecimal(boxQuantidade.Text.Trim()) > 0m)
             {
-                decimal quantidadeProduto   = Convert.ToDecimal(boxQuantidade.Text.Trim());
-                decimal valorDesconto       = string.IsNullOrEmpty(boxValorDesconto.Text.Trim()) ? 0m : Convert.ToDecimal(boxValorDesconto.Text.Trim());
-                decimal porcentagemDesconto = string.IsNullOrEmpty(boxDesconto.Text.Trim())      ? 0m : Convert.ToDecimal(boxDesconto.Text.Trim());
+                decimal quantidadeProduto = Convert.ToDecimal(boxQuantidade.Text.Trim());
+                decimal valorDesconto = string.IsNullOrEmpty(boxValorDesconto.Text.Trim()) ? 0m : Convert.ToDecimal(boxValorDesconto.Text.Trim());
+                decimal porcentagemDesconto = string.IsNullOrEmpty(boxDesconto.Text.Trim()) ? 0m : Convert.ToDecimal(boxDesconto.Text.Trim());
 
                 AdicionaProdutoVenda(quantidadeProduto, valorDesconto, porcentagemDesconto);
             }
-            else            
-                MessageBox.Show("Está sem quantidade de produtos.");            
+            else
+                MessageBox.Show("Está sem quantidade de produtos.");
         }
 
-        private void BoxPreco_KeyPress(object sender, KeyPressEventArgs e)
+        private void boxValorDesconto_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',') && (e.KeyChar != '.'))
                 e.Handled = true;
+
+            if (string.IsNullOrEmpty(boxQuantidade.Text.Trim()) || Convert.ToDecimal(boxQuantidade.Text.Trim()) <= 0)
+                e.Handled = true;
         }
 
-        private void BoxPreco_TextChanged(object sender, EventArgs e)
+        private void boxValorDesconto_TextChanged(object sender, EventArgs e)
         {
-            FormataCampoDinheiro((MaterialTextBox)sender);
+            decimal valorUnidade = Convert.ToDecimal(dataGridProdutos.CurrentRow.Cells["PrecoVenda1"].Value.ToString());
+
+            FormataCampoDinheiro((MaterialTextBox)sender, valorUnidade, (valorDesconto) =>
+            {
+                decimal valorUnidade = Convert.ToDecimal(dataGridProdutos.CurrentRow.Cells["PrecoVenda1"].Value.ToString());
+
+                decimal total = (valorDesconto * 100) / valorUnidade;
+
+                bloqueiaAlteracaoCampo = true;
+                boxDesconto.Text = total.ToString();
+                bloqueiaAlteracaoCampo = false;
+            });
         }
 
-        //private void DataGridEstadosPreco_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
-        //{
-        //    e.Control.KeyPress -= keyPressEventHandler;
-        //    e.Control.TextChanged -= eventHandler;
-
-        //    if (dataGridEstadosPreco.CurrentCell.ColumnIndex == dataGridEstadosPreco.Columns["PrecoCusto1"].Index
-        //        || dataGridEstadosPreco.CurrentCell.ColumnIndex == dataGridEstadosPreco.Columns["PrecoVenda1"].Index
-        //        || dataGridEstadosPreco.CurrentCell.ColumnIndex == dataGridEstadosPreco.Columns["PrecoCusto2"].Index
-        //        || dataGridEstadosPreco.CurrentCell.ColumnIndex == dataGridEstadosPreco.Columns["PrecoVenda2"].Index)
-        //    {
-        //        if (e.Control is System.Windows.Forms.TextBox tb)
-        //        {
-        //            if (tb != null)
-        //            {
-        //                keyPressEventHandler = new KeyPressEventHandler(CelulaComissao_KeyPress);
-        //                eventHandler = new EventHandler(CelulaGrid_TextChanged);
-
-        //                tb.KeyPress += keyPressEventHandler;
-        //                tb.TextChanged += eventHandler;
-        //            }
-        //        }
-        //    }
-        //}
-
-        //private void DataGridEstadosPreco_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        //{
-        //    int estadoId = Convert.ToInt32(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["Id"].Index].Value);
-        //    int ordem;
-        //    decimal custo;
-        //    decimal venda;
-
-        //    if (dataGridEstadosPreco.Columns["PrecoCusto1"].Index == e.ColumnIndex ||
-        //        dataGridEstadosPreco.Columns["PrecoVenda1"].Index == e.ColumnIndex)
-        //    {
-        //        ordem = 1;
-        //        custo = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoCusto1"].Index].Value);
-        //        venda = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoVenda1"].Index].Value);
-        //    }
-        //    else
-        //    if (dataGridEstadosPreco.Columns["PrecoCusto2"].Index == e.ColumnIndex ||
-        //        dataGridEstadosPreco.Columns["PrecoVenda2"].Index == e.ColumnIndex)
-        //    {
-        //        ordem = 2;
-        //        custo = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoCusto2"].Index].Value);
-        //        venda = Convert.ToDecimal(dataGridEstadosPreco.CurrentRow.Cells[dataGridEstadosPreco.Columns["PrecoVenda2"].Index].Value);
-        //    }
-        //    else
-        //        return;
-
-        //    AdicionaPrecoProduto(new()
-        //    {
-        //        EstadoId = estadoId,
-        //        Ordem = ordem,
-        //        PrecoCusto = custo,
-        //        PrecoVenda = venda
-        //    });
-        //}
-
-        private void CelulaGrid_TextChanged(object? sender, EventArgs e)
+        private void boxQuantidade_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (sender is not null)
-                FormataCampoDinheiro((System.Windows.Forms.TextBox)sender);
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+                e.Handled = true;
         }
 
-        private void CelulaComissao_KeyPress(object? sender, KeyPressEventArgs e)
+        private void boxQuantidade_TextChanged(object sender, EventArgs e)
+        {
+            MaterialTextBox box = (MaterialTextBox)sender;
+
+            if (string.IsNullOrEmpty(box.Text) || Convert.ToDecimal(box.Text.Trim()) <= 0)
+            {
+                boxDesconto.Text      = string.Empty;
+                boxValorDesconto.Text = string.Empty;
+            }
+        }
+
+        private void boxDesconto_TextChanged(object sender, EventArgs e)
+        {
+            decimal valorUnidade = Convert.ToDecimal(dataGridProdutos.CurrentRow.Cells["PrecoVenda1"].Value.ToString());
+
+            if (valorUnidade <= 0)
+                ((MaterialTextBox)sender).Text = "0";
+
+            FormataCampoDinheiro((MaterialTextBox)sender, 100, (porcentagem) =>
+            {
+                decimal valorUnidade = Convert.ToDecimal(dataGridProdutos.CurrentRow.Cells["PrecoVenda1"].Value.ToString());
+
+                decimal total = (porcentagem / 100) * valorUnidade;
+
+                bloqueiaAlteracaoCampo = true;
+                boxValorDesconto.Text  = total.ToString();
+                bloqueiaAlteracaoCampo = false;
+            });
+        }
+
+        private void boxDesconto_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',') && (e.KeyChar != '.'))
+                e.Handled = true;
+
+            if (string.IsNullOrEmpty(boxQuantidade.Text.Trim()) || Convert.ToDecimal(boxQuantidade.Text.Trim()) <= 0)
                 e.Handled = true;
         }
 
@@ -504,10 +444,10 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             if (estado is null || estado.Id <= 0) return;
 
             HelperPedidoVendas.AdicionaProduto(
-                venda, 
-                pessoasIds, 
-                produtoId, 
-                estado.Id, 
+                venda,
+                pessoasIds,
+                produtoId,
+                estado.Id,
                 1,
                 quantidadeProduto,
                 valorDesconto,
@@ -516,7 +456,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             {
                 Utils.RunOnUiThread(this, () =>
                 {
-                    
+
                 });
             }).Catch(erro =>
             {

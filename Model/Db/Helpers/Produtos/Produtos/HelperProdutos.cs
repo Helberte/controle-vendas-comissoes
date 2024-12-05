@@ -384,5 +384,52 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos
 
             return promise;
         }
+         
+        public static ModelProdutoPreco ObtemPrecoProduto(int produtoId, int estadoId, int ordem)
+        {            
+            using AppDbContext context = new();
+
+            string sql = string.Format(@"
+                SELECT PrecoCusto           = ISNULL(tabela_preco.preco_custo, 0)
+                     , PrecoVenda           = ISNULL(tabela_preco.preco_venda, 0)
+                     , TabelaPrecoId        = tabela_preco.id
+                     , ProdutoTabelaPrecoId = produto_tabela_preco.id
+                     , Ordem                = tabela_preco.ordem
+                
+                 FROM (
+                        SELECT [produtoId] = produto.id
+                          FROM produto 
+                         WHERE produto.deleted_at IS NULL
+                           AND produto.id = {0}
+                   ) AS TB
+                 INNER 
+                  JOIN produto_tabela_preco
+                    ON produto_tabela_preco.deleted_at IS NULL
+                   AND produto_tabela_preco.produto_id = TB.produtoId
+                
+                 INNER
+                  JOIN tabela_preco
+                    ON tabela_preco.deleted_at IS NULL
+                   AND tabela_preco.id        = produto_tabela_preco.tabela_preco_id
+                   AND tabela_preco.ordem     = {1}
+                   AND tabela_preco.estado_id = {2};", produtoId, ordem, estadoId);
+
+            #if DEBUG
+            System.Diagnostics.Debug.WriteLine(sql);
+            #endif
+
+            List<ModelProdutoPreco>? resultado = context.Database.SqlQuery<ModelProdutoPreco>(FormattableStringFactory.Create(sql)).ToList();
+
+            if (resultado is null || resultado.Count <= 0)
+                throw new Exception("O preço pra este produto não foi configurado neste estado. Estado Id: " + estadoId + ", Ordem: " + ordem + ", Produto Id: " + produtoId);
+
+            if (resultado.Count > 1)
+                throw new Exception("Mais de um preço de produto foi encontrado para este estado." + estadoId + ", Ordem: " + ordem + ", Produto Id: " + produtoId);
+
+            if (resultado[0].PrecoVenda <= 0)
+                throw new Exception("O preço de venda deste produto está zerado. Por favor, adicione um preço pra ele." + estadoId + ", Ordem: " + ordem + ", Produto Id: " + produtoId);
+
+            return resultado[0];
+        }
     }
 }

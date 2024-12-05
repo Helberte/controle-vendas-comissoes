@@ -56,7 +56,7 @@
             lblNomeEstado.Font = new Font("Montserrat", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblNomeEstado.Location = new Point(6, 9);
             lblNomeEstado.Name = "lblNomeEstado";
-            lblNomeEstado.Size = new Size(215, 29);
+            lblNomeEstado.Size = new Size(217, 33);
             lblNomeEstado.TabIndex = 0;
             lblNomeEstado.Text = "Mato Grosso do Sul";
             // 
@@ -101,7 +101,7 @@
             boxQuantidade.Hint = "Quantidade";
             boxQuantidade.LeadingIcon = null;
             boxQuantidade.Location = new Point(555, 349);
-            boxQuantidade.MaxLength = 50;
+            boxQuantidade.MaxLength = 6;
             boxQuantidade.MouseState = MaterialSkin.MouseState.OUT;
             boxQuantidade.Multiline = false;
             boxQuantidade.Name = "boxQuantidade";
@@ -109,6 +109,8 @@
             boxQuantidade.TabIndex = 5;
             boxQuantidade.Text = "";
             boxQuantidade.TrailingIcon = null;
+            boxQuantidade.TextChanged += boxQuantidade_TextChanged;
+            boxQuantidade.KeyPress += boxQuantidade_KeyPress;
             // 
             // groupBox1
             // 
@@ -127,7 +129,7 @@
             lblProdutoSelecionado.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblProdutoSelecionado.Location = new Point(53, 20);
             lblProdutoSelecionado.Name = "lblProdutoSelecionado";
-            lblProdutoSelecionado.Size = new Size(272, 22);
+            lblProdutoSelecionado.Size = new Size(272, 25);
             lblProdutoSelecionado.TabIndex = 6;
             lblProdutoSelecionado.Text = "CURCUMA NOME DO PRODUTO";
             // 
@@ -137,7 +139,7 @@
             lblIdProdutoSelecionado.Font = new Font("Montserrat SemiBold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblIdProdutoSelecionado.Location = new Point(6, 17);
             lblIdProdutoSelecionado.Name = "lblIdProdutoSelecionado";
-            lblIdProdutoSelecionado.Size = new Size(41, 26);
+            lblIdProdutoSelecionado.Size = new Size(42, 30);
             lblIdProdutoSelecionado.TabIndex = 5;
             lblIdProdutoSelecionado.Text = "152";
             // 
@@ -155,7 +157,7 @@
             btAdicionar.Location = new Point(945, 348);
             btAdicionar.Name = "btAdicionar";
             btAdicionar.Size = new Size(128, 50);
-            btAdicionar.TabIndex = 7;
+            btAdicionar.TabIndex = 8;
             btAdicionar.Text = "ADICIONAR";
             btAdicionar.UseVisualStyleBackColor = false;
             btAdicionar.Click += btAdicionar_Click;
@@ -185,7 +187,7 @@
             label4.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.Location = new Point(6, 688);
             label4.Name = "label4";
-            label4.Size = new Size(120, 22);
+            label4.Size = new Size(122, 25);
             label4.TabIndex = 10;
             label4.Text = "Total Geral R$:";
             // 
@@ -196,7 +198,7 @@
             lblTotalGeral.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTotalGeral.Location = new Point(124, 688);
             lblTotalGeral.Name = "lblTotalGeral";
-            lblTotalGeral.Size = new Size(36, 22);
+            lblTotalGeral.Size = new Size(38, 25);
             lblTotalGeral.TabIndex = 11;
             lblTotalGeral.Text = "150";
             // 
@@ -215,9 +217,11 @@
             boxValorDesconto.Multiline = false;
             boxValorDesconto.Name = "boxValorDesconto";
             boxValorDesconto.Size = new Size(138, 50);
-            boxValorDesconto.TabIndex = 18;
+            boxValorDesconto.TabIndex = 6;
             boxValorDesconto.Text = "";
             boxValorDesconto.TrailingIcon = null;
+            boxValorDesconto.TextChanged += boxValorDesconto_TextChanged;
+            boxValorDesconto.KeyPress += boxValorDesconto_KeyPress;
             // 
             // boxDesconto
             // 
@@ -234,9 +238,11 @@
             boxDesconto.Multiline = false;
             boxDesconto.Name = "boxDesconto";
             boxDesconto.Size = new Size(114, 50);
-            boxDesconto.TabIndex = 19;
+            boxDesconto.TabIndex = 7;
             boxDesconto.Text = "";
             boxDesconto.TrailingIcon = null;
+            boxDesconto.TextChanged += boxDesconto_TextChanged;
+            boxDesconto.KeyPress += boxDesconto_KeyPress;
             // 
             // dataGridTotaisVenda
             // 
@@ -249,7 +255,7 @@
             // 
             // AdicaoProdutos
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1085, 719);
             Controls.Add(dataGridTotaisVenda);
