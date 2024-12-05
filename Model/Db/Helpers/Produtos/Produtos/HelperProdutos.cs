@@ -23,7 +23,6 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos
                         promise.Resolve([..
                             context.Produtos    
                             .OrderByDescending(x => x.CreatedAt)
-                            .Take(20)
                             .Select(produto => new Produto
                             {
                                 Id              = produto.Id,

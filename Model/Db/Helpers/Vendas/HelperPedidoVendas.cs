@@ -1,19 +1,23 @@
 ﻿using controle_vendas_comissoes.Model.Db.Entidades;
 using Microsoft.EntityFrameworkCore.Storage;
 using RSG;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
 {
     public class HelperPedidoVendas
     {
-        public static IPromise<PedidoVendaItem> AdicionaProduto(PedidoVenda venda, int[] pessoaIds, int produtoId, int estadoId, int ordemTabela)
+        public static IPromise<PedidoVendaItem> AdicionaProduto(
+            PedidoVenda venda, 
+            int[] pessoaIds, 
+            int produtoId, 
+            int estadoId, 
+            int ordemTabela,
+            decimal quantidadeProduto,
+            decimal valorDesconto,
+            decimal porcentagemDesconto
+            )
         {
-            Promise<Produto> promise = new();
+            Promise<PedidoVendaItem> promise = new();
 
             Task.Run(() =>
             { 
@@ -22,31 +26,49 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                     using AppDbContext context = new();
                     using IDbContextTransaction transaction = context.Database.BeginTransaction();
 
-                    if (context.Produtos is not null && context.UnidadesPrimarias is not null)
+                    if (    context.PedidoVenda       is not null 
+                        &&  context.UnidadesPrimarias is not null)
                     {
-                        Produto? novoProduto = null;
-                        Produto? produtoExiste = context.Produtos.Where(e => e.Nome.Equals(produto.Nome)).FirstOrDefault();
+                        PedidoVenda?     cabecalhoVenda;
+                        PedidoVendaItem? pedidoVendaItem;
 
-                        if (produtoExiste is not null)
-                            if (produtoExiste.Nome.Equals(produto.Nome))
-                                throw new Exception("Já existe um Produto cadastrado com este Nome.");
+                        if (venda.Id <= 0)
+                        {
+                            AdicionaPedidoVenda(venda, pessoaIds).Then((pedidoVenda) =>
+                            {
+                                cabecalhoVenda = pedidoVenda;
 
-                        UnidadePrimaria? unidadePrimaria = context.UnidadesPrimarias.Where(u => u.Id.Equals(produto.UnidadePrimariaId)).FirstOrDefault();
+                            }).Catch((erro) =>
+                            {
+                                throw new Exception(erro.Message.ToString());
+                            });
+                        }
 
-                        if (unidadePrimaria is null)
-                            throw new Exception("A unidade primária informada não existe. Cadastre ela primeiro.");
+                        //Produto? novoProduto = null;
+                        //Produto? produtoExiste = context.Produtos.Where(e => e.Nome.Equals(produto.Nome)).FirstOrDefault();
 
-                        // insere novo PRODUTO
-                        novoProduto = context.Produtos.Add(produto).Entity;
+                        //if (produtoExiste is not null)
+                        //    if (produtoExiste.Nome.Equals(produto.Nome))
+                        //        throw new Exception("Já existe um Produto cadastrado com este Nome.");
+
+                        //UnidadePrimaria? unidadePrimaria = context.UnidadesPrimarias.Where(u => u.Id.Equals(produto.UnidadePrimariaId)).FirstOrDefault();
+
+                        //if (unidadePrimaria is null)
+                        //    throw new Exception("A unidade primária informada não existe. Cadastre ela primeiro.");
+
+                        //// insere novo PRODUTO
+                        //novoProduto = context.Produtos.Add(produto).Entity;
+
+                        pedidoVendaItem = new PedidoVendaItem();
 
                         context.SaveChanges();
 
                         transaction.Commit();
 
-                        promise.Resolve(novoProduto);
+                        promise.Resolve(pedidoVendaItem);
                     }
                     else
-                        promise.Reject(new Exception("Ocorreu um erro ao Inserir um novo produto"));
+                        promise.Reject(new Exception("Ocorreu um erro ao Inserir um novo produto na venda"));
                 }
                 catch (Exception ex)
                 {
@@ -79,7 +101,8 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                     {
                         Pessoa? pessoa = context.Pessoas.Where(p => p.Id.Equals(pessoaId)).FirstOrDefault();
 
-                        throw new Exception("Pessoa não encontrada no banco. ID: " + pessoaId);
+                        if (pessoa is null)
+                            throw new Exception("Pessoa não encontrada no banco. ID: " + pessoaId);
                     }
 
                     // adiciona o pedido de vendas

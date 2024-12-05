@@ -2,6 +2,7 @@
 using controle_vendas_comissoes.Model.Db.Entidades;
 using controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes;
 using controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos;
+using controle_vendas_comissoes.Model.Db.Helpers.Vendas;
 using controle_vendas_comissoes.Model.Db.Models;
 using controle_vendas_comissoes.View.Extensions;
 using MaterialSkin.Controls;
@@ -17,22 +18,26 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
         private readonly Estado? estado;
         private int produtoId = 0;
         private int[] classificacoes = [];
-
+        private int[] pessoasIds = [];
+        private PedidoVenda venda;
+         
         #endregion
 
         #region Construtores
 
-        public AdicaoProdutos(Estado estado, int[] classificacoes)
+        public AdicaoProdutos(Estado estado, PedidoVenda venda, int[] classificacoes, int[] pessoasIds)
         {
             InitializeComponent();
 
             this.estado         = estado;
             this.classificacoes = classificacoes;
+            this.pessoasIds     = pessoasIds;
+            this.venda          = venda;
 
             DelegaEventos();
             CarregaEstadoTela();
 
-            ListarProdutos();            
+            ListarProdutos();
         }
 
         #endregion
@@ -297,6 +302,20 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             }
         }
 
+        private void btAdicionar_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(boxQuantidade.Text.Trim()) && Convert.ToDecimal(boxQuantidade.Text.Trim()) > 0m)
+            {
+                decimal quantidadeProduto   = Convert.ToDecimal(boxQuantidade.Text.Trim());
+                decimal valorDesconto       = string.IsNullOrEmpty(boxValorDesconto.Text.Trim()) ? 0m : Convert.ToDecimal(boxValorDesconto.Text.Trim());
+                decimal porcentagemDesconto = string.IsNullOrEmpty(boxDesconto.Text.Trim())      ? 0m : Convert.ToDecimal(boxDesconto.Text.Trim());
+
+                AdicionaProdutoVenda(quantidadeProduto, valorDesconto, porcentagemDesconto);
+            }
+            else            
+                MessageBox.Show("Está sem quantidade de produtos.");            
+        }
+
         private void BoxPreco_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',') && (e.KeyChar != '.'))
@@ -405,7 +424,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
         }
 
         private void ObtemComissoesProduto()
-        {            
+        {
             if (produtoId <= 0 || estado is null || estado.Id <= 0) return;
 
             HelperComissoes.ObtemComissoesProduto(produtoId, estado.Id, classificacoes).Then(comissoes =>
@@ -422,7 +441,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                     dataGridComissaoClassificacao.Columns[3].Name = "% - 1";
                     dataGridComissaoClassificacao.Columns[4].Name = "Valor 2";
                     dataGridComissaoClassificacao.Columns[5].Name = "% - 2";
-                                        
+
                     int[] idsClassificacoes = new int[comissoes.Count];
 
                     for (int i = 0; i < comissoes.Count; i++)
@@ -437,10 +456,10 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                         ModelComissoesProduto? valor1 = lista.Find(r => r.Ordem.Equals(1));
                         ModelComissoesProduto? valor2 = lista.Find(r => r.Ordem.Equals(2));
 
-                        decimal vReal1       = valor1?.ValorReal   ?? 0m;
+                        decimal vReal1 = valor1?.ValorReal ?? 0m;
                         decimal porcentagem1 = valor1?.Porcentagem ?? 0m;
 
-                        decimal vReal2       = valor2?.ValorReal   ?? 0m;
+                        decimal vReal2 = valor2?.ValorReal ?? 0m;
                         decimal porcentagem2 = valor2?.Porcentagem ?? 0m;
 
                         rows.Add([
@@ -457,15 +476,15 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                         dataGridComissaoClassificacao.Rows.Add(item);
 
                     dataGridComissaoClassificacao.Columns["Id"].Visible = false;
-                    dataGridComissaoClassificacao.AutoSizeColumnsMode   = DataGridViewAutoSizeColumnsMode.Fill;
+                    dataGridComissaoClassificacao.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-                    dataGridComissaoClassificacao.Columns["Classificação"].ReadOnly     = true;
+                    dataGridComissaoClassificacao.Columns["Classificação"].ReadOnly = true;
                     dataGridComissaoClassificacao.Columns["Classificação"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 
-                    dataGridComissaoClassificacao.Columns["Valor 1"].ReadOnly   = false;
-                    dataGridComissaoClassificacao.Columns["% - 1"].ReadOnly     = true;
-                    dataGridComissaoClassificacao.Columns["Valor 2"].ReadOnly   = false;
-                    dataGridComissaoClassificacao.Columns["% - 2"].ReadOnly     = true;
+                    dataGridComissaoClassificacao.Columns["Valor 1"].ReadOnly = false;
+                    dataGridComissaoClassificacao.Columns["% - 1"].ReadOnly = true;
+                    dataGridComissaoClassificacao.Columns["Valor 2"].ReadOnly = false;
+                    dataGridComissaoClassificacao.Columns["% - 2"].ReadOnly = true;
 
                 });
             }).Catch(erro =>
@@ -477,6 +496,38 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             });
         }
 
-        #endregion       
+        private void AdicionaProdutoVenda(
+            decimal quantidadeProduto,
+            decimal valorDesconto,
+            decimal porcentagemDesconto)
+        {
+            if (estado is null || estado.Id <= 0) return;
+
+            HelperPedidoVendas.AdicionaProduto(
+                venda, 
+                pessoasIds, 
+                produtoId, 
+                estado.Id, 
+                1,
+                quantidadeProduto,
+                valorDesconto,
+                porcentagemDesconto
+                ).Then(comissoes =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    
+                });
+            }).Catch(erro =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    MessageBox.Show(erro.Message);
+                });
+            });
+        }
+
+        #endregion
+
     }
 }

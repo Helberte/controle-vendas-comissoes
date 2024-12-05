@@ -74,6 +74,7 @@ namespace controle_vendas_comissoes.View.Forms.Modais
                     dataGridUnidades.Columns["createdBy"].Visible = false;
                     dataGridUnidades.Columns["updatedBy"].Visible = false;
                     dataGridUnidades.Columns["deletedBy"].Visible = false;
+                    dataGridUnidades.Columns["produtos"].Visible  = false;
 
                     dataGridUnidades.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
