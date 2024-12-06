@@ -1,4 +1,5 @@
 ﻿using controle_vendas_comissoes.Model.Db.Entidades;
+using controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes;
 using controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos;
 using controle_vendas_comissoes.Model.Db.Models;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,8 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
     {
         public static IPromise<PedidoVenda> AdicionaProduto(
             PedidoVenda venda, 
-            int[] pessoaIds, 
+            int[] pessoaIds,
+            int[] classificacoes,
             int produtoId, 
             int estadoId, 
             int ordemTabela,
@@ -31,11 +33,12 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                     using AppDbContext context = new();
                     using IDbContextTransaction transaction = context.Database.BeginTransaction();
 
-                    if (   context.PedidoVenda       is not null 
-                        && context.UnidadesPrimarias is not null
-                        && context.Produtos          is not null
-                        && context.Estados           is not null
-                        && context.PedidoVendaItem   is not null)
+                    if (   context.PedidoVenda             is not null 
+                        && context.UnidadesPrimarias       is not null
+                        && context.Produtos                is not null
+                        && context.Estados                 is not null
+                        && context.PedidoVendaItem         is not null
+                        && context.PedidoVendaItemComissao is not null)
                     {
                         PedidoVenda      cabecalhoVenda = venda;
                         PedidoVendaItem? pedidoVendaItem;
@@ -107,10 +110,41 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                         cabecalhoVenda.TotalComDesconto = cabecalhoVenda.Total - novoValorDesconto;
 
                         context.Entry(cabecalhoVenda).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
                         context.SaveChanges();
-                        transaction.Commit();
 
+                        // ------------------------------------------------------------------------------------------------------------------------
+                        // calculo comissao das pessoas envolvidas
+
+                        List<ModelComissoesProduto>   comissoesProduto = HelperComissoes.ObtemComissoesProduto(context, produtoId, estadoId, classificacoes);
+                        List<ModelComissoesProduto>   comissoesOrdem01 = comissoesProduto.FindAll(c => c.Ordem.Equals(1)).ToList();
+                        List<PedidoVendaItemComissao> itemsComissao    = [];
+
+                        foreach (ModelComissoesProduto item in comissoesOrdem01)
+                        {
+                            decimal totalComissao = (item.ValorReal * quantidadeProduto);
+
+                            itemsComissao.Add(new ()
+                            {
+                                ClassificacaoId   = item.ClassificacaoId,
+                                ComissaoItemId    = item.ComissaoItemId,
+                                ComissaoId        = item.ComissaoId,
+                                PedidoVendaId     = cabecalhoVenda.Id,
+                                PedidoVendaItemId = pedidoVendaItem.Id,
+                                ValorBase         = totalComDesconto,
+                                QuantidadeVendida = quantidadeProduto,
+                                ValorComissaoItem = item.ValorReal,
+                                TotalComissao     = totalComissao,
+                                Total             = totalComDesconto - totalComissao
+                            });
+                        }
+
+                        if (itemsComissao.Count > 0)
+                        {
+                            context.PedidoVendaItemComissao.AddRange(itemsComissao);
+                            context.SaveChanges();
+                        }
+
+                        transaction.Commit();
                         promise.Resolve(cabecalhoVenda);
                     }
                     else

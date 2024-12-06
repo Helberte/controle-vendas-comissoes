@@ -9,6 +9,10 @@ namespace controle_vendas_comissoes.Model.Db.Models
 
         public int ClassificacaoId { get; set; }
 
+        public int ComissaoItemId { get; set; }
+
+        public int ComissaoId { get; set; }
+
         public string ClassificacaoNome { get; set; } = string.Empty;
 
         public int Ordem { get; set; }

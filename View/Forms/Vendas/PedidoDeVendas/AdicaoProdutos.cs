@@ -269,7 +269,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             {
                 decimal valorUnidade = Convert.ToDecimal(dataGridProdutos.CurrentRow.Cells["PrecoVenda1"].Value.ToString());
 
-                if (!string.IsNullOrEmpty(boxQuantidade.Text.Trim()) && Convert.ToDecimal(boxQuantidade.Text.Trim()) <= 0m)
+                if (string.IsNullOrEmpty(boxQuantidade.Text.Trim()) || Convert.ToDecimal(boxQuantidade.Text.Trim()) <= 0m)
                     throw new Exception("Está sem quantidade de produtos.");
 
                 if (valorUnidade <= 0)
@@ -469,6 +469,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             HelperPedidoVendas.AdicionaProduto(
                 venda,
                 pessoasIds,
+                classificacoes,
                 produtoId,
                 estado.Id,
                 1,
@@ -480,7 +481,12 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                 {
                     Utils.RunOnUiThread(this, () =>
                     {
-                        venda.Id = pedidoVenda.Id;
+                        venda = pedidoVenda;
+
+                        lblTotalGeral.Text          = Utils.FormataDecimalMonetario(venda.TotalGeral).ToString();
+                        lblPorcentagemDesconto.Text = Utils.FormataPorcentagem(venda.PorcentagemDesconto).ToString();
+                        lblValorDesconto.Text       = Utils.FormataDecimalMonetario(venda.ValorDesconto).ToString();
+                        lblTotalComDesconto.Text    = Utils.FormataDecimalMonetario(venda.TotalComDesconto).ToString();
 
                         ListaItensVenda();
                     });

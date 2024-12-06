@@ -26,6 +26,9 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes
                              , Porcentagem          = ISNULL(porcentagem, 0)
                              , Ordem                = ISNULL(ordem,       0)
                              , ProdutoTabelaPrecoId = ISNULL(produtoTabelaPrecoId, 0)
+                             , ComissaoItemId       = ISNULL(comissaoItemId, 0)
+                             , ComissaoId           = ISNULL(comissaoId,     0)
+
                           FROM (
                                  SELECT classificacaoId   = classificacao.id
                                       , classificacaoNome = classificacao.nome
@@ -45,6 +48,9 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes
                                             , porcentagem          = porcentagem
                                             , ordem
                                             , produtoTabelaPrecoId = produto_tabela_preco.id
+                                            , comissaoItemId       = comissao_item.id
+                                            , comissaoId           = comissao.id
+
                                          FROM comissao_item
                          
                                         inner
@@ -82,6 +88,8 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes
                                             , porcentagem
                                             , ordem
                                             , produto_tabela_preco.id
+                                            , comissao_item.id
+                                            , comissao.id
                                )
                                AS TB2
                                ON TB.classificacaoId = TB2.classificacaoId; ", string.Join(",", classificacoes), produtoId, estadoId);
@@ -101,6 +109,92 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes
             });
 
             return promise;
+        }
+
+        public static List<ModelComissoesProduto> ObtemComissoesProduto(AppDbContext context, int produtoId, int estadoId, int[] classificacoes)
+        {
+            string sql = string.Format(@"
+            SELECT ClassificacaoId      = TB.classificacaoId
+                 , ClassificacaoNome    = TB.classificacaoNome
+                 , ValorReal            = ISNULL(valosReal,   0)
+                 , Porcentagem          = ISNULL(porcentagem, 0)
+                 , Ordem                = ISNULL(ordem,       0)
+                 , ProdutoTabelaPrecoId = ISNULL(produtoTabelaPrecoId, 0)
+                 , ComissaoItemId       = ISNULL(comissaoItemId, 0)
+                 , ComissaoId           = ISNULL(comissaoId,     0)
+
+              FROM (
+                     SELECT classificacaoId   = classificacao.id
+                          , classificacaoNome = classificacao.nome
+                       FROM classificacao
+                      WHERE classificacao.deleted_at IS NULL
+
+                     " + (classificacoes.Length <= 0 ? "" :
+
+                       "AND classificacao.id IN ({0})") + @"
+
+                     ) AS TB
+             
+                     LEFT
+                     JOIN (
+                           SELECT classificacaoId      = comissao.classificacao_id
+                                , valosReal            = valor_real
+                                , porcentagem          = porcentagem
+                                , ordem
+                                , produtoTabelaPrecoId = produto_tabela_preco.id
+                                , comissaoItemId       = comissao_item.id
+                                , comissaoId           = comissao.id
+
+                             FROM comissao_item
+             
+                            inner
+                             join produto
+                               on produto.deleted_at is null
+                              and produto.id = comissao_item.produto_id
+                              and produto.id = {1}
+             
+                            inner
+                             join comissao
+                               on comissao.deleted_at is null
+                              and comissao.id = comissao_item.comissao_id
+             
+                            inner
+                             join produto_tabela_preco
+                               on produto_tabela_preco.deleted_at is null
+                              and produto_tabela_preco.id = comissao.produto_tabela_preco_id
+             
+                            inner
+                             join tabela_preco
+                               on tabela_preco.deleted_at is null
+                              and tabela_preco.id = produto_tabela_preco.tabela_preco_id
+             
+                            inner
+                             join estado_comissao
+                               on estado_comissao.deleted_at is null
+                              and estado_comissao.Comissao_id = comissao.id
+                              and estado_comissao.estado_id   = {2}
+             
+                            WHERE comissao_item.deleted_at is null
+             
+                            group
+                               by comissao.classificacao_id
+                                , valor_real
+                                , porcentagem
+                                , ordem
+                                , produto_tabela_preco.id
+                                , comissao_item.id
+                                , comissao.id
+                   )
+                   AS TB2
+                   ON TB.classificacaoId = TB2.classificacaoId; ", string.Join(",", classificacoes), produtoId, estadoId);
+
+            #if DEBUG
+            System.Diagnostics.Debug.WriteLine(sql);
+            #endif
+
+            List<ModelComissoesProduto>? resultado = context.Database.SqlQuery<ModelComissoesProduto>(FormattableStringFactory.Create(sql)).ToList();
+
+            return resultado;                  
         }
 
         public static IPromise<ComissaoItem> AdicionaComissao(

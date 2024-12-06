@@ -38,16 +38,24 @@
             btAdicionar = new FontAwesome.Sharp.IconButton();
             dataGridProdutosVenda = new DataGridView();
             dataGridComissaoClassificacao = new DataGridView();
-            label4 = new Label();
-            lblTotalGeral = new Label();
             boxValorDesconto = new MaterialSkin.Controls.MaterialTextBox();
             boxDesconto = new MaterialSkin.Controls.MaterialTextBox();
             dataGridTotaisVenda = new DataGridView();
+            lblTotalComDesconto = new Label();
+            label7 = new Label();
+            groupBox2 = new GroupBox();
+            lblValorDesconto = new Label();
+            label5 = new Label();
+            lblPorcentagemDesconto = new Label();
+            label2 = new Label();
+            lblTotalGeral = new Label();
+            label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridProdutos).BeginInit();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridProdutosVenda).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridComissaoClassificacao).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridTotaisVenda).BeginInit();
+            groupBox2.SuspendLayout();
             SuspendLayout();
             // 
             // lblNomeEstado
@@ -168,7 +176,7 @@
             dataGridProdutosVenda.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridProdutosVenda.Location = new Point(0, 406);
             dataGridProdutosVenda.Name = "dataGridProdutosVenda";
-            dataGridProdutosVenda.Size = new Size(621, 269);
+            dataGridProdutosVenda.Size = new Size(621, 294);
             dataGridProdutosVenda.TabIndex = 8;
             // 
             // dataGridComissaoClassificacao
@@ -177,30 +185,8 @@
             dataGridComissaoClassificacao.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridComissaoClassificacao.Location = new Point(627, 406);
             dataGridComissaoClassificacao.Name = "dataGridComissaoClassificacao";
-            dataGridComissaoClassificacao.Size = new Size(458, 119);
+            dataGridComissaoClassificacao.Size = new Size(458, 150);
             dataGridComissaoClassificacao.TabIndex = 9;
-            // 
-            // label4
-            // 
-            label4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            label4.AutoSize = true;
-            label4.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(6, 688);
-            label4.Name = "label4";
-            label4.Size = new Size(122, 25);
-            label4.TabIndex = 10;
-            label4.Text = "Total Geral R$:";
-            // 
-            // lblTotalGeral
-            // 
-            lblTotalGeral.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            lblTotalGeral.AutoSize = true;
-            lblTotalGeral.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTotalGeral.Location = new Point(124, 688);
-            lblTotalGeral.Name = "lblTotalGeral";
-            lblTotalGeral.Size = new Size(38, 25);
-            lblTotalGeral.TabIndex = 11;
-            lblTotalGeral.Text = "150";
             // 
             // boxValorDesconto
             // 
@@ -248,21 +234,118 @@
             // 
             dataGridTotaisVenda.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             dataGridTotaisVenda.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridTotaisVenda.Location = new Point(627, 531);
+            dataGridTotaisVenda.Location = new Point(627, 562);
             dataGridTotaisVenda.Name = "dataGridTotaisVenda";
-            dataGridTotaisVenda.Size = new Size(458, 144);
+            dataGridTotaisVenda.Size = new Size(458, 138);
             dataGridTotaisVenda.TabIndex = 20;
+            // 
+            // lblTotalComDesconto
+            // 
+            lblTotalComDesconto.AutoSize = true;
+            lblTotalComDesconto.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
+            lblTotalComDesconto.Location = new Point(623, 19);
+            lblTotalComDesconto.Name = "lblTotalComDesconto";
+            lblTotalComDesconto.Size = new Size(31, 20);
+            lblTotalComDesconto.TabIndex = 26;
+            lblTotalComDesconto.Text = "150";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Montserrat", 9.749999F);
+            label7.Location = new Point(507, 19);
+            label7.Name = "label7";
+            label7.Size = new Size(122, 20);
+            label7.TabIndex = 25;
+            label7.Text = "Total C. Desconto:";
+            // 
+            // groupBox2
+            // 
+            groupBox2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            groupBox2.Controls.Add(lblValorDesconto);
+            groupBox2.Controls.Add(lblTotalComDesconto);
+            groupBox2.Controls.Add(label5);
+            groupBox2.Controls.Add(label7);
+            groupBox2.Controls.Add(lblPorcentagemDesconto);
+            groupBox2.Controls.Add(label2);
+            groupBox2.Controls.Add(lblTotalGeral);
+            groupBox2.Controls.Add(label4);
+            groupBox2.Location = new Point(6, 703);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(733, 54);
+            groupBox2.TabIndex = 27;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Totais do Pedido como um todo";
+            // 
+            // lblValorDesconto
+            // 
+            lblValorDesconto.AutoSize = true;
+            lblValorDesconto.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
+            lblValorDesconto.Location = new Point(413, 19);
+            lblValorDesconto.Name = "lblValorDesconto";
+            lblValorDesconto.Size = new Size(31, 20);
+            lblValorDesconto.TabIndex = 26;
+            lblValorDesconto.Text = "150";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Montserrat", 9.749999F);
+            label5.Location = new Point(330, 19);
+            label5.Name = "label5";
+            label5.Size = new Size(89, 20);
+            label5.TabIndex = 25;
+            label5.Text = "V. Desconto:";
+            // 
+            // lblPorcentagemDesconto
+            // 
+            lblPorcentagemDesconto.AutoSize = true;
+            lblPorcentagemDesconto.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
+            lblPorcentagemDesconto.Location = new Point(261, 19);
+            lblPorcentagemDesconto.Name = "lblPorcentagemDesconto";
+            lblPorcentagemDesconto.Size = new Size(31, 20);
+            lblPorcentagemDesconto.TabIndex = 24;
+            lblPorcentagemDesconto.Text = "150";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Montserrat", 9.749999F);
+            label2.Location = new Point(179, 19);
+            label2.Name = "label2";
+            label2.Size = new Size(88, 20);
+            label2.TabIndex = 23;
+            label2.Text = "% Desconto:";
+            // 
+            // lblTotalGeral
+            // 
+            lblTotalGeral.AutoSize = true;
+            lblTotalGeral.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
+            lblTotalGeral.Location = new Point(96, 19);
+            lblTotalGeral.Name = "lblTotalGeral";
+            lblTotalGeral.Size = new Size(31, 20);
+            lblTotalGeral.TabIndex = 13;
+            lblTotalGeral.Text = "150";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Location = new Point(4, 19);
+            label4.Name = "label4";
+            label4.Size = new Size(98, 20);
+            label4.TabIndex = 12;
+            label4.Text = "Total Geral R$:";
             // 
             // AdicaoProdutos
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1085, 719);
+            ClientSize = new Size(1085, 768);
+            Controls.Add(groupBox2);
             Controls.Add(dataGridTotaisVenda);
             Controls.Add(boxDesconto);
             Controls.Add(boxValorDesconto);
-            Controls.Add(lblTotalGeral);
-            Controls.Add(label4);
             Controls.Add(dataGridComissaoClassificacao);
             Controls.Add(dataGridProdutosVenda);
             Controls.Add(btAdicionar);
@@ -284,6 +367,8 @@
             ((System.ComponentModel.ISupportInitialize)dataGridProdutosVenda).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridComissaoClassificacao).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridTotaisVenda).EndInit();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -300,10 +385,17 @@
         private FontAwesome.Sharp.IconButton btAdicionar;
         private DataGridView dataGridProdutosVenda;
         private DataGridView dataGridComissaoClassificacao;
-        private Label label4;
-        private Label lblTotalGeral;
         private MaterialSkin.Controls.MaterialTextBox boxValorDesconto;
         private MaterialSkin.Controls.MaterialTextBox boxDesconto;
         private DataGridView dataGridTotaisVenda;
+        private Label lblTotalComDesconto;
+        private Label label7;
+        private GroupBox groupBox2;
+        private Label lblValorDesconto;
+        private Label label5;
+        private Label lblPorcentagemDesconto;
+        private Label label2;
+        private Label lblTotalGeral;
+        private Label label4;
     }
 }

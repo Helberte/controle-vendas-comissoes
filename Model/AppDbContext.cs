@@ -37,10 +37,12 @@ namespace controle_vendas_comissoes.Model
 
         public DbSet<PessoaPedidoVenda>? PessoaPedidoVenda { get; set; } = null;
 
+        public DbSet<PedidoVendaItemComissao>? PedidoVendaItemComissao { get; set; } = null;
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("Server=host,port;Database=banco;User ID=user;Password=password;Trusted_Connection=False;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("Server=host,port;Database=banco;User ID=user;Password=senha;Trusted_Connection=False;TrustServerCertificate=True;");
         }
     }
 }
