@@ -12,6 +12,9 @@ namespace controle_vendas_comissoes.Model.Db.Entidades
         [Column("quantidade", TypeName = "decimal(12, 4)" )]
         public decimal Quantidade { get; set; }
 
+        [Column("preco_venda", TypeName = "decimal(12, 4)")]
+        public decimal PrecoVenda { get; set; }
+
         [Column("total", TypeName = "decimal(12, 4)")]
         public decimal Total { get; set; }
 

@@ -1,25 +1,28 @@
 ﻿using controle_vendas_comissoes.Model.Db.Entidades;
 using controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos;
 using controle_vendas_comissoes.Model.Db.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using RSG;
+using System.Runtime.CompilerServices;
 
 namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
 {
     public class HelperPedidoVendas
     {
-        public static IPromise<PedidoVendaItem> AdicionaProduto(
+        public static IPromise<PedidoVenda> AdicionaProduto(
             PedidoVenda venda, 
             int[] pessoaIds, 
             int produtoId, 
             int estadoId, 
             int ordemTabela,
+            decimal precoVenda,
             decimal quantidadeProduto,
             decimal valorDesconto,
             decimal porcentagemDesconto
             )
         {
-            Promise<PedidoVendaItem> promise = new();
+            Promise<PedidoVenda> promise = new();
 
             Task.Run(() =>
             { 
@@ -37,8 +40,17 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                         PedidoVenda      cabecalhoVenda = venda;
                         PedidoVendaItem? pedidoVendaItem;
 
-                        if (cabecalhoVenda.Id <= 0)                                                   
-                            cabecalhoVenda = AdicionaPedidoVenda(venda, pessoaIds);
+                        if (cabecalhoVenda.Id <= 0)
+                            cabecalhoVenda = AdicionaPedidoVenda(context, venda, pessoaIds);
+                        else
+                        {
+                            PedidoVenda? vendaAtualizada = context.PedidoVenda.Where(v => v.Id.Equals(venda.Id)).FirstOrDefault();
+
+                            if (vendaAtualizada is not null)
+                                cabecalhoVenda = vendaAtualizada;
+                            else
+                                throw new Exception("Inconsistência! Pedido de venda não encontrado! Venda Id: " + venda.Id.ToString());
+                        }
 
                         Produto? produto = context.Produtos.Where(p => p.Id.Equals(produtoId)).FirstOrDefault();
                         if (produto is null)
@@ -51,9 +63,15 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                         if (quantidadeProduto <= 0)
                             throw new Exception("A quantidade do produto não pode ser menor ou igual a zero: " + quantidadeProduto);
 
+                        if (precoVenda <= 0)
+                            throw new Exception("É preciso informar um preço de venda para o produto.");
+
                         // ------------------------------------------------------------------------------------------------------------------------
 
                         ModelProdutoPreco preco = HelperProdutos.ObtemPrecoProduto(produtoId, estadoId, ordemTabela);
+
+                        // valor do desconto para uma unidade do produto
+                        valorDesconto = (porcentagemDesconto / 100) * preco.PrecoVenda;
 
                         decimal total            = preco.PrecoVenda  * quantidadeProduto;
                         decimal totalDesconto    = quantidadeProduto * valorDesconto;
@@ -68,29 +86,32 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                             TotalComDesconto    = totalComDesconto,
                             PedidoVendaId       = cabecalhoVenda.Id,
                             ProdutoId           = produtoId,
+                            PrecoVenda          = precoVenda
                         }).Entity;
 
                         context.SaveChanges();
 
-                        //Produto? produtoExiste = context.Produtos.Where(e => e.Nome.Equals(produto.Nome)).FirstOrDefault();
+                        // ------------------------------------------------------------------------------------------------------------------------
 
-                        //if (produtoExiste is not null)
-                        //    if (produtoExiste.Nome.Equals(produto.Nome))
-                        //        throw new Exception("Já existe um Produto cadastrado com este Nome.");
+                        // atualiza o cabecalho da venda
 
-                        //UnidadePrimaria? unidadePrimaria = context.UnidadesPrimarias.Where(u => u.Id.Equals(produto.UnidadePrimariaId)).FirstOrDefault();
+                        decimal novoValorDesconto  = 0m;
+                        cabecalhoVenda.TotalGeral += total;
+                        cabecalhoVenda.Total      += pedidoVendaItem.TotalComDesconto;
+                        cabecalhoVenda.UpdatedAt   = DateTime.Now;
 
-                        //if (unidadePrimaria is null)
-                        //    throw new Exception("A unidade primária informada não existe. Cadastre ela primeiro.");
+                        if (cabecalhoVenda.PorcentagemDesconto > 0)                        
+                            novoValorDesconto = (cabecalhoVenda.PorcentagemDesconto / 100) * cabecalhoVenda.Total;
+                        
+                        cabecalhoVenda.ValorDesconto    = novoValorDesconto;
+                        cabecalhoVenda.TotalComDesconto = cabecalhoVenda.Total - novoValorDesconto;
 
-                        //// insere novo PRODUTO
-                        //novoProduto = context.Produtos.Add(produto).Entity;
+                        context.Entry(cabecalhoVenda).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
                         context.SaveChanges();
-
                         transaction.Commit();
 
-                        promise.Resolve(pedidoVendaItem);
+                        promise.Resolve(cabecalhoVenda);
                     }
                     else
                         promise.Reject(new Exception("Ocorreu um erro ao Inserir um novo produto na venda"));
@@ -104,11 +125,8 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
             return promise;
         }
 
-        private static PedidoVenda AdicionaPedidoVenda(PedidoVenda pedidoVenda, int[] pessoasIds)
+        private static PedidoVenda AdicionaPedidoVenda(AppDbContext context, PedidoVenda pedidoVenda, int[] pessoasIds)
         {
-            using AppDbContext context = new();
-            using IDbContextTransaction transaction = context.Database.BeginTransaction();
-
             if (context.PedidoVenda is null || context.PessoaPedidoVenda is null || context.Pessoas is null)
                 throw new Exception("Configuração do banco de dados inválida.");
 
@@ -135,13 +153,59 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                 PessoaId      = pessoaId
             }).ToArray();
 
-
             context.PessoaPedidoVenda.AddRange(pessoasPedido);
             context.SaveChanges();
 
-            transaction.Commit();
-
             return novoPedido;
         }
+
+        public static IPromise<List<ModelListaItensVenda>> ObtemItensVenda(int pedidoVendaId)
+        {
+            Promise<List<ModelListaItensVenda>> promise = new();
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    using AppDbContext context = new();
+
+                    string sql = string.Format(@"
+                        SELECT PedidoVendaItemId        = pedido_venda_item.id
+                             , ProdutoId                = produto.id
+                             , ProdutoNome              = produto.nome
+                             , Quantidade               = pedido_venda_item.quantidade
+                             , PrecoVenda               = pedido_venda_item.preco_venda
+                             , Total                    = pedido_venda_item.total
+                             , PorcentagemDesconto      = pedido_venda_item.porcentagem_desconto
+                             , ValorDesconto            = pedido_venda_item.valor_desconto
+                             , TotalComDesconto         = pedido_venda_item.total_com_desconto
+                             , PedidoVendaItemCreatedAt = pedido_venda_item.created_at
+                        
+                          FROM pedido_venda_item
+                        
+                         INNER
+                          JOIN produto
+                            ON produto.deleted_at IS NULL
+                           AND produto.id = pedido_venda_item.produto_id
+                        
+                         WHERE pedido_venda_item.deleted_at IS NULL
+                           AND pedido_venda_item.pedido_venda_id = {0}
+                        
+                         ORDER
+                            BY pedido_venda_item.created_at DESC;", pedidoVendaId);
+
+                    List<ModelListaItensVenda>? resultado = context.Database.SqlQuery<ModelListaItensVenda>(FormattableStringFactory.Create(sql)).ToList();
+
+                    promise.Resolve(resultado);
+                }
+                catch (Exception ex)
+                {
+                    promise.Reject(ex);
+                }
+            });
+
+            return promise;
+        }
+
     }
 }

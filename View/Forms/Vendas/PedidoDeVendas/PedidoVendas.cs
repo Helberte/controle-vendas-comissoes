@@ -393,9 +393,13 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                     {
                         pedidoVenda = new()
                         {
-                            Id     = 0,
-                            Data   = dateTimeDataPedido.Value,
-                            Status = "001", // pendente
+                            Id                  = 0,
+                            Data                = dateTimeDataPedido.Value,
+                            Status              = "001", // pendente
+                            Total               = 0,
+                            PorcentagemDesconto = 0,
+                            TotalComDesconto    = 0,
+                            ValorDesconto       = 0
                         };
                     }
 

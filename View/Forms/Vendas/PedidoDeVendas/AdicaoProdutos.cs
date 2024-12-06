@@ -64,6 +64,14 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
 
         }
 
+        private void ZeraCamposDesconto()
+        {
+            bloqueiaAlteracaoCampo  = true;
+            boxDesconto.Text        = "0,00";
+            boxValorDesconto.Text   = "0,00";
+            bloqueiaAlteracaoCampo  = false;
+        }
+
         private static void LimpaCampos(GroupBox Group)
         {
 
@@ -239,6 +247,8 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
 
                 produtoId = Convert.ToInt32(((DataGridView)sender).SelectedRows[0].Cells["ProdutoId"].Value);
 
+                ZeraCamposDesconto();
+
                 ObtemComissoesProduto();
             }
         }
@@ -255,16 +265,28 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
 
         private void btAdicionar_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(boxQuantidade.Text.Trim()) && Convert.ToDecimal(boxQuantidade.Text.Trim()) > 0m)
+            try
             {
-                decimal quantidadeProduto = Convert.ToDecimal(boxQuantidade.Text.Trim());
-                decimal valorDesconto = string.IsNullOrEmpty(boxValorDesconto.Text.Trim()) ? 0m : Convert.ToDecimal(boxValorDesconto.Text.Trim());
-                decimal porcentagemDesconto = string.IsNullOrEmpty(boxDesconto.Text.Trim()) ? 0m : Convert.ToDecimal(boxDesconto.Text.Trim());
+                decimal valorUnidade = Convert.ToDecimal(dataGridProdutos.CurrentRow.Cells["PrecoVenda1"].Value.ToString());
 
-                AdicionaProdutoVenda(quantidadeProduto, valorDesconto, porcentagemDesconto);
+                if (!string.IsNullOrEmpty(boxQuantidade.Text.Trim()) && Convert.ToDecimal(boxQuantidade.Text.Trim()) <= 0m)
+                    throw new Exception("Está sem quantidade de produtos.");
+
+                if (valorUnidade <= 0)
+                    throw new Exception("Não existe valor de venda configurado para este produto. Por favor, configure o valor a ser vendido.");
+
+                // ---------------------------------------------------------------------------------------------------------------------------------------
+
+                decimal quantidadeProduto   = Convert.ToDecimal(boxQuantidade.Text.Trim());
+                decimal valorDesconto       = string.IsNullOrEmpty(boxValorDesconto.Text.Trim()) ? 0m : Convert.ToDecimal(boxValorDesconto.Text.Trim());
+                decimal porcentagemDesconto = string.IsNullOrEmpty(boxDesconto.Text.Trim()) ? 0m : Convert.ToDecimal(boxDesconto.Text.Trim());
+                      
+                AdicionaProdutoVenda(valorUnidade, quantidadeProduto, valorDesconto, porcentagemDesconto);               
             }
-            else
-                MessageBox.Show("Está sem quantidade de produtos.");
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+            }
         }
 
         private void boxValorDesconto_KeyPress(object sender, KeyPressEventArgs e)
@@ -437,6 +459,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
         }
 
         private void AdicionaProdutoVenda(
+            decimal precoVenda,
             decimal quantidadeProduto,
             decimal valorDesconto,
             decimal porcentagemDesconto)
@@ -449,17 +472,49 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                 produtoId,
                 estado.Id,
                 1,
+                precoVenda,
                 quantidadeProduto,
                 valorDesconto,
                 porcentagemDesconto
-                ).Then(comissoes =>
-            {
+                ).Then(pedidoVenda => 
+                {
+                    Utils.RunOnUiThread(this, () =>
+                    {
+                        venda.Id = pedidoVenda.Id;
+
+                        ListaItensVenda();
+                    });
+                }).Catch(erro =>
+                {
+                    Utils.RunOnUiThread(this, () =>
+                    {
+                        MessageBox.Show(erro.Message);
+                    });
+                });
+        }
+
+        private void ListaItensVenda()
+        {
+            if (venda is null || venda.Id <= 0) return;
+
+            HelperPedidoVendas.ObtemItensVenda(venda.Id)
+            .Then(itensVenda => {
                 Utils.RunOnUiThread(this, () =>
                 {
+                    dataGridProdutosVenda.DataSource = itensVenda;
 
+                    dataGridProdutosVenda.Columns["PedidoVendaItemId"].Visible           = false;
+                    dataGridProdutosVenda.Columns["ProdutoId"].HeaderText                = "P. Id";
+                    dataGridProdutosVenda.Columns["ProdutoNome"].HeaderText              = "Nome";
+                    dataGridProdutosVenda.Columns["PrecoVenda"].HeaderText               = "P. Venda";
+                    dataGridProdutosVenda.Columns["PorcentagemDesconto"].HeaderText      = "% Desc";
+                    dataGridProdutosVenda.Columns["ValorDesconto"].HeaderText            = "V. Desc";
+                    dataGridProdutosVenda.Columns["TotalComDesconto"].HeaderText         = "Total C. Desc";
+                    dataGridProdutosVenda.Columns["PedidoVendaItemCreatedAt"].HeaderText = "Adicionado Em";
+
+                    dataGridProdutosVenda.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 });
-            }).Catch(erro =>
-            {
+            }).Catch(erro => {
                 Utils.RunOnUiThread(this, () =>
                 {
                     MessageBox.Show(erro.Message);
