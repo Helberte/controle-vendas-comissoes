@@ -131,10 +131,10 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                                 PedidoVendaId     = cabecalhoVenda.Id,
                                 PedidoVendaItemId = pedidoVendaItem.Id,
                                 ValorBase         = totalComDesconto,
-                                QuantidadeVendida = quantidadeProduto,
-                                ValorComissaoItem = item.ValorReal,
-                                TotalComissao     = totalComissao,
-                                Total             = totalComDesconto - totalComissao
+                                QuantidadeVendida = totalComDesconto <= 0 ? 0m : quantidadeProduto,
+                                ValorComissaoItem = totalComDesconto <= 0 ? 0m : item.ValorReal,
+                                TotalComissao     = totalComDesconto <= 0 ? 0m : totalComissao,
+                                Total             = totalComDesconto <= 0 ? 0m : (totalComDesconto - totalComissao)
                             });
                         }
 
@@ -193,7 +193,7 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
             return novoPedido;
         }
 
-        public static IPromise<List<ModelListaItensVenda>> ObtemItensVenda(int pedidoVendaId)
+        public static IPromise<List<ModelListaItensVenda>> ObtemItensVenda(int pedidoVendaId, int[] classificacoes)
         {
             Promise<List<ModelListaItensVenda>> promise = new();
 
@@ -202,6 +202,9 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                 try
                 {
                     using AppDbContext context = new();
+
+                    int classificacao01 = classificacoes[0];
+                    int classificacao02 = classificacoes.Length > 1 ? classificacoes[1] : 0;
 
                     string sql = string.Format(@"
                         SELECT PedidoVendaItemId        = pedido_venda_item.id
@@ -213,6 +216,15 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                              , PorcentagemDesconto      = pedido_venda_item.porcentagem_desconto
                              , ValorDesconto            = pedido_venda_item.valor_desconto
                              , TotalComDesconto         = pedido_venda_item.total_com_desconto
+                        
+                             , ClassificacaoNome        = ISNULL(classificacao_01.nome + ' =>', '')
+                             , TotalComissao            = ISNULL(comissao_01.total_comissao, 0)
+                             , TotalClassificacao01     = ISNULL(comissao_01.total, 0)
+                        
+                             , ClassificacaoNome2       = ISNULL(classificacao_02.nome + ' =>', '')
+                             , TotalComissao2           = ISNULL(comissao_02.total_comissao, 0)
+                             , TotalClassificacao02     = ISNULL(comissao_02.total, 0)
+                        
                              , PedidoVendaItemCreatedAt = pedido_venda_item.created_at
                         
                           FROM pedido_venda_item
@@ -222,11 +234,41 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                             ON produto.deleted_at IS NULL
                            AND produto.id = pedido_venda_item.produto_id
                         
+                          LEFT
+                          JOIN pedido_venda_item_comissao
+                            AS comissao_01
+                            ON comissao_01.deleted_at IS NULL
+                           AND comissao_01.pedido_venda_item_id = pedido_venda_item.id
+                           AND comissao_01.classificacao_id     = {0}
+                        
+                          LEFT
+                          JOIN classificacao
+                            AS classificacao_01
+                            ON classificacao_01.deleted_at IS NULL
+                           AND classificacao_01.id = comissao_01.classificacao_id
+                        
+                          LEFT
+                          JOIN pedido_venda_item_comissao
+                            AS comissao_02
+                            ON comissao_02.deleted_at IS NULL
+                           AND comissao_02.pedido_venda_item_id = pedido_venda_item.id
+                           AND comissao_02.classificacao_id     = {1}
+                        
+                          LEFT
+                          JOIN classificacao
+                            AS classificacao_02
+                            ON classificacao_02.deleted_at IS NULL
+                           AND classificacao_02.id = comissao_02.classificacao_id
+                        
                          WHERE pedido_venda_item.deleted_at IS NULL
-                           AND pedido_venda_item.pedido_venda_id = {0}
+                           AND pedido_venda_item.pedido_venda_id = {2}
                         
                          ORDER
-                            BY pedido_venda_item.created_at DESC;", pedidoVendaId);
+                            BY pedido_venda_item.created_at DESC;", classificacao01, classificacao02, pedidoVendaId);
+
+                    #if DEBUG
+                    System.Diagnostics.Debug.WriteLine(sql);
+                    #endif
 
                     List<ModelListaItensVenda>? resultado = context.Database.SqlQuery<ModelListaItensVenda>(FormattableStringFactory.Create(sql)).ToList();
 

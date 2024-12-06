@@ -412,8 +412,21 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                                 idsClassificacoes.Add(item.Id);
 
                         arrayIdsClassificacoes = [.. idsClassificacoes.Distinct()];
-                    }
 
+                        // ------------------------------------------------------------------------------------------------------------------------ //
+                        // ------------------------------------------------------------------------------------------------------------------------ //
+                        //                                                                                                                          //
+                        //                          MANOBRA para quando tiver uma unica pessoa na venda e ela for GESTORA,                          //
+                        //                                       muda a classificação para REPRESENTANTE                                            //
+                        //                                          TEMPORÁRIO. ID REPRESENTANTE => 8                                               //
+                        //                                                                                                                          //
+                        // ------------------------------------------------------------------------------------------------------------------------ //
+                        // ------------------------------------------------------------------------------------------------------------------------ //
+
+                        if (arrayIdsClassificacoes.Length == 1 && (pessoasClassificacoes[0]?.Nome ?? "").Equals("GESTORA"))                        
+                            arrayIdsClassificacoes[0] = 8;                        
+                    }
+                    
                     AdicaoProdutos adicaoProdutos = new (estado, pedidoVenda, arrayIdsClassificacoes, pessoas.Select(p => p.Id).Distinct().ToArray());
                     adicaoProdutos.ShowDialog();
                 }                

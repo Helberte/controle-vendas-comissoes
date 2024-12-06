@@ -29,10 +29,10 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
         {
             InitializeComponent();
 
-            this.estado = estado;
+            this.estado         = estado;
             this.classificacoes = classificacoes;
-            this.pessoasIds = pessoasIds;
-            this.venda = venda;
+            this.pessoasIds     = pessoasIds;
+            this.venda          = venda;
 
             DelegaEventos();
             CarregaEstadoTela();
@@ -503,7 +503,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
         {
             if (venda is null || venda.Id <= 0) return;
 
-            HelperPedidoVendas.ObtemItensVenda(venda.Id)
+            HelperPedidoVendas.ObtemItensVenda(venda.Id, classificacoes)
             .Then(itensVenda => {
                 Utils.RunOnUiThread(this, () =>
                 {
