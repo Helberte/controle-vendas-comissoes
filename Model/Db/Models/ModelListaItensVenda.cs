@@ -9,14 +9,22 @@ namespace controle_vendas_comissoes.Model.Db.Models
         private decimal porcentagemDesconto = 0;
         private decimal valorDesconto       = 0;
         private decimal totalComDesconto    = 0;
+        private decimal quantidade          = 0;
 
         public int PedidoVendaItemId { get; set; }
 
         public int ProdutoId { get; set; }
 
         public string ProdutoNome { get; set; } = string.Empty;
-
-        public decimal Quantidade { get; set; }
+                
+        public decimal Quantidade
+        {
+            set
+            {
+                this.quantidade = value;
+            }
+            get => Convert.ToInt32(this.quantidade);
+        }
 
         public decimal PrecoVenda
         {
