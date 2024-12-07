@@ -29,10 +29,10 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
         {
             InitializeComponent();
 
-            this.estado         = estado;
+            this.estado = estado;
             this.classificacoes = classificacoes;
-            this.pessoasIds     = pessoasIds;
-            this.venda          = venda;
+            this.pessoasIds = pessoasIds;
+            this.venda = venda;
 
             DelegaEventos();
             CarregaEstadoTela();
@@ -66,10 +66,10 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
 
         private void ZeraCamposDesconto()
         {
-            bloqueiaAlteracaoCampo  = true;
-            boxDesconto.Text        = "0,00";
-            boxValorDesconto.Text   = "0,00";
-            bloqueiaAlteracaoCampo  = false;
+            bloqueiaAlteracaoCampo = true;
+            boxDesconto.Text = "0,00";
+            boxValorDesconto.Text = "0,00";
+            bloqueiaAlteracaoCampo = false;
         }
 
         private static void LimpaCampos(GroupBox Group)
@@ -220,6 +220,87 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             }
         }
 
+        private void AdicionaTotaisComissaoTela(string nome, decimal tComissao, decimal tTotal)
+        {
+            foreach (Control item in groupBoxTotaisClassificacoes.Controls)
+            {
+                if (item is Label label && label.Text.Equals(nome))
+                {                   
+                    foreach (Control controle in groupBoxTotaisClassificacoes.Controls)
+                    {
+                        if (controle is Label texto)                        
+                            if (texto.Tag is not null && texto.Tag.Equals(nome + "01"))
+                                texto.Text = tComissao.ToString();                                               
+                    }                      
+
+                    foreach (Control controle in groupBoxTotaisClassificacoes.Controls)
+                    {
+                        if (controle is Label texto)
+                            if (texto.Tag is not null && texto.Tag.Equals(nome + "02"))
+                                texto.Text = tTotal.ToString();
+                    }
+
+                    return;                    
+                }
+            }
+
+            Label nomeComissao       = new () { AutoSize = true };
+
+            Label totalComissao      = new () { AutoSize = true };
+            Label totalComissaoValor = new () { AutoSize = true, Tag = nome + "01" };
+
+            Label total              = new () { AutoSize = true };
+            Label totalValor         = new () { AutoSize = true, Tag = nome + "02" };
+
+            total.Tag = "ultimo";
+
+            int altura = 27;
+
+            nomeComissao.Text = nome;
+            nomeComissao.Font = new Font("montserrat", 10, FontStyle.Bold);
+
+            foreach (Control item in groupBoxTotaisClassificacoes.Controls)
+            {
+                if (item is Label label)
+                {
+                    if (label.Tag is not null)
+                    {
+                        if (label.Tag.ToString() == "ultimo")                        
+                            altura = (label.Location.Y + label.Height + 6);                        
+                    }                    
+                }
+            }
+
+            groupBoxTotaisClassificacoes.Controls.Add(nomeComissao);
+            nomeComissao.Location   = new Point(6, altura);
+
+            totalComissao.Text      = "Total Comissão:";
+            totalComissao.Font      = new Font("montserrat", 10, FontStyle.Regular);
+            groupBoxTotaisClassificacoes.Controls.Add(totalComissao);
+            totalComissao.Location  = new Point(6, nomeComissao.Location.Y + nomeComissao.Height + 5);
+
+            totalComissaoValor.Text = tComissao.ToString();
+            totalComissaoValor.Font = new Font("montserrat", 10, FontStyle.Bold);
+            groupBoxTotaisClassificacoes.Controls.Add(totalComissaoValor);
+            totalComissaoValor.Location = new Point(totalComissao.Location.X + totalComissao.Width + 5, totalComissao.Location.Y);
+
+            total.Text              = "Total:";
+            total.Font              = new Font("montserrat", 10, FontStyle.Regular);
+            groupBoxTotaisClassificacoes.Controls.Add(total);
+            total.Location          = new Point(6, totalComissaoValor.Location.Y + totalComissaoValor.Height + 3);
+
+            totalValor.Text         = tTotal.ToString();
+            totalValor.Font         = new Font("montserrat", 10, FontStyle.Bold);
+            groupBoxTotaisClassificacoes.Controls.Add(totalValor);
+            totalValor.Location     = new Point(totalComissaoValor.Location.X, total.Location.Y);
+        }
+
+        private void AtualizaTotaisComissoes()
+        {
+            foreach (int classificacao in classificacoes)            
+                ObtemTotaisComissaoClassificacaoVenda(classificacao);            
+        }
+
         #endregion
 
         #region Eventos e Cliques Keypress
@@ -230,10 +311,9 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             {
                 Utils.RunOnUiThread(this, () =>
                 {
-                    dataGridProdutos.SetStyleDataGridView();
-                    dataGridProdutosVenda.SetStyleDataGridView();
-                    dataGridComissaoClassificacao.SetStyleDataGridView();
-                    dataGridTotaisVenda.SetStyleDataGridView();
+                    dataGridProdutos.SetStyleDataGridView(25, 40, 8, 8);
+                    dataGridProdutosVenda.SetStyleDataGridView(25, 40, 8, 8);
+                    dataGridComissaoClassificacao.SetStyleDataGridView(25, 40, 8, 8);
                 });
             });
         }
@@ -277,11 +357,11 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
 
                 // ---------------------------------------------------------------------------------------------------------------------------------------
 
-                decimal quantidadeProduto   = Convert.ToDecimal(boxQuantidade.Text.Trim());
-                decimal valorDesconto       = string.IsNullOrEmpty(boxValorDesconto.Text.Trim()) ? 0m : Convert.ToDecimal(boxValorDesconto.Text.Trim());
+                decimal quantidadeProduto = Convert.ToDecimal(boxQuantidade.Text.Trim());
+                decimal valorDesconto = string.IsNullOrEmpty(boxValorDesconto.Text.Trim()) ? 0m : Convert.ToDecimal(boxValorDesconto.Text.Trim());
                 decimal porcentagemDesconto = string.IsNullOrEmpty(boxDesconto.Text.Trim()) ? 0m : Convert.ToDecimal(boxDesconto.Text.Trim());
-                      
-                AdicionaProdutoVenda(valorUnidade, quantidadeProduto, valorDesconto, porcentagemDesconto);               
+
+                AdicionaProdutoVenda(valorUnidade, quantidadeProduto, valorDesconto, porcentagemDesconto);
             }
             catch (Exception ex)
             {
@@ -326,7 +406,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
 
             if (string.IsNullOrEmpty(box.Text) || Convert.ToDecimal(box.Text.Trim()) <= 0)
             {
-                boxDesconto.Text      = string.Empty;
+                boxDesconto.Text = string.Empty;
                 boxValorDesconto.Text = string.Empty;
             }
         }
@@ -345,7 +425,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                 decimal total = (porcentagem / 100) * valorUnidade;
 
                 bloqueiaAlteracaoCampo = true;
-                boxValorDesconto.Text  = total.ToString();
+                boxValorDesconto.Text = total.ToString();
                 bloqueiaAlteracaoCampo = false;
             });
         }
@@ -477,18 +557,20 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                 quantidadeProduto,
                 valorDesconto,
                 porcentagemDesconto
-                ).Then(pedidoVenda => 
+                ).Then(pedidoVenda =>
                 {
                     Utils.RunOnUiThread(this, () =>
                     {
+                        ListaItensVenda();
+                        ObtemTotaisProdutosVenda();
+                        AtualizaTotaisComissoes();
+
                         venda = pedidoVenda;
 
-                        lblTotalGeral.Text          = Utils.FormataDecimalMonetario(venda.TotalGeral).ToString();
+                        lblTotalGeral.Text = Utils.FormataDecimalMonetario(venda.TotalGeral).ToString();
                         lblPorcentagemDesconto.Text = Utils.FormataPorcentagem(venda.PorcentagemDesconto).ToString();
-                        lblValorDesconto.Text       = Utils.FormataDecimalMonetario(venda.ValorDesconto).ToString();
-                        lblTotalComDesconto.Text    = Utils.FormataDecimalMonetario(venda.TotalComDesconto).ToString();
-
-                        ListaItensVenda();
+                        lblValorDesconto.Text = Utils.FormataDecimalMonetario(venda.ValorDesconto).ToString();
+                        lblTotalComDesconto.Text = Utils.FormataDecimalMonetario(venda.TotalComDesconto).ToString();
                     });
                 }).Catch(erro =>
                 {
@@ -504,23 +586,70 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             if (venda is null || venda.Id <= 0) return;
 
             HelperPedidoVendas.ObtemItensVenda(venda.Id, classificacoes)
-            .Then(itensVenda => {
+            .Then(itensVenda =>
+            {
                 Utils.RunOnUiThread(this, () =>
                 {
                     dataGridProdutosVenda.DataSource = itensVenda;
 
-                    dataGridProdutosVenda.Columns["PedidoVendaItemId"].Visible           = false;
-                    dataGridProdutosVenda.Columns["ProdutoId"].HeaderText                = "P. Id";
-                    dataGridProdutosVenda.Columns["ProdutoNome"].HeaderText              = "Nome";
-                    dataGridProdutosVenda.Columns["PrecoVenda"].HeaderText               = "P. Venda";
-                    dataGridProdutosVenda.Columns["PorcentagemDesconto"].HeaderText      = "% Desc";
-                    dataGridProdutosVenda.Columns["ValorDesconto"].HeaderText            = "V. Desc";
-                    dataGridProdutosVenda.Columns["TotalComDesconto"].HeaderText         = "Total C. Desc";
+                    dataGridProdutosVenda.Columns["PedidoVendaItemId"].Visible = false;
+                    dataGridProdutosVenda.Columns["ProdutoId"].HeaderText = "P. Id";
+                    dataGridProdutosVenda.Columns["ProdutoNome"].HeaderText = "Nome";
+                    dataGridProdutosVenda.Columns["PrecoVenda"].HeaderText = "P. Venda";
+                    dataGridProdutosVenda.Columns["PorcentagemDesconto"].HeaderText = "% Desc";
+                    dataGridProdutosVenda.Columns["ValorDesconto"].HeaderText = "V. Desc";
+                    dataGridProdutosVenda.Columns["TotalComDesconto"].HeaderText = "Total C. Desc";
                     dataGridProdutosVenda.Columns["PedidoVendaItemCreatedAt"].HeaderText = "Adicionado Em";
 
                     dataGridProdutosVenda.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 });
-            }).Catch(erro => {
+            }).Catch(erro =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    MessageBox.Show(erro.Message);
+                });
+            });
+        }
+         
+        private void ObtemTotaisProdutosVenda()
+        {
+            if (venda is null || venda.Id <= 0) return;
+
+            HelperPedidoVendas.TotalizadorVenda(venda.Id)
+            .Then(totais =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    lblQuantidadeItens.Text             = totais.QuantidadeItens.ToString();
+                    lblTotalGeralProdutos.Text          = totais.TotalGeral.ToString();
+                    lblPorcentagemDescontoProdutos.Text = totais.PorcentagemDescontoProdutos.ToString();
+                    lblValorDescontoProdutos.Text       = totais.ValorDescontoProdutos.ToString();
+                    lblTotalComDescontoProdutos.Text    = totais.TotalComDescontoProdutos.ToString();
+                });
+            }).Catch(erro =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    MessageBox.Show(erro.Message);
+                });
+            });
+        }
+         
+        private void ObtemTotaisComissaoClassificacaoVenda(int classificacaoId)
+        {
+            if (venda is null || venda.Id <= 0) return;
+
+            HelperPedidoVendas.TotalizadorComissaoClassificacaoVenda(venda.Id, classificacaoId)
+            .Then(totais =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    if (totais is not null)                    
+                        AdicionaTotaisComissaoTela(totais.Nome, totais.TotalComissao, totais.Total);                    
+                });
+            }).Catch(erro =>
+            {
                 Utils.RunOnUiThread(this, () =>
                 {
                     MessageBox.Show(erro.Message);
@@ -529,6 +658,5 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
         }
 
         #endregion
-
     }
 }

@@ -283,5 +283,121 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
             return promise;
         }
 
+        public static IPromise<ModelTotalizadorVenda> TotalizadorVenda(int pedidoVendaId)
+        {
+            Promise<ModelTotalizadorVenda> promise = new();
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    using AppDbContext context = new();
+
+                    string sql = string.Format(@"
+                        SELECT VendaId                     = pedido_venda_item.pedido_venda_id
+                             , QuantidadeItens             = SUM(ISNULL(pedido_venda_item.quantidade, 0))
+                             , TotalGeral                  = SUM(ISNULL(pedido_venda_item.total, 0))
+                             , PorcentagemDescontoProdutos = SUM(ISNULL(pedido_venda_item.porcentagem_desconto, 0))
+                             , ValorDescontoProdutos       = SUM(ISNULL(pedido_venda_item.valor_desconto, 0))
+                             , TotalComDescontoProdutos    = SUM(ISNULL(pedido_venda_item.total_com_desconto, 0))
+                        
+                          FROM pedido_venda_item
+                         WHERE pedido_venda_item.deleted_at IS NULL
+                           AND pedido_venda_item.pedido_venda_id = {0}
+                        
+                         GROUP
+                            BY pedido_venda_item.pedido_venda_id;", pedidoVendaId);
+
+                    #if DEBUG
+                    System.Diagnostics.Debug.WriteLine(sql);
+                    #endif
+
+                    List<ModelTotalizadorVenda>? resultado = context.Database.SqlQuery<ModelTotalizadorVenda>(FormattableStringFactory.Create(sql)).ToList();
+
+                    if (resultado is not null && resultado.Count > 1)                    
+                        throw new Exception("Anomalia! Dois pedidos de venda com mesmo. Id: " + pedidoVendaId.ToString());
+
+                    if (resultado is not null)                    
+                        promise.Resolve(resultado[0]);
+                    else
+                        promise.Resolve(new ModelTotalizadorVenda()
+                        {
+                            PorcentagemDescontoProdutos = 0,
+                            QuantidadeItens             = 0,
+                            TotalComDescontoProdutos    = 0,
+                            TotalGeral                  = 0,
+                            ValorDescontoProdutos       = 0,
+                            VendaId                     = 0
+                        });
+                }
+                catch (Exception ex)
+                {
+                    promise.Reject(ex);
+                }
+            });
+
+            return promise;
+        }
+
+        public static IPromise<ModelTotalizadorComissaoVenda?> TotalizadorComissaoClassificacaoVenda(int pedidoVendaId, int classificacaoId)
+        {
+            Promise<ModelTotalizadorComissaoVenda?> promise = new();
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    using AppDbContext context = new();
+
+                    string sql = string.Format(@"
+                        SELECT PedidoVendaId = comissao.pedido_venda_id
+                             , Nome          = classificacao.nome
+                             , TotalComissao = SUM(ISNULL(comissao.total_comissao, 0))
+                             , Total         = SUM(ISNULL(comissao.total, 0))
+                        
+                          FROM pedido_venda_item
+                        
+                         INNER
+                          JOIN pedido_venda_item_comissao
+                            AS comissao
+                            ON comissao.deleted_at IS NULL
+                           AND comissao.pedido_venda_item_id = pedido_venda_item.id
+                           AND comissao.classificacao_id     = {0}
+                        
+                         INNER
+                          JOIN classificacao
+                            AS classificacao
+                            ON classificacao.deleted_at IS NULL
+                           AND classificacao.id = comissao.classificacao_id
+                        
+                         WHERE pedido_venda_item.deleted_at IS NULL
+                           AND pedido_venda_item.pedido_venda_id = {1}
+                        
+                         GROUP
+                            BY comissao.pedido_venda_id
+                             , classificacao.nome;", classificacaoId, pedidoVendaId);
+
+                    #if DEBUG
+                    System.Diagnostics.Debug.WriteLine(sql);
+                    #endif
+
+                    List<ModelTotalizadorComissaoVenda>? resultado = context.Database.SqlQuery<ModelTotalizadorComissaoVenda>(FormattableStringFactory.Create(sql)).ToList();
+
+                    if (resultado is not null && resultado.Count > 1)
+                        throw new Exception("Anomalia! Duas comissões da mesma venda e do mesmo item_id. Id Pedido: " + pedidoVendaId.ToString() + ", Classificacao Id: " + classificacaoId.ToString());
+
+                    if (resultado is null || resultado.Count <= 0)
+                        promise.Resolve(null);
+                    else                    
+                        promise.Resolve(resultado[0]);                   
+                }
+                catch (Exception ex)
+                {
+                    promise.Reject(ex);
+                }
+            });
+
+            return promise;
+        }
     }
 }

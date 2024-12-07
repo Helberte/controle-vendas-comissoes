@@ -2,7 +2,11 @@
 {
     public static class DataGridViewExtension
     {
-        public static void SetStyleDataGridView(this DataGridView Sender)
+        public static void SetStyleDataGridView(this DataGridView Sender, 
+            int rowHeight = 35, 
+            int columnHeadersHeight = 43,
+            int headerCellFont = 10,
+            int rowCellFont = 10)
         {
             string nomeFonte = "montserrat";
 
@@ -15,12 +19,12 @@
             // pripriedades para o cabeçalho
             Sender.ColumnHeadersDefaultCellStyle.Alignment          = DataGridViewContentAlignment.MiddleCenter;
             Sender.ColumnHeadersDefaultCellStyle.BackColor          = Color.FromArgb(247, 247, 247);
-            Sender.ColumnHeadersDefaultCellStyle.Font               = new Font(nomeFonte, 10, FontStyle.Bold);
+            Sender.ColumnHeadersDefaultCellStyle.Font               = new Font(nomeFonte, headerCellFont, FontStyle.Bold);
             Sender.ColumnHeadersDefaultCellStyle.ForeColor          = Color.FromArgb(0, 89, 83);
             Sender.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(226, 226, 226);
 
             // ajusta altura da linha do cabeçalho
-            Sender.ColumnHeadersHeight = 43;
+            Sender.ColumnHeadersHeight = columnHeadersHeight;
 
             Sender.RowHeadersDefaultCellStyle.SelectionForeColor = Color.Black;
             Sender.RowHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(112, 140, 237);
@@ -31,7 +35,7 @@
 
             // Coloca a cor de fundo nas linhas
             Sender.RowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 254);
-            Sender.RowsDefaultCellStyle.Font      = new Font(nomeFonte, 10, FontStyle.Regular);
+            Sender.RowsDefaultCellStyle.Font      = new Font(nomeFonte, rowCellFont, FontStyle.Regular);
             Sender.RowsDefaultCellStyle.ForeColor = Color.FromArgb(110, 102, 100);
 
             // configurações para todas as células
@@ -43,7 +47,7 @@
             Sender.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 
             // altura das linhas
-            Sender.RowTemplate.Height = 35;
+            Sender.RowTemplate.Height = rowHeight;
 
             // indica que o usuário não vai poder editar linhas
             Sender.ReadOnly = true;
