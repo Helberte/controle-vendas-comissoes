@@ -61,6 +61,10 @@
             lblQuantidadeItens = new Label();
             label3 = new Label();
             groupBoxTotaisClassificacoes = new GroupBox();
+            btExcluirMarcados = new FontAwesome.Sharp.IconButton();
+            lblQuantidadeSelecionada = new Label();
+            label6 = new Label();
+            checkBoxMarcarTodos = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)dataGridProdutos).BeginInit();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridProdutosVenda).BeginInit();
@@ -75,7 +79,7 @@
             lblNomeEstado.Font = new Font("Montserrat", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblNomeEstado.Location = new Point(6, 9);
             lblNomeEstado.Name = "lblNomeEstado";
-            lblNomeEstado.Size = new Size(189, 29);
+            lblNomeEstado.Size = new Size(191, 33);
             lblNomeEstado.TabIndex = 0;
             lblNomeEstado.Text = "Nome do Estado";
             // 
@@ -148,7 +152,7 @@
             lblProdutoSelecionado.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblProdutoSelecionado.Location = new Point(53, 20);
             lblProdutoSelecionado.Name = "lblProdutoSelecionado";
-            lblProdutoSelecionado.Size = new Size(180, 22);
+            lblProdutoSelecionado.Size = new Size(182, 25);
             lblProdutoSelecionado.TabIndex = 6;
             lblProdutoSelecionado.Text = "NOME DO PRODUTO";
             // 
@@ -158,7 +162,7 @@
             lblIdProdutoSelecionado.Font = new Font("Montserrat SemiBold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblIdProdutoSelecionado.Location = new Point(6, 17);
             lblIdProdutoSelecionado.Name = "lblIdProdutoSelecionado";
-            lblIdProdutoSelecionado.Size = new Size(51, 26);
+            lblIdProdutoSelecionado.Size = new Size(52, 30);
             lblIdProdutoSelecionado.TabIndex = 5;
             lblIdProdutoSelecionado.Text = "000";
             // 
@@ -189,6 +193,9 @@
             dataGridProdutosVenda.Name = "dataGridProdutosVenda";
             dataGridProdutosVenda.Size = new Size(623, 310);
             dataGridProdutosVenda.TabIndex = 8;
+            dataGridProdutosVenda.CellDoubleClick += DataGridProdutosVenda_CellDoubleClick;
+            dataGridProdutosVenda.CellMouseUp += DataGridProdutosVenda_CellMouseUp;
+            dataGridProdutosVenda.CellValueChanged += dataGridProdutosVenda_CellValueChanged;
             // 
             // dataGridComissaoClassificacao
             // 
@@ -247,7 +254,7 @@
             lblTotalComDesconto.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
             lblTotalComDesconto.Location = new Point(623, 19);
             lblTotalComDesconto.Name = "lblTotalComDesconto";
-            lblTotalComDesconto.Size = new Size(17, 18);
+            lblTotalComDesconto.Size = new Size(18, 20);
             lblTotalComDesconto.TabIndex = 26;
             lblTotalComDesconto.Text = "0";
             // 
@@ -257,13 +264,13 @@
             label7.Font = new Font("Montserrat", 9.749999F);
             label7.Location = new Point(507, 19);
             label7.Name = "label7";
-            label7.Size = new Size(121, 18);
+            label7.Size = new Size(122, 20);
             label7.TabIndex = 25;
             label7.Text = "Total C. Desconto:";
             // 
             // groupBox2
             // 
-            groupBox2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            groupBox2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             groupBox2.Controls.Add(lblValorDesconto);
             groupBox2.Controls.Add(lblTotalComDesconto);
             groupBox2.Controls.Add(label5);
@@ -272,7 +279,7 @@
             groupBox2.Controls.Add(label2);
             groupBox2.Controls.Add(lblTotalGeral);
             groupBox2.Controls.Add(label4);
-            groupBox2.Location = new Point(6, 718);
+            groupBox2.Location = new Point(342, 716);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(733, 46);
             groupBox2.TabIndex = 27;
@@ -285,7 +292,7 @@
             lblValorDesconto.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
             lblValorDesconto.Location = new Point(413, 19);
             lblValorDesconto.Name = "lblValorDesconto";
-            lblValorDesconto.Size = new Size(17, 18);
+            lblValorDesconto.Size = new Size(18, 20);
             lblValorDesconto.TabIndex = 26;
             lblValorDesconto.Text = "0";
             // 
@@ -295,7 +302,7 @@
             label5.Font = new Font("Montserrat", 9.749999F);
             label5.Location = new Point(330, 19);
             label5.Name = "label5";
-            label5.Size = new Size(88, 18);
+            label5.Size = new Size(89, 20);
             label5.TabIndex = 25;
             label5.Text = "V. Desconto:";
             // 
@@ -305,7 +312,7 @@
             lblPorcentagemDesconto.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
             lblPorcentagemDesconto.Location = new Point(261, 19);
             lblPorcentagemDesconto.Name = "lblPorcentagemDesconto";
-            lblPorcentagemDesconto.Size = new Size(17, 18);
+            lblPorcentagemDesconto.Size = new Size(18, 20);
             lblPorcentagemDesconto.TabIndex = 24;
             lblPorcentagemDesconto.Text = "0";
             // 
@@ -315,7 +322,7 @@
             label2.Font = new Font("Montserrat", 9.749999F);
             label2.Location = new Point(179, 19);
             label2.Name = "label2";
-            label2.Size = new Size(87, 18);
+            label2.Size = new Size(88, 20);
             label2.TabIndex = 23;
             label2.Text = "% Desconto:";
             // 
@@ -325,7 +332,7 @@
             lblTotalGeral.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
             lblTotalGeral.Location = new Point(96, 19);
             lblTotalGeral.Name = "lblTotalGeral";
-            lblTotalGeral.Size = new Size(17, 18);
+            lblTotalGeral.Size = new Size(18, 20);
             lblTotalGeral.TabIndex = 13;
             lblTotalGeral.Text = "0";
             // 
@@ -335,7 +342,7 @@
             label4.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.Location = new Point(4, 19);
             label4.Name = "label4";
-            label4.Size = new Size(97, 18);
+            label4.Size = new Size(98, 20);
             label4.TabIndex = 12;
             label4.Text = "Total Geral R$:";
             // 
@@ -365,7 +372,7 @@
             lblTotalComDescontoProdutos.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
             lblTotalComDescontoProdutos.Location = new Point(117, 148);
             lblTotalComDescontoProdutos.Name = "lblTotalComDescontoProdutos";
-            lblTotalComDescontoProdutos.Size = new Size(17, 18);
+            lblTotalComDescontoProdutos.Size = new Size(18, 20);
             lblTotalComDescontoProdutos.TabIndex = 23;
             lblTotalComDescontoProdutos.Text = "0";
             // 
@@ -375,7 +382,7 @@
             label14.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label14.Location = new Point(7, 148);
             label14.Name = "label14";
-            label14.Size = new Size(114, 18);
+            label14.Size = new Size(115, 20);
             label14.TabIndex = 22;
             label14.Text = "Total C. Desc. R$:";
             // 
@@ -385,7 +392,7 @@
             lblValorDescontoProdutos.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
             lblValorDescontoProdutos.Location = new Point(117, 117);
             lblValorDescontoProdutos.Name = "lblValorDescontoProdutos";
-            lblValorDescontoProdutos.Size = new Size(17, 18);
+            lblValorDescontoProdutos.Size = new Size(18, 20);
             lblValorDescontoProdutos.TabIndex = 21;
             lblValorDescontoProdutos.Text = "0";
             // 
@@ -395,7 +402,7 @@
             label12.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label12.Location = new Point(7, 117);
             label12.Name = "label12";
-            label12.Size = new Size(116, 18);
+            label12.Size = new Size(117, 20);
             label12.TabIndex = 20;
             label12.Text = "Vlr. Desconto R$:";
             // 
@@ -405,7 +412,7 @@
             lblPorcentagemDescontoProdutos.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
             lblPorcentagemDescontoProdutos.Location = new Point(117, 86);
             lblPorcentagemDescontoProdutos.Name = "lblPorcentagemDescontoProdutos";
-            lblPorcentagemDescontoProdutos.Size = new Size(17, 18);
+            lblPorcentagemDescontoProdutos.Size = new Size(18, 20);
             lblPorcentagemDescontoProdutos.TabIndex = 19;
             lblPorcentagemDescontoProdutos.Text = "0";
             // 
@@ -415,7 +422,7 @@
             label10.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label10.Location = new Point(7, 86);
             label10.Name = "label10";
-            label10.Size = new Size(87, 18);
+            label10.Size = new Size(88, 20);
             label10.TabIndex = 18;
             label10.Text = "% Desconto:";
             // 
@@ -425,7 +432,7 @@
             lblTotalGeralProdutos.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
             lblTotalGeralProdutos.Location = new Point(117, 56);
             lblTotalGeralProdutos.Name = "lblTotalGeralProdutos";
-            lblTotalGeralProdutos.Size = new Size(17, 18);
+            lblTotalGeralProdutos.Size = new Size(18, 20);
             lblTotalGeralProdutos.TabIndex = 17;
             lblTotalGeralProdutos.Text = "0";
             // 
@@ -435,7 +442,7 @@
             label8.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label8.Location = new Point(7, 56);
             label8.Name = "label8";
-            label8.Size = new Size(97, 18);
+            label8.Size = new Size(98, 20);
             label8.TabIndex = 16;
             label8.Text = "Total Geral R$:";
             // 
@@ -445,7 +452,7 @@
             lblQuantidadeItens.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold);
             lblQuantidadeItens.Location = new Point(117, 27);
             lblQuantidadeItens.Name = "lblQuantidadeItens";
-            lblQuantidadeItens.Size = new Size(17, 18);
+            lblQuantidadeItens.Size = new Size(18, 20);
             lblQuantidadeItens.TabIndex = 15;
             lblQuantidadeItens.Text = "0";
             // 
@@ -455,7 +462,7 @@
             label3.Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.Location = new Point(7, 27);
             label3.Name = "label3";
-            label3.Size = new Size(74, 18);
+            label3.Size = new Size(75, 20);
             label3.TabIndex = 14;
             label3.Text = "Qtd. Itens:";
             // 
@@ -469,11 +476,64 @@
             groupBoxTotaisClassificacoes.TabStop = false;
             groupBoxTotaisClassificacoes.Text = "Totais Classificações";
             // 
+            // btExcluirMarcados
+            // 
+            btExcluirMarcados.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btExcluirMarcados.BackColor = Color.FromArgb(199, 199, 199);
+            btExcluirMarcados.Enabled = false;
+            btExcluirMarcados.FlatAppearance.BorderSize = 0;
+            btExcluirMarcados.FlatStyle = FlatStyle.Flat;
+            btExcluirMarcados.Font = new Font("Montserrat SemiBold", 8.249999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btExcluirMarcados.ForeColor = Color.White;
+            btExcluirMarcados.IconChar = FontAwesome.Sharp.IconChar.None;
+            btExcluirMarcados.IconColor = Color.Black;
+            btExcluirMarcados.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btExcluirMarcados.Location = new Point(6, 734);
+            btExcluirMarcados.Name = "btExcluirMarcados";
+            btExcluirMarcados.Size = new Size(146, 26);
+            btExcluirMarcados.TabIndex = 30;
+            btExcluirMarcados.Text = "EXCLUIR MARCADOS";
+            btExcluirMarcados.UseVisualStyleBackColor = false;
+            // 
+            // lblQuantidadeSelecionada
+            // 
+            lblQuantidadeSelecionada.AutoSize = true;
+            lblQuantidadeSelecionada.Font = new Font("Montserrat Medium", 8.249999F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblQuantidadeSelecionada.Location = new Point(23, 717);
+            lblQuantidadeSelecionada.Name = "lblQuantidadeSelecionada";
+            lblQuantidadeSelecionada.Size = new Size(16, 17);
+            lblQuantidadeSelecionada.TabIndex = 32;
+            lblQuantidadeSelecionada.Text = "0";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Montserrat", 7F);
+            label6.Location = new Point(50, 718);
+            label6.Name = "label6";
+            label6.Size = new Size(74, 16);
+            label6.TabIndex = 31;
+            label6.Text = "Selecionados";
+            // 
+            // checkBoxMarcarTodos
+            // 
+            checkBoxMarcarTodos.AutoSize = true;
+            checkBoxMarcarTodos.Location = new Point(6, 718);
+            checkBoxMarcarTodos.Name = "checkBoxMarcarTodos";
+            checkBoxMarcarTodos.Size = new Size(15, 14);
+            checkBoxMarcarTodos.TabIndex = 33;
+            checkBoxMarcarTodos.UseVisualStyleBackColor = true;
+            checkBoxMarcarTodos.CheckedChanged += CheckBoxMarcarTodos_CheckedChanged;
+            // 
             // AdicaoProdutos
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1087, 768);
+            Controls.Add(checkBoxMarcarTodos);
+            Controls.Add(lblQuantidadeSelecionada);
+            Controls.Add(label6);
+            Controls.Add(btExcluirMarcados);
             Controls.Add(groupBoxTotaisClassificacoes);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
@@ -542,5 +602,9 @@
         private Label lblTotalGeralProdutos;
         private Label label8;
         private GroupBox groupBoxTotaisClassificacoes;
+        private FontAwesome.Sharp.IconButton btExcluirMarcados;
+        private Label lblQuantidadeSelecionada;
+        private Label label6;
+        private CheckBox checkBoxMarcarTodos;
     }
 }

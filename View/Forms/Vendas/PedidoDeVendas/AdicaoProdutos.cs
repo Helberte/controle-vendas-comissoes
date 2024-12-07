@@ -13,12 +13,14 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
     {
         #region Variaveis
 
-        private bool bloqueiaAlteracaoCampo = false;
+        private static bool bloqueiaAlteracaoCampo = false;
 
         private readonly Estado? estado;
-        private int produtoId = 0;
+        private static int produtoId = 0;
         private int[] classificacoes = [];
         private int[] pessoasIds = [];
+
+        private static int quantidadeRowsSelecionadasGridItensVenda = 0;
         private PedidoVenda venda;
 
         #endregion
@@ -225,13 +227,13 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             foreach (Control item in groupBoxTotaisClassificacoes.Controls)
             {
                 if (item is Label label && label.Text.Equals(nome))
-                {                   
+                {
                     foreach (Control controle in groupBoxTotaisClassificacoes.Controls)
                     {
-                        if (controle is Label texto)                        
+                        if (controle is Label texto)
                             if (texto.Tag is not null && texto.Tag.Equals(nome + "01"))
-                                texto.Text = tComissao.ToString();                                               
-                    }                      
+                                texto.Text = tComissao.ToString();
+                    }
 
                     foreach (Control controle in groupBoxTotaisClassificacoes.Controls)
                     {
@@ -240,17 +242,17 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                                 texto.Text = tTotal.ToString();
                     }
 
-                    return;                    
+                    return;
                 }
             }
 
-            Label nomeComissao       = new () { AutoSize = true };
+            Label nomeComissao = new() { AutoSize = true };
 
-            Label totalComissao      = new () { AutoSize = true };
-            Label totalComissaoValor = new () { AutoSize = true, Tag = nome + "01" };
+            Label totalComissao = new() { AutoSize = true };
+            Label totalComissaoValor = new() { AutoSize = true, Tag = nome + "01" };
 
-            Label total              = new () { AutoSize = true };
-            Label totalValor         = new () { AutoSize = true, Tag = nome + "02" };
+            Label total = new() { AutoSize = true };
+            Label totalValor = new() { AutoSize = true, Tag = nome + "02" };
 
             total.Tag = "ultimo";
 
@@ -265,40 +267,62 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                 {
                     if (label.Tag is not null)
                     {
-                        if (label.Tag.ToString() == "ultimo")                        
-                            altura = (label.Location.Y + label.Height + 6);                        
-                    }                    
+                        if (label.Tag.ToString() == "ultimo")
+                            altura = (label.Location.Y + label.Height + 6);
+                    }
                 }
             }
 
             groupBoxTotaisClassificacoes.Controls.Add(nomeComissao);
-            nomeComissao.Location   = new Point(6, altura);
+            nomeComissao.Location = new Point(6, altura);
 
-            totalComissao.Text      = "Total Comissão:";
-            totalComissao.Font      = new Font("montserrat", 10, FontStyle.Regular);
+            totalComissao.Text = "Total Comissão:";
+            totalComissao.Font = new Font("montserrat", 10, FontStyle.Regular);
             groupBoxTotaisClassificacoes.Controls.Add(totalComissao);
-            totalComissao.Location  = new Point(6, nomeComissao.Location.Y + nomeComissao.Height + 5);
+            totalComissao.Location = new Point(6, nomeComissao.Location.Y + nomeComissao.Height + 5);
 
             totalComissaoValor.Text = tComissao.ToString();
             totalComissaoValor.Font = new Font("montserrat", 10, FontStyle.Bold);
             groupBoxTotaisClassificacoes.Controls.Add(totalComissaoValor);
             totalComissaoValor.Location = new Point(totalComissao.Location.X + totalComissao.Width + 5, totalComissao.Location.Y);
 
-            total.Text              = "Total:";
-            total.Font              = new Font("montserrat", 10, FontStyle.Regular);
+            total.Text = "Total:";
+            total.Font = new Font("montserrat", 10, FontStyle.Regular);
             groupBoxTotaisClassificacoes.Controls.Add(total);
-            total.Location          = new Point(6, totalComissaoValor.Location.Y + totalComissaoValor.Height + 3);
+            total.Location = new Point(6, totalComissaoValor.Location.Y + totalComissaoValor.Height + 3);
 
-            totalValor.Text         = tTotal.ToString();
-            totalValor.Font         = new Font("montserrat", 10, FontStyle.Bold);
+            totalValor.Text = tTotal.ToString();
+            totalValor.Font = new Font("montserrat", 10, FontStyle.Bold);
             groupBoxTotaisClassificacoes.Controls.Add(totalValor);
-            totalValor.Location     = new Point(totalComissaoValor.Location.X, total.Location.Y);
+            totalValor.Location = new Point(totalComissaoValor.Location.X, total.Location.Y);
         }
 
         private void AtualizaTotaisComissoes()
         {
-            foreach (int classificacao in classificacoes)            
-                ObtemTotaisComissaoClassificacaoVenda(classificacao);            
+            foreach (int classificacao in classificacoes)
+                ObtemTotaisComissaoClassificacaoVenda(classificacao);
+        }
+
+        private void ColunasSomenteLeituraGridProdutosVenda()
+        {
+            foreach (DataGridViewColumn item in dataGridProdutosVenda.Columns)
+            {
+                if (item.Name.Equals("check") ||
+                    item.Name.Equals("Quantidade") ||
+                    item.Name.Equals("PorcentagemDesconto") ||
+                    item.Name.Equals("ValorDesconto"))
+                    item.ReadOnly = false;
+                else
+                    item.ReadOnly = true;
+            }
+        }
+
+        private void AtualizaTotalRowsSelecionadas(int total)
+        {
+            lblQuantidadeSelecionada.Text = total.ToString();
+            quantidadeRowsSelecionadasGridItensVenda = total;
+
+            btExcluirMarcados.Enabled = !total.Equals(0);
         }
 
         #endregion
@@ -312,8 +336,18 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                 Utils.RunOnUiThread(this, () =>
                 {
                     dataGridProdutos.SetStyleDataGridView(25, 40, 8, 8);
-                    dataGridProdutosVenda.SetStyleDataGridView(25, 40, 8, 8);
                     dataGridComissaoClassificacao.SetStyleDataGridView(25, 40, 8, 8);
+
+                    DataGridViewCheckBoxColumn columnCheck = new()
+                    {
+                        Name = "check",
+                        HeaderText = "Ação",
+                        Width = 50,
+                        FillWeight = 10
+                    };
+                    dataGridProdutosVenda.Columns.Add(columnCheck);
+
+                    dataGridProdutosVenda.SetStyleDataGridView(25, 40, 8, 8, false);
                 });
             });
         }
@@ -437,6 +471,44 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
 
             if (string.IsNullOrEmpty(boxQuantidade.Text.Trim()) || Convert.ToDecimal(boxQuantidade.Text.Trim()) <= 0)
                 e.Handled = true;
+        }
+
+        private void dataGridProdutosVenda_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dataGridProdutosVenda.Columns["check"].Index && e.RowIndex != -1)
+            {
+                bool valor = Convert.ToBoolean(dataGridProdutosVenda.Rows[e.RowIndex].Cells[0].Value);
+                int totalAtual = Convert.ToInt32(lblQuantidadeSelecionada.Text);
+
+                if (valor)
+                    totalAtual += 1;
+                else
+                    totalAtual -= 1;
+
+                AtualizaTotalRowsSelecionadas(totalAtual);
+
+                lblQuantidadeSelecionada.Text = quantidadeRowsSelecionadasGridItensVenda.ToString();
+            }
+        }
+
+        private void DataGridProdutosVenda_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.ColumnIndex == dataGridProdutosVenda.Columns["check"].Index && e.RowIndex != -1)
+                dataGridProdutosVenda.EndEdit();
+        }
+
+        private void DataGridProdutosVenda_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dataGridProdutosVenda.Columns["check"].Index && e.RowIndex != -1)
+                dataGridProdutosVenda.EndEdit();
+        }
+
+        private void CheckBoxMarcarTodos_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow r in dataGridProdutosVenda.Rows)
+                r.Cells[0].Value = ((CheckBox)sender).Checked;
+
+            AtualizaTotalRowsSelecionadas(((CheckBox)sender).Checked ? dataGridProdutosVenda.Rows.Count : 0);
         }
 
         #endregion
@@ -601,6 +673,9 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                     dataGridProdutosVenda.Columns["TotalComDesconto"].HeaderText = "Total C. Desc";
                     dataGridProdutosVenda.Columns["PedidoVendaItemCreatedAt"].HeaderText = "Adicionado Em";
 
+                    ColunasSomenteLeituraGridProdutosVenda();
+                    AtualizaTotalRowsSelecionadas(0);
+
                     dataGridProdutosVenda.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 });
             }).Catch(erro =>
@@ -611,7 +686,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                 });
             });
         }
-         
+
         private void ObtemTotaisProdutosVenda()
         {
             if (venda is null || venda.Id <= 0) return;
@@ -621,11 +696,11 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             {
                 Utils.RunOnUiThread(this, () =>
                 {
-                    lblQuantidadeItens.Text             = totais.QuantidadeItens.ToString();
-                    lblTotalGeralProdutos.Text          = totais.TotalGeral.ToString();
+                    lblQuantidadeItens.Text = totais.QuantidadeItens.ToString();
+                    lblTotalGeralProdutos.Text = totais.TotalGeral.ToString();
                     lblPorcentagemDescontoProdutos.Text = totais.PorcentagemDescontoProdutos.ToString();
-                    lblValorDescontoProdutos.Text       = totais.ValorDescontoProdutos.ToString();
-                    lblTotalComDescontoProdutos.Text    = totais.TotalComDescontoProdutos.ToString();
+                    lblValorDescontoProdutos.Text = totais.ValorDescontoProdutos.ToString();
+                    lblTotalComDescontoProdutos.Text = totais.TotalComDescontoProdutos.ToString();
                 });
             }).Catch(erro =>
             {
@@ -635,7 +710,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                 });
             });
         }
-         
+
         private void ObtemTotaisComissaoClassificacaoVenda(int classificacaoId)
         {
             if (venda is null || venda.Id <= 0) return;
@@ -645,8 +720,8 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             {
                 Utils.RunOnUiThread(this, () =>
                 {
-                    if (totais is not null)                    
-                        AdicionaTotaisComissaoTela(totais.Nome, totais.TotalComissao, totais.Total);                    
+                    if (totais is not null)
+                        AdicionaTotaisComissaoTela(totais.Nome, totais.TotalComissao, totais.Total);
                 });
             }).Catch(erro =>
             {
@@ -657,6 +732,6 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             });
         }
 
-        #endregion
+        #endregion       
     }
 }

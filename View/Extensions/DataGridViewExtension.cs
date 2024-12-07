@@ -6,7 +6,8 @@
             int rowHeight = 35, 
             int columnHeadersHeight = 43,
             int headerCellFont = 10,
-            int rowCellFont = 10)
+            int rowCellFont = 10,
+            bool readOnly = true)
         {
             string nomeFonte = "montserrat";
 
@@ -50,7 +51,7 @@
             Sender.RowTemplate.Height = rowHeight;
 
             // indica que o usuário não vai poder editar linhas
-            Sender.ReadOnly = true;
+            Sender.ReadOnly = readOnly;
 
             //controles do grid completo
             Sender.BorderStyle      = BorderStyle.None;
