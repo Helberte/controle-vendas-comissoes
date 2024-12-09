@@ -132,8 +132,8 @@
             boxQuantidade.TabIndex = 5;
             boxQuantidade.Text = "";
             boxQuantidade.TrailingIcon = null;
-            boxQuantidade.TextChanged += boxQuantidade_TextChanged;
-            boxQuantidade.KeyPress += boxQuantidade_KeyPress;
+            boxQuantidade.TextChanged += BoxQuantidade_TextChanged;
+            boxQuantidade.KeyPress += BoxQuantidade_KeyPress;
             // 
             // groupBox1
             // 
@@ -183,7 +183,7 @@
             btAdicionar.TabIndex = 8;
             btAdicionar.Text = "ADICIONAR";
             btAdicionar.UseVisualStyleBackColor = false;
-            btAdicionar.Click += btAdicionar_Click;
+            btAdicionar.Click += BtAdicionar_Click;
             // 
             // dataGridProdutosVenda
             // 
@@ -224,8 +224,8 @@
             boxValorDesconto.TabIndex = 6;
             boxValorDesconto.Text = "";
             boxValorDesconto.TrailingIcon = null;
-            boxValorDesconto.TextChanged += boxValorDesconto_TextChanged;
-            boxValorDesconto.KeyPress += boxValorDesconto_KeyPress;
+            boxValorDesconto.TextChanged += BoxValorDesconto_TextChanged;
+            boxValorDesconto.KeyPress += BoxValorDesconto_KeyPress;
             // 
             // boxDesconto
             // 
@@ -245,8 +245,8 @@
             boxDesconto.TabIndex = 7;
             boxDesconto.Text = "";
             boxDesconto.TrailingIcon = null;
-            boxDesconto.TextChanged += boxDesconto_TextChanged;
-            boxDesconto.KeyPress += boxDesconto_KeyPress;
+            boxDesconto.TextChanged += BoxDesconto_TextChanged;
+            boxDesconto.KeyPress += BoxDesconto_KeyPress;
             // 
             // lblTotalComDesconto
             // 
@@ -494,6 +494,7 @@
             btExcluirMarcados.TabIndex = 30;
             btExcluirMarcados.Text = "EXCLUIR MARCADOS";
             btExcluirMarcados.UseVisualStyleBackColor = false;
+            btExcluirMarcados.Click += BtExcluirMarcados_Click;
             // 
             // lblQuantidadeSelecionada
             // 

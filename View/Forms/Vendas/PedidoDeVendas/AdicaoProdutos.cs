@@ -380,7 +380,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             }
         }
 
-        private void btAdicionar_Click(object sender, EventArgs e)
+        private void BtAdicionar_Click(object sender, EventArgs e)
         {
             try
             {
@@ -406,7 +406,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             }
         }
 
-        private void boxValorDesconto_KeyPress(object sender, KeyPressEventArgs e)
+        private void BoxValorDesconto_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',') && (e.KeyChar != '.'))
                 e.Handled = true;
@@ -415,7 +415,32 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                 e.Handled = true;
         }
 
-        private void boxValorDesconto_TextChanged(object sender, EventArgs e)
+        private void BtExcluirMarcados_Click(object sender, EventArgs e)
+        {
+            string produtosRemover = "";
+
+            for (int i = 0; i < dataGridProdutosVenda.Rows.Count; i++)
+            {
+                DataGridViewCheckBoxCell? celula = dataGridProdutosVenda.Rows[i].Cells[0] as DataGridViewCheckBoxCell;
+
+                if (celula != null && Convert.ToBoolean(celula.Value))
+                {
+                    produtosRemover += dataGridProdutosVenda.Rows[i].Cells[dataGridProdutosVenda.Columns["ProdutoNome"].Index].Value.ToString() ?? "";
+                    produtosRemover += " - Quantidade: " + dataGridProdutosVenda.Rows[i].Cells[dataGridProdutosVenda.Columns["Quantidade"].Index].Value.ToString();
+                    produtosRemover += "\n";
+                }                
+            }
+
+            if (!string.IsNullOrEmpty(produtosRemover))
+            {
+                MessageBox.Show("Deseja remover da venda estes produtos?\n\n" + produtosRemover, 
+                    "Atenção! Excluir produtos da venda",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+            }            
+        }
+
+        private void BoxValorDesconto_TextChanged(object sender, EventArgs e)
         {
             decimal valorUnidade = Convert.ToDecimal(dataGridProdutos.CurrentRow.Cells["PrecoVenda1"].Value.ToString());
 
@@ -431,13 +456,13 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             });
         }
 
-        private void boxQuantidade_KeyPress(object sender, KeyPressEventArgs e)
+        private void BoxQuantidade_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
                 e.Handled = true;
         }
 
-        private void boxQuantidade_TextChanged(object sender, EventArgs e)
+        private void BoxQuantidade_TextChanged(object sender, EventArgs e)
         {
             MaterialTextBox box = (MaterialTextBox)sender;
 
@@ -448,7 +473,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             }
         }
 
-        private void boxDesconto_TextChanged(object sender, EventArgs e)
+        private void BoxDesconto_TextChanged(object sender, EventArgs e)
         {
             decimal valorUnidade = Convert.ToDecimal(dataGridProdutos.CurrentRow.Cells["PrecoVenda1"].Value.ToString());
 
@@ -467,7 +492,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             });
         }
 
-        private void boxDesconto_KeyPress(object sender, KeyPressEventArgs e)
+        private void BoxDesconto_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',') && (e.KeyChar != '.'))
                 e.Handled = true;
@@ -735,6 +760,6 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             });
         }
 
-        #endregion       
+        #endregion        
     }
 }
