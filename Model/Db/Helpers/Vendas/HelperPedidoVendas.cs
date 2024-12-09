@@ -2,6 +2,7 @@
 using controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes;
 using controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos;
 using controle_vendas_comissoes.Model.Db.Models;
+using controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using RSG;
@@ -293,6 +294,46 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
             return promise;
         }
 
+        private static ModelTotalizadorVenda ObtemTotaisVenda(DbContext context, int pedidoVendaId)
+        {
+            string sql = string.Format(@"
+                SELECT VendaId                     = pedido_venda_item.pedido_venda_id
+                     , QuantidadeItens             = SUM(ISNULL(pedido_venda_item.quantidade, 0))
+                     , TotalGeral                  = SUM(ISNULL(pedido_venda_item.total, 0))
+                     , PorcentagemDescontoProdutos = SUM(ISNULL(pedido_venda_item.porcentagem_desconto, 0))
+                     , ValorDescontoProdutos       = SUM(ISNULL(pedido_venda_item.valor_desconto, 0))
+                     , TotalComDescontoProdutos    = SUM(ISNULL(pedido_venda_item.total_com_desconto, 0))
+                
+                  FROM pedido_venda_item
+                 WHERE pedido_venda_item.deleted_at IS NULL
+                   AND pedido_venda_item.pedido_venda_id = {0}
+                
+                 GROUP
+                    BY pedido_venda_item.pedido_venda_id;", pedidoVendaId);
+
+            #if DEBUG
+            System.Diagnostics.Debug.WriteLine(sql);
+            #endif
+
+            List<ModelTotalizadorVenda>? resultado = context.Database.SqlQuery<ModelTotalizadorVenda>(FormattableStringFactory.Create(sql)).ToList();
+
+            if (resultado is not null && resultado.Count > 1)
+                throw new Exception("Anomalia! Dois pedidos de venda com mesmo. Id: " + pedidoVendaId.ToString());
+
+            if (resultado is not null)
+                return resultado[0];
+            else
+                return new ModelTotalizadorVenda()
+                {
+                    PorcentagemDescontoProdutos = 0,
+                    QuantidadeItens = 0,
+                    TotalComDescontoProdutos = 0,
+                    TotalGeral = 0,
+                    ValorDescontoProdutos = 0,
+                    VendaId = 0
+                };
+        }
+
         public static IPromise<ModelTotalizadorVenda> TotalizadorVenda(int pedidoVendaId)
         {
             Promise<ModelTotalizadorVenda> promise = new();
@@ -303,42 +344,7 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                 {
                     using AppDbContext context = new();
 
-                    string sql = string.Format(@"
-                        SELECT VendaId                     = pedido_venda_item.pedido_venda_id
-                             , QuantidadeItens             = SUM(ISNULL(pedido_venda_item.quantidade, 0))
-                             , TotalGeral                  = SUM(ISNULL(pedido_venda_item.total, 0))
-                             , PorcentagemDescontoProdutos = SUM(ISNULL(pedido_venda_item.porcentagem_desconto, 0))
-                             , ValorDescontoProdutos       = SUM(ISNULL(pedido_venda_item.valor_desconto, 0))
-                             , TotalComDescontoProdutos    = SUM(ISNULL(pedido_venda_item.total_com_desconto, 0))
-                        
-                          FROM pedido_venda_item
-                         WHERE pedido_venda_item.deleted_at IS NULL
-                           AND pedido_venda_item.pedido_venda_id = {0}
-                        
-                         GROUP
-                            BY pedido_venda_item.pedido_venda_id;", pedidoVendaId);
-
-                    #if DEBUG
-                    System.Diagnostics.Debug.WriteLine(sql);
-                    #endif
-
-                    List<ModelTotalizadorVenda>? resultado = context.Database.SqlQuery<ModelTotalizadorVenda>(FormattableStringFactory.Create(sql)).ToList();
-
-                    if (resultado is not null && resultado.Count > 1)                    
-                        throw new Exception("Anomalia! Dois pedidos de venda com mesmo. Id: " + pedidoVendaId.ToString());
-
-                    if (resultado is not null)                    
-                        promise.Resolve(resultado[0]);
-                    else
-                        promise.Resolve(new ModelTotalizadorVenda()
-                        {
-                            PorcentagemDescontoProdutos = 0,
-                            QuantidadeItens             = 0,
-                            TotalComDescontoProdutos    = 0,
-                            TotalGeral                  = 0,
-                            ValorDescontoProdutos       = 0,
-                            VendaId                     = 0
-                        });
+                    promise.Resolve(ObtemTotaisVenda(context, pedidoVendaId));
                 }
                 catch (Exception ex)
                 {
@@ -409,5 +415,105 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
 
             return promise;
         }
+        
+        private static string Teste(int)
+        {
+
+        }
+
+        public static IPromise<PedidoVenda> RemoveProdutoVenda(int pedidoVendaId, int[] idsItensVenda)
+        {
+            lock (Lock)
+            {
+                Promise<PedidoVenda> promise = new();
+
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        using AppDbContext context = new();
+                        using IDbContextTransaction transaction = context.Database.BeginTransaction();
+
+                        if (context.PedidoVenda             is null ||
+                            context.PedidoVendaItemComissao is null)
+                            throw new Exception("Existe model (Tabela) do Banco de dados que não foi configurado ou a conexão foi perdida.");
+
+                        PedidoVenda? venda               = context.PedidoVenda.Where(p => p.Id.Equals(pedidoVendaId)).FirstOrDefault();
+
+                        if (venda == null)
+                            throw new Exception("Venda não encontrada no banco. Venda Id:" + pedidoVendaId.ToString());
+
+                        // trava a transação a nivel de banco para evitar a concorrencia e dados errados
+                        context.Database.ExecuteSqlRaw("UPDATE pedido_venda SET status = status WHERE Id = {0}", venda.Id);
+
+                        // ------------------------------------------------------------------------------------------------------------------------------
+
+                        var teste = string.Join(", ", idsItensVenda.Select(id => id.ToString()));
+
+                        // deleta as comissões relacionadas aos itens em questão
+                        context.Database.ExecuteSqlRaw(@"
+                        UPDATE pedido_venda_item_comissao
+                           SET deleted_at = GETDATE()
+                         WHERE pedido_venda_item_comissao.id 
+                            IN (
+                                SELECT pedido_venda_item_comissao.id
+                                  FROM pedido_venda_item_comissao
+                        
+                                 INNER
+                                  JOIN pedido_venda_item
+                                    ON pedido_venda_item.deleted_at IS NULL
+                                   AND pedido_venda_item.id              = pedido_venda_item_comissao.pedido_venda_item_id
+                                   AND pedido_venda_item.pedido_venda_id = pedido_venda_item_comissao.pedido_venda_id
+                                   AND pedido_venda_item.id IN ({0})
+                        
+                                 WHERE pedido_venda_item_comissao.deleted_at IS NULL
+                                   AND pedido_venda_item_comissao.pedido_venda_id = {1}
+                        
+                                 GROUP
+                                    BY pedido_venda_item_comissao.id
+                               );
+                        ", teste, pedidoVendaId);
+
+                        // ------------------------------------------------------------------------------------------------------------------------------
+
+                        // deleta os itens da venda
+                        context.Database.ExecuteSqlRaw(@"UPDATE pedido_venda_item SET deleted_at = GETDATE() WHERE id IN ({0});",
+                            string.Join(", ", idsItensVenda));
+
+                        // ------------------------------------------------------------------------------------------------------------------------------
+
+                        // atualiza o cabeçalho da venda
+                        ModelTotalizadorVenda totaisVenda       = ObtemTotaisVenda(context, pedidoVendaId);
+                        decimal               novoValorDesconto = 0m;
+
+                        venda.Total      = totaisVenda.TotalComDescontoProdutos;
+                        venda.TotalGeral = totaisVenda.TotalGeral;
+
+                        if (venda.PorcentagemDesconto > 0)
+                            novoValorDesconto = (venda.PorcentagemDesconto / 100) * venda.Total;
+
+                        venda.ValorDesconto    = novoValorDesconto;
+                        venda.TotalComDesconto = venda.Total - novoValorDesconto;
+                        venda.UpdatedAt        = DateTime.Now;
+
+                        // garante que o model pedidoVenda esteja sendo rastreado pelo EntityFramework
+                        if (context.Entry(venda).State != EntityState.Modified)
+                            context.Entry(venda).State = EntityState.Modified;
+
+                        context.SaveChanges();
+                        transaction.Commit();
+
+                        promise.Resolve(venda);
+                    }
+                    catch (Exception ex)
+                    {
+                        promise.Reject(ex);
+                    }
+                });
+
+                return promise;
+            }
+        }
+        
     }
 }

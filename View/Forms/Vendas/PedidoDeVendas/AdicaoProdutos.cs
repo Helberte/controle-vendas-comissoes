@@ -417,7 +417,9 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
 
         private void BtExcluirMarcados_Click(object sender, EventArgs e)
         {
-            string produtosRemover = "";
+            string     produtosRemover   = "";
+            int        pedidoVendaItemId = 0;
+            List<int>  idsItensVenda     = [];
 
             for (int i = 0; i < dataGridProdutosVenda.Rows.Count; i++)
             {
@@ -428,15 +430,25 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                     produtosRemover += dataGridProdutosVenda.Rows[i].Cells[dataGridProdutosVenda.Columns["ProdutoNome"].Index].Value.ToString() ?? "";
                     produtosRemover += " - Quantidade: " + dataGridProdutosVenda.Rows[i].Cells[dataGridProdutosVenda.Columns["Quantidade"].Index].Value.ToString();
                     produtosRemover += "\n";
+
+                    pedidoVendaItemId = Convert.ToInt32(dataGridProdutosVenda.Rows[i].Cells[dataGridProdutosVenda.Columns["PedidoVendaItemId"].Index].Value.ToString() ?? "0");
+
+                    if (pedidoVendaItemId.Equals(0))
+                        throw new Exception("Existe um item que está sem o Id.");
+                    else
+                        idsItensVenda.Add(pedidoVendaItemId);
                 }                
             }
 
             if (!string.IsNullOrEmpty(produtosRemover))
             {
-                MessageBox.Show("Deseja remover da venda estes produtos?\n\n" + produtosRemover, 
+                if (MessageBox.Show("Deseja remover da venda estes produtos?\n\n" + produtosRemover, 
                     "Atenção! Excluir produtos da venda",
                     MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
+                    MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    DeletaProdutosVenda([.. idsItensVenda]);
+                }
             }            
         }
 
@@ -750,6 +762,33 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                 {
                     if (totais is not null)
                         AdicionaTotaisComissaoTela(totais.Nome, totais.TotalComissao, totais.Total);
+                });
+            }).Catch(erro =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    MessageBox.Show(erro.Message);
+                });
+            });
+        }
+
+        private void DeletaProdutosVenda(int[] idsItensVenda)
+        {
+            if (venda is null || venda.Id <= 0) return;
+
+            HelperPedidoVendas.RemoveProdutoVenda(venda.Id, idsItensVenda)
+            .Then(pedidoVenda =>
+            {
+                Utils.RunOnUiThread(this, () =>
+                {
+                    ListaItensVenda();
+                    ObtemTotaisProdutosVenda();
+                    AtualizaTotaisComissoes();
+
+                    lblTotalGeral.Text          = Utils.FormataDecimalMonetario(venda.TotalGeral).ToString();
+                    lblPorcentagemDesconto.Text = Utils.FormataPorcentagem     (venda.PorcentagemDesconto).ToString();
+                    lblValorDesconto.Text       = Utils.FormataDecimalMonetario(venda.ValorDesconto).ToString();
+                    lblTotalComDesconto.Text    = Utils.FormataDecimalMonetario(venda.TotalComDesconto).ToString();
                 });
             }).Catch(erro =>
             {
