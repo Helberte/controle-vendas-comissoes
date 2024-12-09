@@ -323,6 +323,9 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             quantidadeRowsSelecionadasGridItensVenda = total;
 
             btExcluirMarcados.Enabled = !total.Equals(0);
+
+            if (total.Equals(0))
+                checkBoxMarcarTodos.Checked = false;
         }
 
         #endregion

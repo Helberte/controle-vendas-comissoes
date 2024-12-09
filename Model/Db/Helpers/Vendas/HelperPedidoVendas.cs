@@ -11,6 +11,8 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
 {
     public class HelperPedidoVendas
     {
+        private static readonly object Lock = new();
+
         public static IPromise<PedidoVenda> AdicionaProduto(
             PedidoVenda venda, 
             int[] pessoaIds,
@@ -24,139 +26,147 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
             decimal porcentagemDesconto
             )
         {
-            Promise<PedidoVenda> promise = new();
+            lock (Lock)
+            {
+                Promise<PedidoVenda> promise = new();
 
-            Task.Run(() =>
-            { 
-                try
+                Task.Run(() =>
                 {
-                    using AppDbContext context = new();
-                    using IDbContextTransaction transaction = context.Database.BeginTransaction();
-
-                    if (   context.PedidoVenda             is not null 
-                        && context.UnidadesPrimarias       is not null
-                        && context.Produtos                is not null
-                        && context.Estados                 is not null
-                        && context.PedidoVendaItem         is not null
-                        && context.PedidoVendaItemComissao is not null)
+                    try
                     {
-                        PedidoVenda      cabecalhoVenda = venda;
-                        PedidoVendaItem? pedidoVendaItem;
+                        using AppDbContext context = new();
+                        using IDbContextTransaction transaction = context.Database.BeginTransaction();
 
-                        if (cabecalhoVenda.Id <= 0)
-                            cabecalhoVenda = AdicionaPedidoVenda(context, venda, pessoaIds);
-                        else
+                        if (context.PedidoVenda                is not null
+                            && context.UnidadesPrimarias       is not null
+                            && context.Produtos                is not null
+                            && context.Estados                 is not null
+                            && context.PedidoVendaItem         is not null
+                            && context.PedidoVendaItemComissao is not null)
                         {
+                            PedidoVenda cabecalhoVenda = venda;
+                            PedidoVendaItem? pedidoVendaItem;
+
+                            // -----------------------------------------------------------------------------------------------------------------------------
+
+                            if (cabecalhoVenda.Id <= 0)
+                                cabecalhoVenda = AdicionaPedidoVenda(context, venda, pessoaIds);
+
+                            // trava a transação a nivel de banco para evitar a concorrencia e dados errados
+                            context.Database.ExecuteSqlRaw("UPDATE pedido_venda SET status = status WHERE Id = {0}", cabecalhoVenda.Id);
+
                             PedidoVenda? vendaAtualizada = context.PedidoVenda.Where(v => v.Id.Equals(venda.Id)).FirstOrDefault();
 
                             if (vendaAtualizada is not null)
                                 cabecalhoVenda = vendaAtualizada;
                             else
                                 throw new Exception("Inconsistência! Pedido de venda não encontrado! Venda Id: " + venda.Id.ToString());
-                        }
 
-                        Produto? produto = context.Produtos.Where(p => p.Id.Equals(produtoId)).FirstOrDefault();
-                        if (produto is null)
-                            throw new Exception("Produto não encontrado na base de dados. Produto Id: " + produtoId);
+                            // -----------------------------------------------------------------------------------------------------------------------------
 
-                        Estado? estado = context.Estados.Where(e => e.Id.Equals(estadoId)).FirstOrDefault();
-                        if (estado is null)
-                            throw new Exception("Estado não encontrado na base de dados. Estado Id: " + estadoId);
+                            Produto? produto = context.Produtos.Where(p => p.Id.Equals(produtoId)).FirstOrDefault();
+                            if (produto is null)
+                                throw new Exception("Produto não encontrado na base de dados. Produto Id: " + produtoId);
 
-                        if (quantidadeProduto <= 0)
-                            throw new Exception("A quantidade do produto não pode ser menor ou igual a zero: " + quantidadeProduto);
+                            Estado? estado = context.Estados.Where(e => e.Id.Equals(estadoId)).FirstOrDefault();
+                            if (estado is null)
+                                throw new Exception("Estado não encontrado na base de dados. Estado Id: " + estadoId);
 
-                        if (precoVenda <= 0)
-                            throw new Exception("É preciso informar um preço de venda para o produto.");
+                            if (quantidadeProduto <= 0)
+                                throw new Exception("A quantidade do produto não pode ser menor ou igual a zero: " + quantidadeProduto);
 
-                        // ------------------------------------------------------------------------------------------------------------------------
+                            if (precoVenda <= 0)
+                                throw new Exception("É preciso informar um preço de venda para o produto.");
 
-                        ModelProdutoPreco preco = HelperProdutos.ObtemPrecoProduto(produtoId, estadoId, ordemTabela);
+                            // ------------------------------------------------------------------------------------------------------------------------
 
-                        // valor do desconto para uma unidade do produto
-                        valorDesconto = (porcentagemDesconto / 100) * preco.PrecoVenda;
+                            ModelProdutoPreco preco = HelperProdutos.ObtemPrecoProduto(produtoId, estadoId, ordemTabela);
 
-                        decimal total            = preco.PrecoVenda  * quantidadeProduto;
-                        decimal totalDesconto    = quantidadeProduto * valorDesconto;
-                        decimal totalComDesconto = total - totalDesconto;
+                            // valor do desconto para uma unidade do produto
+                            valorDesconto = (porcentagemDesconto / 100) * preco.PrecoVenda;
 
-                        pedidoVendaItem = context.PedidoVendaItem.Add(new()
-                        {
-                            Quantidade          = quantidadeProduto,
-                            Total               = total,
-                            PorcentagemDesconto = porcentagemDesconto,
-                            ValorDesconto       = totalDesconto,
-                            TotalComDesconto    = totalComDesconto,
-                            PedidoVendaId       = cabecalhoVenda.Id,
-                            ProdutoId           = produtoId,
-                            PrecoVenda          = precoVenda
-                        }).Entity;
+                            decimal total            = preco.PrecoVenda * quantidadeProduto;
+                            decimal totalDesconto    = quantidadeProduto * valorDesconto;
+                            decimal totalComDesconto = total - totalDesconto;
 
-                        context.SaveChanges();
-
-                        // ------------------------------------------------------------------------------------------------------------------------
-
-                        // atualiza o cabecalho da venda
-
-                        decimal novoValorDesconto  = 0m;
-                        cabecalhoVenda.TotalGeral += total;
-                        cabecalhoVenda.Total      += pedidoVendaItem.TotalComDesconto;
-                        cabecalhoVenda.UpdatedAt   = DateTime.Now;
-
-                        if (cabecalhoVenda.PorcentagemDesconto > 0)                        
-                            novoValorDesconto = (cabecalhoVenda.PorcentagemDesconto / 100) * cabecalhoVenda.Total;
-                        
-                        cabecalhoVenda.ValorDesconto    = novoValorDesconto;
-                        cabecalhoVenda.TotalComDesconto = cabecalhoVenda.Total - novoValorDesconto;
-
-                        context.Entry(cabecalhoVenda).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                        context.SaveChanges();
-
-                        // ------------------------------------------------------------------------------------------------------------------------
-                        // calculo comissao das pessoas envolvidas
-
-                        List<ModelComissoesProduto>   comissoesProduto = HelperComissoes.ObtemComissoesProduto(context, produtoId, estadoId, classificacoes);
-                        List<ModelComissoesProduto>   comissoesOrdem01 = comissoesProduto.FindAll(c => c.Ordem.Equals(1)).ToList();
-                        List<PedidoVendaItemComissao> itemsComissao    = [];
-
-                        foreach (ModelComissoesProduto item in comissoesOrdem01)
-                        {
-                            decimal totalComissao = (item.ValorReal * quantidadeProduto);
-
-                            itemsComissao.Add(new ()
+                            pedidoVendaItem = context.PedidoVendaItem.Add(new()
                             {
-                                ClassificacaoId   = item.ClassificacaoId,
-                                ComissaoItemId    = item.ComissaoItemId,
-                                ComissaoId        = item.ComissaoId,
-                                PedidoVendaId     = cabecalhoVenda.Id,
-                                PedidoVendaItemId = pedidoVendaItem.Id,
-                                ValorBase         = totalComDesconto,
-                                QuantidadeVendida = totalComDesconto <= 0 ? 0m : quantidadeProduto,
-                                ValorComissaoItem = totalComDesconto <= 0 ? 0m : item.ValorReal,
-                                TotalComissao     = totalComDesconto <= 0 ? 0m : totalComissao,
-                                Total             = totalComDesconto <= 0 ? 0m : (totalComDesconto - totalComissao)
-                            });
-                        }
+                                Quantidade          = quantidadeProduto,
+                                Total               = total,
+                                PorcentagemDesconto = porcentagemDesconto,
+                                ValorDesconto       = totalDesconto,
+                                TotalComDesconto    = totalComDesconto,
+                                PedidoVendaId       = cabecalhoVenda.Id,
+                                ProdutoId           = produtoId,
+                                PrecoVenda          = precoVenda
+                            }).Entity;
 
-                        if (itemsComissao.Count > 0)
-                        {
-                            context.PedidoVendaItemComissao.AddRange(itemsComissao);
                             context.SaveChanges();
+
+                            // ------------------------------------------------------------------------------------------------------------------------
+
+                            // atualiza o cabecalho da venda
+
+                            decimal novoValorDesconto = 0m;
+                            cabecalhoVenda.TotalGeral += total;
+                            cabecalhoVenda.Total += pedidoVendaItem.TotalComDesconto;
+                            cabecalhoVenda.UpdatedAt = DateTime.Now;
+
+                            if (cabecalhoVenda.PorcentagemDesconto > 0)
+                                novoValorDesconto = (cabecalhoVenda.PorcentagemDesconto / 100) * cabecalhoVenda.Total;
+
+                            cabecalhoVenda.ValorDesconto    = novoValorDesconto;
+                            cabecalhoVenda.TotalComDesconto = cabecalhoVenda.Total - novoValorDesconto;
+
+                            context.Entry(cabecalhoVenda).State = EntityState.Modified;
+                            context.SaveChanges();
+
+                            // ------------------------------------------------------------------------------------------------------------------------
+                            // calculo comissao das pessoas envolvidas
+
+                            List<ModelComissoesProduto>   comissoesProduto = HelperComissoes.ObtemComissoesProduto(context, produtoId, estadoId, classificacoes);
+                            List<ModelComissoesProduto>   comissoesOrdem01 = comissoesProduto.FindAll(c => c.Ordem.Equals(1)).ToList();
+                            List<PedidoVendaItemComissao> itemsComissao    = [];
+
+                            foreach (ModelComissoesProduto item in comissoesOrdem01)
+                            {
+                                decimal totalComissao = (item.ValorReal * quantidadeProduto);
+
+                                itemsComissao.Add(new()
+                                {
+                                    ClassificacaoId   = item.ClassificacaoId,
+                                    ComissaoItemId    = item.ComissaoItemId,
+                                    ComissaoId        = item.ComissaoId,
+                                    PedidoVendaId     = cabecalhoVenda.Id,
+                                    PedidoVendaItemId = pedidoVendaItem.Id,
+                                    ValorBase         = totalComDesconto,
+                                    QuantidadeVendida = totalComDesconto <= 0 ? 0m : quantidadeProduto,
+                                    ValorComissaoItem = totalComDesconto <= 0 ? 0m : item.ValorReal,
+                                    TotalComissao     = totalComDesconto <= 0 ? 0m : totalComissao,
+                                    Total             = totalComDesconto <= 0 ? 0m : (totalComDesconto - totalComissao)
+                                });
+                            }
+
+                            if (itemsComissao.Count > 0)
+                            {
+                                context.PedidoVendaItemComissao.AddRange(itemsComissao);
+                                context.SaveChanges();
+                            }
+
+                            transaction.Commit();
+                            promise.Resolve(cabecalhoVenda);
                         }
-
-                        transaction.Commit();
-                        promise.Resolve(cabecalhoVenda);
+                        else
+                            promise.Reject(new Exception("Ocorreu um erro ao Inserir um novo produto na venda"));
                     }
-                    else
-                        promise.Reject(new Exception("Ocorreu um erro ao Inserir um novo produto na venda"));
-                }
-                catch (Exception ex)
-                {
-                    promise.Reject(ex);
-                }
-            });
+                    catch (Exception ex)
+                    {
+                        promise.Reject(ex);
+                    }
+                });
 
-            return promise;
+                return promise;
+            }
         }
 
         private static PedidoVenda AdicionaPedidoVenda(AppDbContext context, PedidoVenda pedidoVenda, int[] pessoasIds)
