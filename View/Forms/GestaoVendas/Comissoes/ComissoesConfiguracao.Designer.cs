@@ -101,7 +101,7 @@
             label3.AutoSize = true;
             label3.Location = new Point(555, 72);
             label3.Name = "label3";
-            label3.Size = new Size(224, 15);
+            label3.Size = new Size(226, 17);
             label3.TabIndex = 5;
             label3.Text = "Estados desta configuração de comissão";
             // 
@@ -122,7 +122,7 @@
             label4.AutoSize = true;
             label4.Location = new Point(555, 449);
             label4.Name = "label4";
-            label4.Size = new Size(177, 15);
+            label4.Size = new Size(178, 17);
             label4.TabIndex = 16;
             label4.Text = "Classificações e suas comissões";
             // 
@@ -144,7 +144,7 @@
             lblIdProduto.Font = new Font("Montserrat SemiBold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblIdProduto.Location = new Point(5, 16);
             lblIdProduto.Name = "lblIdProduto";
-            lblIdProduto.Size = new Size(43, 37);
+            lblIdProduto.Size = new Size(44, 42);
             lblIdProduto.TabIndex = 5;
             lblIdProduto.Text = "15";
             // 
@@ -155,13 +155,13 @@
             lblDescricaoProduto.Font = new Font("Montserrat", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblDescricaoProduto.Location = new Point(49, 23);
             lblDescricaoProduto.Name = "lblDescricaoProduto";
-            lblDescricaoProduto.Size = new Size(230, 26);
+            lblDescricaoProduto.Size = new Size(227, 30);
             lblDescricaoProduto.TabIndex = 4;
             lblDescricaoProduto.Text = "OLEO DE COCO 20 ML";
             // 
             // ComissoesConfiguracao
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1269, 752);
             Controls.Add(groupBox2);
@@ -177,6 +177,7 @@
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Comissões Configuração";
+            Load += ComissoesConfiguracao_Load;
             groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridProdutos).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridEstados).EndInit();
