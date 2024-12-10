@@ -2,7 +2,6 @@
 using controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes;
 using controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos;
 using controle_vendas_comissoes.Model.Db.Models;
-using controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using RSG;
@@ -32,17 +31,17 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                 Promise<PedidoVenda> promise = new();
 
                 Task.Run(() =>
-                {
+                {                    
                     try
                     {
                         using AppDbContext context = new();
                         using IDbContextTransaction transaction = context.Database.BeginTransaction();
 
-                        if (context.PedidoVenda                is not null
-                            && context.UnidadesPrimarias       is not null
-                            && context.Produtos                is not null
-                            && context.Estados                 is not null
-                            && context.PedidoVendaItem         is not null
+                        if (context.PedidoVenda is not null
+                            && context.UnidadesPrimarias is not null
+                            && context.Produtos is not null
+                            && context.Estados is not null
+                            && context.PedidoVendaItem is not null
                             && context.PedidoVendaItemComissao is not null)
                         {
                             PedidoVenda cabecalhoVenda = venda;
@@ -86,20 +85,20 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                             // valor do desconto para uma unidade do produto
                             valorDesconto = (porcentagemDesconto / 100) * preco.PrecoVenda;
 
-                            decimal total            = preco.PrecoVenda * quantidadeProduto;
-                            decimal totalDesconto    = quantidadeProduto * valorDesconto;
+                            decimal total = preco.PrecoVenda * quantidadeProduto;
+                            decimal totalDesconto = quantidadeProduto * valorDesconto;
                             decimal totalComDesconto = total - totalDesconto;
 
                             pedidoVendaItem = context.PedidoVendaItem.Add(new()
                             {
-                                Quantidade          = quantidadeProduto,
-                                Total               = total,
+                                Quantidade = quantidadeProduto,
+                                Total = total,
                                 PorcentagemDesconto = porcentagemDesconto,
-                                ValorDesconto       = totalDesconto,
-                                TotalComDesconto    = totalComDesconto,
-                                PedidoVendaId       = cabecalhoVenda.Id,
-                                ProdutoId           = produtoId,
-                                PrecoVenda          = precoVenda
+                                ValorDesconto = totalDesconto,
+                                TotalComDesconto = totalComDesconto,
+                                PedidoVendaId = cabecalhoVenda.Id,
+                                ProdutoId = produtoId,
+                                PrecoVenda = precoVenda
                             }).Entity;
 
                             context.SaveChanges();
@@ -116,7 +115,7 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                             if (cabecalhoVenda.PorcentagemDesconto > 0)
                                 novoValorDesconto = (cabecalhoVenda.PorcentagemDesconto / 100) * cabecalhoVenda.Total;
 
-                            cabecalhoVenda.ValorDesconto    = novoValorDesconto;
+                            cabecalhoVenda.ValorDesconto = novoValorDesconto;
                             cabecalhoVenda.TotalComDesconto = cabecalhoVenda.Total - novoValorDesconto;
 
                             context.Entry(cabecalhoVenda).State = EntityState.Modified;
@@ -125,9 +124,9 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                             // ------------------------------------------------------------------------------------------------------------------------
                             // calculo comissao das pessoas envolvidas
 
-                            List<ModelComissoesProduto>   comissoesProduto = HelperComissoes.ObtemComissoesProduto(context, produtoId, estadoId, classificacoes);
-                            List<ModelComissoesProduto>   comissoesOrdem01 = comissoesProduto.FindAll(c => c.Ordem.Equals(1)).ToList();
-                            List<PedidoVendaItemComissao> itemsComissao    = [];
+                            List<ModelComissoesProduto> comissoesProduto = HelperComissoes.ObtemComissoesProduto(context, produtoId, estadoId, classificacoes);
+                            List<ModelComissoesProduto> comissoesOrdem01 = comissoesProduto.FindAll(c => c.Ordem.Equals(1)).ToList();
+                            List<PedidoVendaItemComissao> itemsComissao = [];
 
                             foreach (ModelComissoesProduto item in comissoesOrdem01)
                             {
@@ -135,16 +134,16 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
 
                                 itemsComissao.Add(new()
                                 {
-                                    ClassificacaoId   = item.ClassificacaoId,
-                                    ComissaoItemId    = item.ComissaoItemId,
-                                    ComissaoId        = item.ComissaoId,
-                                    PedidoVendaId     = cabecalhoVenda.Id,
+                                    ClassificacaoId = item.ClassificacaoId,
+                                    ComissaoItemId = item.ComissaoItemId,
+                                    ComissaoId = item.ComissaoId,
+                                    PedidoVendaId = cabecalhoVenda.Id,
                                     PedidoVendaItemId = pedidoVendaItem.Id,
-                                    ValorBase         = totalComDesconto,
+                                    ValorBase = totalComDesconto,
                                     QuantidadeVendida = totalComDesconto <= 0 ? 0m : quantidadeProduto,
                                     ValorComissaoItem = totalComDesconto <= 0 ? 0m : item.ValorReal,
-                                    TotalComissao     = totalComDesconto <= 0 ? 0m : totalComissao,
-                                    Total             = totalComDesconto <= 0 ? 0m : (totalComDesconto - totalComissao)
+                                    TotalComissao = totalComDesconto <= 0 ? 0m : totalComissao,
+                                    Total = totalComDesconto <= 0 ? 0m : (totalComDesconto - totalComissao)
                                 });
                             }
 
@@ -163,7 +162,7 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                     catch (Exception ex)
                     {
                         promise.Reject(ex);
-                    }
+                    }                    
                 });
 
                 return promise;
@@ -320,7 +319,7 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
             if (resultado is not null && resultado.Count > 1)
                 throw new Exception("Anomalia! Dois pedidos de venda com mesmo. Id: " + pedidoVendaId.ToString());
 
-            if (resultado is not null)
+            if (resultado is not null && resultado.Count > 0)
                 return resultado[0];
             else
                 return new ModelTotalizadorVenda()
@@ -416,11 +415,6 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
             return promise;
         }
         
-        private static string Teste(int)
-        {
-
-        }
-
         public static IPromise<PedidoVenda> RemoveProdutoVenda(int pedidoVendaId, int[] idsItensVenda)
         {
             lock (Lock)
@@ -438,7 +432,7 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                             context.PedidoVendaItemComissao is null)
                             throw new Exception("Existe model (Tabela) do Banco de dados que não foi configurado ou a conexão foi perdida.");
 
-                        PedidoVenda? venda               = context.PedidoVenda.Where(p => p.Id.Equals(pedidoVendaId)).FirstOrDefault();
+                        PedidoVenda? venda = context.PedidoVenda.Where(p => p.Id.Equals(pedidoVendaId)).FirstOrDefault();
 
                         if (venda == null)
                             throw new Exception("Venda não encontrada no banco. Venda Id:" + pedidoVendaId.ToString());
@@ -447,8 +441,6 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                         context.Database.ExecuteSqlRaw("UPDATE pedido_venda SET status = status WHERE Id = {0}", venda.Id);
 
                         // ------------------------------------------------------------------------------------------------------------------------------
-
-                        var teste = string.Join(", ", idsItensVenda.Select(id => id.ToString()));
 
                         // deleta as comissões relacionadas aos itens em questão
                         context.Database.ExecuteSqlRaw(@"
@@ -464,21 +456,20 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                                     ON pedido_venda_item.deleted_at IS NULL
                                    AND pedido_venda_item.id              = pedido_venda_item_comissao.pedido_venda_item_id
                                    AND pedido_venda_item.pedido_venda_id = pedido_venda_item_comissao.pedido_venda_id
-                                   AND pedido_venda_item.id IN ({0})
+                                   AND pedido_venda_item.id IN (" + ArrayParaSql(idsItensVenda) + @")
                         
                                  WHERE pedido_venda_item_comissao.deleted_at IS NULL
-                                   AND pedido_venda_item_comissao.pedido_venda_id = {1}
+                                   AND pedido_venda_item_comissao.pedido_venda_id = {0}
                         
                                  GROUP
                                     BY pedido_venda_item_comissao.id
                                );
-                        ", teste, pedidoVendaId);
+                        ", pedidoVendaId);
 
                         // ------------------------------------------------------------------------------------------------------------------------------
 
                         // deleta os itens da venda
-                        context.Database.ExecuteSqlRaw(@"UPDATE pedido_venda_item SET deleted_at = GETDATE() WHERE id IN ({0});",
-                            string.Join(", ", idsItensVenda));
+                        context.Database.ExecuteSqlRaw(@"UPDATE pedido_venda_item SET deleted_at = GETDATE() WHERE id IN (" + ArrayParaSql(idsItensVenda) + ");");
 
                         // ------------------------------------------------------------------------------------------------------------------------------
 
@@ -514,6 +505,19 @@ namespace controle_vendas_comissoes.Model.Db.Helpers.Vendas
                 return promise;
             }
         }
-        
+
+        private static string ArrayParaSql(int[] ids)
+        {
+            string sql = "";
+
+            for (int i = 0; i < ids.Length; i++)
+            {
+                sql += "CAST('" + ids[i] + "' AS INT)";
+
+                if (i != ids.Length - 1) sql += ", ";
+            }
+
+            return sql;
+        }
     }
 }

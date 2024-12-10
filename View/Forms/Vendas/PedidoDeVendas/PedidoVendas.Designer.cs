@@ -297,9 +297,9 @@
             lblQtdItens.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblQtdItens.Location = new Point(151, 518);
             lblQtdItens.Name = "lblQtdItens";
-            lblQtdItens.Size = new Size(25, 22);
+            lblQtdItens.Size = new Size(21, 22);
             lblQtdItens.TabIndex = 8;
-            lblQtdItens.Text = "15";
+            lblQtdItens.Text = "0";
             // 
             // label9
             // 
@@ -319,9 +319,9 @@
             lblQtdProdutos.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblQtdProdutos.Location = new Point(384, 518);
             lblQtdProdutos.Name = "lblQtdProdutos";
-            lblQtdProdutos.Size = new Size(25, 22);
+            lblQtdProdutos.Size = new Size(21, 22);
             lblQtdProdutos.TabIndex = 10;
-            lblQtdProdutos.Text = "15";
+            lblQtdProdutos.Text = "0";
             // 
             // label11
             // 
@@ -341,9 +341,9 @@
             lblTotalGeral.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblTotalGeral.Location = new Point(543, 518);
             lblTotalGeral.Name = "lblTotalGeral";
-            lblTotalGeral.Size = new Size(25, 22);
+            lblTotalGeral.Size = new Size(21, 22);
             lblTotalGeral.TabIndex = 12;
-            lblTotalGeral.Text = "15";
+            lblTotalGeral.Text = "0";
             // 
             // label13
             // 
@@ -363,9 +363,9 @@
             lblPorcentagemDesconto.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblPorcentagemDesconto.Location = new Point(782, 518);
             lblPorcentagemDesconto.Name = "lblPorcentagemDesconto";
-            lblPorcentagemDesconto.Size = new Size(25, 22);
+            lblPorcentagemDesconto.Size = new Size(21, 22);
             lblPorcentagemDesconto.TabIndex = 14;
-            lblPorcentagemDesconto.Text = "15";
+            lblPorcentagemDesconto.Text = "0";
             // 
             // label15
             // 
@@ -385,9 +385,9 @@
             lblValorDesconto.Font = new Font("Montserrat", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblValorDesconto.Location = new Point(958, 518);
             lblValorDesconto.Name = "lblValorDesconto";
-            lblValorDesconto.Size = new Size(25, 22);
+            lblValorDesconto.Size = new Size(21, 22);
             lblValorDesconto.TabIndex = 16;
-            lblValorDesconto.Text = "15";
+            lblValorDesconto.Text = "0";
             // 
             // btAdicionaProduto
             // 

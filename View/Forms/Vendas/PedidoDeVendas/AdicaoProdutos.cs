@@ -222,6 +222,18 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             }
         }
 
+        private void LimpaTotaisComissaoTela()
+        {
+            int total = groupBoxTotaisClassificacoes.Controls.Count - 1;
+
+            for (int i = total; i >= 0; i--)
+            {
+                Control item = groupBoxTotaisClassificacoes.Controls[i];
+                groupBoxTotaisClassificacoes.Controls.Remove(item);
+                item.Dispose();
+            }
+        }
+
         private void AdicionaTotaisComissaoTela(string nome, decimal tComissao, decimal tTotal)
         {
             foreach (Control item in groupBoxTotaisClassificacoes.Controls)
@@ -259,7 +271,7 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
             int altura = 27;
 
             nomeComissao.Text = nome;
-            nomeComissao.Font = new Font("montserrat", 10, FontStyle.Bold);
+            nomeComissao.Font = new Font("montserrat", 9, FontStyle.Bold);
 
             foreach (Control item in groupBoxTotaisClassificacoes.Controls)
             {
@@ -679,10 +691,10 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
 
                         venda = pedidoVenda;
 
-                        lblTotalGeral.Text = Utils.FormataDecimalMonetario(venda.TotalGeral).ToString();
+                        lblTotalGeral.Text          = Utils.FormataDecimalMonetario(venda.TotalGeral).ToString();
                         lblPorcentagemDesconto.Text = Utils.FormataPorcentagem(venda.PorcentagemDesconto).ToString();
-                        lblValorDesconto.Text = Utils.FormataDecimalMonetario(venda.ValorDesconto).ToString();
-                        lblTotalComDesconto.Text = Utils.FormataDecimalMonetario(venda.TotalComDesconto).ToString();
+                        lblValorDesconto.Text       = Utils.FormataDecimalMonetario(venda.ValorDesconto).ToString();
+                        lblTotalComDesconto.Text    = Utils.FormataDecimalMonetario(venda.TotalComDesconto).ToString();
                     });
                 }).Catch(erro =>
                 {
@@ -762,6 +774,8 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                 {
                     if (totais is not null)
                         AdicionaTotaisComissaoTela(totais.Nome, totais.TotalComissao, totais.Total);
+                    else
+                        LimpaTotaisComissaoTela();
                 });
             }).Catch(erro =>
             {
@@ -784,6 +798,8 @@ namespace controle_vendas_comissoes.View.Forms.Vendas.PedidoDeVendas
                     ListaItensVenda();
                     ObtemTotaisProdutosVenda();
                     AtualizaTotaisComissoes();
+
+                    venda = pedidoVenda;
 
                     lblTotalGeral.Text          = Utils.FormataDecimalMonetario(venda.TotalGeral).ToString();
                     lblPorcentagemDesconto.Text = Utils.FormataPorcentagem     (venda.PorcentagemDesconto).ToString();
