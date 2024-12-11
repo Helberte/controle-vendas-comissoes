@@ -1,7 +1,6 @@
 ﻿using controle_vendas_comissoes.Controller.Utils;
 using controle_vendas_comissoes.Model.Db.Entidades;
 using controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes;
-using controle_vendas_comissoes.Model.Db.Helpers.Localidades.Estados;
 using controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos;
 using controle_vendas_comissoes.Model.Db.Models;
 using controle_vendas_comissoes.View.Extensions;
@@ -194,14 +193,14 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 
                     DataGridViewCheckBoxColumn columnCheck = new()
                     {
-                        Name = "check",
-                        HeaderText = "Ação",
-                        Width = 50,
-                        FillWeight = 10
+                        Name        = "check",
+                        HeaderText  = "Ação",
+                        Width       = 50,
+                        FillWeight  = 10
                     };
                     dataGridEstados.Columns.Add(columnCheck);
 
-                    dataGridEstados.SetStyleDataGridView();
+                    dataGridEstados.SetStyleDataGridView(35, 43, 10, 10, false);
                 });
             });
         }
@@ -342,6 +341,17 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
             return strValor;
         }
 
+        private void ColunasSomenteLeituraGridEstados()
+        {
+            foreach (DataGridViewColumn item in dataGridEstados.Columns)
+            {
+                if (!item.Name.Equals("check"))
+                    item.ReadOnly = true;
+                else
+                    item.ReadOnly = false;
+            }
+        }
+
         #endregion
 
         #region Requisições
@@ -396,6 +406,8 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
                     dataGridEstados.DataSource = estadosPreco;
                     dataGridEstados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                     dataGridEstados.Columns["id"].Width = 60;
+
+                    ColunasSomenteLeituraGridEstados();
                 });
             }).Catch(erro =>
             {
