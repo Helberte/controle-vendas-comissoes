@@ -4,6 +4,7 @@ using controle_vendas_comissoes.Model.Db.Helpers.GestaoVendas.Comissoes;
 using controle_vendas_comissoes.Model.Db.Helpers.Produtos.Produtos;
 using controle_vendas_comissoes.Model.Db.Models;
 using controle_vendas_comissoes.View.Extensions;
+using controle_vendas_comissoes.View.Forms.Modais;
 using System.Text.Json;
 
 namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
@@ -13,6 +14,7 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
         private static int produtoId = 0;
         private static int estadoId = 0;
         private static bool enviandoRequisicao = false;
+        private static int quantidadeRowsSelecionadasGridItensVenda = 0;
         private bool bloqueiaAlteracaoCampo = false;
         private List<ModelComissoesProduto>? comissaoAtual = [];
         private ModelComissoesProduto? comissaoAlterada;
@@ -178,6 +180,76 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
             }
         }
 
+        private void DataGridEstados_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dataGridEstados.Columns["check"].Index && e.RowIndex != -1)
+            {
+                bool valor = Convert.ToBoolean(dataGridEstados.Rows[e.RowIndex].Cells[0].Value);
+                int totalAtual = Convert.ToInt32(lblQuantidadeSelecionada.Text);
+
+                if (valor)
+                    totalAtual += 1;
+                else
+                    totalAtual -= 1;
+
+                AtualizaTotalRowsSelecionadas(totalAtual);
+
+                lblQuantidadeSelecionada.Text = quantidadeRowsSelecionadasGridItensVenda.ToString();
+            }
+        }
+
+        private void DataGridEstados_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.ColumnIndex == dataGridEstados.Columns["check"].Index && e.RowIndex != -1)
+                dataGridEstados.EndEdit();
+        }
+
+        private void DataGridEstados_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dataGridEstados.Columns["check"].Index && e.RowIndex != -1)
+                dataGridEstados.EndEdit();
+        }
+
+        private void CheckBoxMarcarTodos_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow r in dataGridEstados.Rows)
+                r.Cells[0].Value = ((CheckBox)sender).Checked;
+
+            AtualizaTotalRowsSelecionadas(((CheckBox)sender).Checked ? dataGridEstados.Rows.Count : 0);
+        }
+
+        private void BtReplicarComissao_Click(object sender, EventArgs e)
+        {
+            int estadoId = 0;
+            List<int> idsEstados = [];
+
+            for (int i = 0; i < dataGridEstados.Rows.Count; i++)
+            {
+                DataGridViewCheckBoxCell? celula = dataGridEstados.Rows[i].Cells[0] as DataGridViewCheckBoxCell;
+
+                if (celula != null && Convert.ToBoolean(celula.Value))
+                {
+                    estadoId = Convert.ToInt32(dataGridEstados.Rows[i].Cells[dataGridEstados.Columns["Id"].Index].Value.ToString() ?? "0");
+
+                    if (estadoId.Equals(0))
+                        throw new Exception("Existe um Estado que está sem o Id.");
+                    else
+                        idsEstados.Add(estadoId);
+                }
+            }
+
+            if (idsEstados.Count > 0)
+            {
+                ModalPassword password = new ModalPassword();
+                if(password.ShowDialog() == DialogResult.OK)
+                {
+                    //DeletaProdutosVenda([.. idsEstados]);
+                }
+                else                
+                    btReplicarComissao.Focus();                
+            }
+        }
+
         #endregion
 
         #region Métodos
@@ -193,16 +265,27 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 
                     DataGridViewCheckBoxColumn columnCheck = new()
                     {
-                        Name        = "check",
-                        HeaderText  = "Ação",
-                        Width       = 50,
-                        FillWeight  = 10
+                        Name = "check",
+                        HeaderText = "Ação",
+                        Width = 50,
+                        FillWeight = 10
                     };
                     dataGridEstados.Columns.Add(columnCheck);
 
                     dataGridEstados.SetStyleDataGridView(35, 43, 10, 10, false);
                 });
             });
+        }
+
+        private void AtualizaTotalRowsSelecionadas(int total)
+        {
+            lblQuantidadeSelecionada.Text = total.ToString();
+            quantidadeRowsSelecionadasGridItensVenda = total;
+
+            btReplicarComissao.Enabled = !total.Equals(0);
+
+            if (total.Equals(0))
+                checkBoxMarcarTodos.Checked = false;
         }
 
         private static void DelegaEventos()
@@ -375,12 +458,17 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
                     dataGridProdutos.Columns[5].Name = "Composicao";
 
                     foreach (Produto produto in listaProdutos)
-                        linhas.Add([ produto.Id.ToString()
-                                                    , produto.Nome
-                                                    , produto.UnidadePrimaria?.Nome ?? ""
-                                                    , produto.Descricao ?? ""
-                                                    , produto.ModoUsar ?? ""
-                                                    , produto.Composicao ?? "" ]);
+                        linhas.Add([produto.Id.ToString()
+                                                    ,
+                            produto.Nome
+                                                    ,
+                            produto.UnidadePrimaria?.Nome ?? ""
+                                                    ,
+                            produto.Descricao ?? ""
+                                                    ,
+                            produto.ModoUsar ?? ""
+                                                    ,
+                            produto.Composicao ?? ""]);
 
                     for (int i = 0; i < linhas.Count; i++)
                         dataGridProdutos.Rows.Add(linhas[i]);
@@ -537,6 +625,7 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
             });
         }
 
-        #endregion                
+        #endregion
+        
     }
 }

@@ -101,6 +101,9 @@
             dataGridEstados.Name = "dataGridEstados";
             dataGridEstados.Size = new Size(704, 354);
             dataGridEstados.TabIndex = 4;
+            dataGridEstados.CellDoubleClick += DataGridEstados_CellDoubleClick;
+            dataGridEstados.CellMouseUp += DataGridEstados_CellMouseUp;
+            dataGridEstados.CellValueChanged += DataGridEstados_CellValueChanged;
             dataGridEstados.SelectionChanged += DataGridEstados_SelectionChanged;
             // 
             // label3
@@ -185,6 +188,7 @@
             btReplicarComissao.Text = "REPLICAR COMISSÃO";
             toolTipInformacoes.SetToolTip(btReplicarComissao, "Replicar esta configuração de comissão para o produto selecionado e em todos os estados marcados.");
             btReplicarComissao.UseVisualStyleBackColor = false;
+            btReplicarComissao.Click += BtReplicarComissao_Click;
             // 
             // groupBox3
             // 
@@ -206,6 +210,7 @@
             checkBoxMarcarTodos.Size = new Size(15, 14);
             checkBoxMarcarTodos.TabIndex = 38;
             checkBoxMarcarTodos.UseVisualStyleBackColor = true;
+            checkBoxMarcarTodos.CheckedChanged += CheckBoxMarcarTodos_CheckedChanged;
             // 
             // lblQuantidadeSelecionada
             // 
