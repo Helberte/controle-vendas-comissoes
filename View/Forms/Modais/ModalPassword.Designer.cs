@@ -29,41 +29,19 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            btAutenticar = new Button();
-            btCancelar = new Button();
             lblSenhaIcorreta = new Label();
             timerPassword = new System.Windows.Forms.Timer(components);
             boxPassword = new TextBox();
+            btAutenticar = new Button();
+            btCancelar = new Button();
             SuspendLayout();
-            // 
-            // btAutenticar
-            // 
-            btAutenticar.Location = new Point(223, 103);
-            btAutenticar.Margin = new Padding(3, 4, 3, 4);
-            btAutenticar.Name = "btAutenticar";
-            btAutenticar.Size = new Size(200, 48);
-            btAutenticar.TabIndex = 1;
-            btAutenticar.Text = "Autênticar";
-            btAutenticar.UseVisualStyleBackColor = true;
-            btAutenticar.Click += BtAutenticar_Click;
-            // 
-            // btCancelar
-            // 
-            btCancelar.Location = new Point(14, 103);
-            btCancelar.Margin = new Padding(3, 4, 3, 4);
-            btCancelar.Name = "btCancelar";
-            btCancelar.Size = new Size(200, 48);
-            btCancelar.TabIndex = 2;
-            btCancelar.Text = "Cancelar";
-            btCancelar.UseVisualStyleBackColor = true;
-            btCancelar.Click += BtCancelar_Click;
             // 
             // lblSenhaIcorreta
             // 
             lblSenhaIcorreta.AutoSize = true;
             lblSenhaIcorreta.Font = new Font("Montserrat SemiBold", 9.749999F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblSenhaIcorreta.ForeColor = Color.Red;
-            lblSenhaIcorreta.Location = new Point(12, 79);
+            lblSenhaIcorreta.Location = new Point(12, 44);
             lblSenhaIcorreta.Name = "lblSenhaIcorreta";
             lblSenhaIcorreta.Size = new Size(115, 18);
             lblSenhaIcorreta.TabIndex = 3;
@@ -73,46 +51,81 @@
             // timerPassword
             // 
             timerPassword.Interval = 2000;
-            timerPassword.Tick += timerPassword_Tick;
+            timerPassword.Tick += TimerPassword_Tick;
             // 
             // boxPassword
             // 
-            boxPassword.Location = new Point(15, 35);
+            boxPassword.Location = new Point(15, 17);
             boxPassword.MaxLength = 4;
             boxPassword.Name = "boxPassword";
             boxPassword.PasswordChar = '*';
-            boxPassword.PlaceholderText = "Informe a senha";
+            boxPassword.PlaceholderText = "Insira a senha";
             boxPassword.Size = new Size(408, 23);
             boxPassword.TabIndex = 4;
             boxPassword.UseSystemPasswordChar = true;
-            boxPassword.WordWrap = false;
+            boxPassword.KeyPress += BoxPassword_KeyPress;
+            // 
+            // btAutenticar
+            // 
+            btAutenticar.BackColor = Color.FromArgb(199, 199, 199);
+            btAutenticar.FlatAppearance.BorderSize = 0;
+            btAutenticar.FlatStyle = FlatStyle.Flat;
+            btAutenticar.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold);
+            btAutenticar.ForeColor = Color.White;
+            btAutenticar.Location = new Point(223, 70);
+            btAutenticar.Name = "btAutenticar";
+            btAutenticar.Size = new Size(200, 30);
+            btAutenticar.TabIndex = 6;
+            btAutenticar.Text = "Autênticar";
+            btAutenticar.UseVisualStyleBackColor = false;
+            btAutenticar.Click += BtAutenticar_Click;
+            // 
+            // btCancelar
+            // 
+            btCancelar.BackColor = Color.FromArgb(199, 199, 199);
+            btCancelar.FlatAppearance.BorderSize = 0;
+            btCancelar.FlatStyle = FlatStyle.Flat;
+            btCancelar.Font = new Font("Montserrat SemiBold", 12F, FontStyle.Bold);
+            btCancelar.ForeColor = Color.White;
+            btCancelar.Location = new Point(15, 70);
+            btCancelar.Name = "btCancelar";
+            btCancelar.Size = new Size(200, 30);
+            btCancelar.TabIndex = 7;
+            btCancelar.Text = "Cancelar";
+            btCancelar.UseVisualStyleBackColor = false;
+            btCancelar.Click += BtCancelar_Click;
             // 
             // ModalPassword
             // 
             AutoScaleDimensions = new SizeF(8F, 18F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(438, 159);
+            ClientSize = new Size(438, 119);
             ControlBox = false;
-            Controls.Add(boxPassword);
-            Controls.Add(lblSenhaIcorreta);
             Controls.Add(btCancelar);
             Controls.Add(btAutenticar);
+            Controls.Add(boxPassword);
+            Controls.Add(lblSenhaIcorreta);
             Font = new Font("Montserrat", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Margin = new Padding(3, 4, 3, 4);
-            MaximumSize = new Size(454, 175);
-            MinimumSize = new Size(454, 175);
+            MaximizeBox = false;
+            MaximumSize = new Size(454, 158);
+            MinimizeBox = false;
+            MinimumSize = new Size(454, 158);
             Name = "ModalPassword";
+            ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
+            Text = "Senha Autênticação";
+            Load += ModalPassword_Load;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-        private Button btAutenticar;
-        private Button btCancelar;
         private Label lblSenhaIcorreta;
         private System.Windows.Forms.Timer timerPassword;
         private TextBox boxPassword;
+        private Button btAutenticar;
+        private Button btCancelar;
     }
 }

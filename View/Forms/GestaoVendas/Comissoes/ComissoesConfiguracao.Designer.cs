@@ -174,6 +174,7 @@
             // 
             btReplicarComissao.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btReplicarComissao.BackColor = Color.FromArgb(199, 199, 199);
+            btReplicarComissao.Enabled = false;
             btReplicarComissao.FlatAppearance.BorderSize = 0;
             btReplicarComissao.FlatStyle = FlatStyle.Flat;
             btReplicarComissao.Font = new Font("Montserrat SemiBold", 8.249999F, FontStyle.Bold, GraphicsUnit.Point, 0);

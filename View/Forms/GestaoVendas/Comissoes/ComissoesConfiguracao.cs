@@ -220,7 +220,8 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 
         private void BtReplicarComissao_Click(object sender, EventArgs e)
         {
-            int estadoId = 0;
+            int estadoId  = 0;
+            int produtoId = Convert.ToInt32(dataGridProdutos.CurrentRow.Cells[dataGridProdutos.Columns["Id"].Index].Value);
             List<int> idsEstados = [];
 
             for (int i = 0; i < dataGridEstados.Rows.Count; i++)
@@ -240,7 +241,7 @@ namespace controle_vendas_comissoes.View.Forms.GestaoVendas.Comissoes
 
             if (idsEstados.Count > 0)
             {
-                ModalPassword password = new ModalPassword();
+                ModalPassword password = new ModalPassword() { Text = "Crítico! Insira senha para prosseguir"};
                 if(password.ShowDialog() == DialogResult.OK)
                 {
                     //DeletaProdutosVenda([.. idsEstados]);
